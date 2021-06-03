@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     public function positions(){
-        return $this->hasOne(Position::class);
+        return $this->belongsTo(Position::class);
     }
 
     public function teams(){
@@ -47,5 +47,13 @@ class User extends Authenticatable
 
     public function categories(){
         return $this->hasMany(Category::class);
+    }
+
+    public function connectSenders(){
+        return $this->hasMany('App\Connection', 'sender_id', 'id');
+    }
+
+    public function connectReceivers(){
+        return $this->hasMany('App\Connection', 'receiver_id', 'id');
     }
 }

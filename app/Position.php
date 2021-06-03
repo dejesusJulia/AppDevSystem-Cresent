@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Position extends Model
 {
     protected $fillable = [
-        'post', 'post_description'
+        'position', 'post_description'
     ];
 
     public function users(){
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 }

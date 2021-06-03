@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->text('about')->nullable();
             $table->boolean('user_role')->default(false);
             $table->string('password');
-            $table->foreignId('position_id')->constrained('positions')->nullable();
-            $table->foreignId('team_id')->constrained('teams')->nullable();
+            $table->foreignId('position_id')->nullable()->constrained('positions');
+            $table->foreignId('team_id')->nullable()->constrained('teams');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
