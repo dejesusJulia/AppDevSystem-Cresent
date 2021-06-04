@@ -16,12 +16,12 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
        // if ADMIN
-        if(auth()->user()->user_role === true){
+        if(auth()->user()->user_role == 1){
             return $next($request);
         }
 
         // if ADMIN
-        if(auth()->user()->user_role === false){
+        if(auth()->user()->user_role == 0){
             return redirect()->route('home');
         }
     }

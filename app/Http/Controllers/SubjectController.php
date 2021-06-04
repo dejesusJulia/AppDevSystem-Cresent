@@ -14,7 +14,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $subjects = Subject::all();
+        return view('admin.subjects', compact('subjects'));
     }
 
     /**
@@ -35,7 +36,13 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'subject_name' => 'required|max:50', 
+            'subject_description' => 'required|max:200'
+        ]);
+
+        Subject::create($data);
+        return redirect()->back()->with('message', 'New subject added.');
     }
 
     /**
@@ -69,7 +76,14 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $data = $request->validate([
+            'subject_name' => 'required|max:50', 
+            'subject_description' => 'required|max:200'
+        ]);
+
+        Subject::where('id', $subject->id)->update($data);
+
+        return redirect()->back()->with('message', 'Subject updated successfully');
     }
 
     /**
@@ -80,6 +94,7 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        Subject::where('id', $subject->id)->delete();
+        return redirect()->back()->with('message', 'Subject deleted successfully');
     }
 }

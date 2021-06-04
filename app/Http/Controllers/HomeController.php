@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('user');
+        // $this->middleware('user');
     }
 
     /**
@@ -50,6 +50,10 @@ class HomeController extends Controller
 
         User::where('id', $id)->update($data);
         return view('home');
+    }
+
+    public function dash(){
+        return view('admin.dash');
     }
 
     
