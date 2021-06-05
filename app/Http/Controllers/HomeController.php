@@ -28,12 +28,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
+            $route = 'complete.edit';   
+            return redirect()->route($route);
+        }else{
+            return view('home');
+        }
+        
     }
 
     public function edit(){
-        $positions = Position::all();
-        return view('complete-profile', compact('positions'));
+        if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
+            $positions = Position::all();
+            return view('complete-profile', compact('positions'));
+
+        }else{
+            return redirect()->route('home');
+        }
+        
     }
 
     public function update(NewUserInfoRequest $request){ 
@@ -49,7 +61,7 @@ class HomeController extends Controller
         ];
 
         User::where('id', $id)->update($data);
-        return view('home');
+        return redirect()->route('home');
     }
 
     public function dash(){

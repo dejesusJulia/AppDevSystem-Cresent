@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'avatar', 'portfolio', 'website', 'about', 'user_role','password', 'position_id', 'team_id'
+        'name', 'email', 'avatar', 'portfolio', 'website', 'about', 'user_role', 'position_id', 'team_id'
     ];
 
     /**
@@ -56,4 +57,16 @@ class User extends Authenticatable
     public function connectReceivers(){
         return $this->hasMany('App\Connection', 'receiver_id', 'id');
     }
+
+    // public static function checkOldFiles($avatar, $portfolio){
+    //     if(auth()->user()->avatar){
+    //         Storage::delete('/public/avatars/' . auth()->user()->avatar);
+    //         $avatar->store('avatars', 'public');
+    //     }
+
+    //     if(auth()->user()->portfolio){
+    //         Storage::delete('/public/resumes/' . auth()->user()->portfolio);
+    //         $portfolio->store('resumes', 'public');
+    //     }
+    // }
 }

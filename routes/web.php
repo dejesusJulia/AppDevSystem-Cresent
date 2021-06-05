@@ -23,6 +23,9 @@ Route::middleware('user')->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/complete-profile', 'HomeController@edit')->name('complete.edit');
     Route::post('/complete-profile', 'HomeController@update')->name('complete.update');
+
+    Route::get('/profile-edit/{user}', 'UserController@edit')->name('profile.edit');
+    Route::patch('/profile-edit', 'UserController@update')->name('profile.update');
 });
 
 Route::middleware('admin')->group(function(){

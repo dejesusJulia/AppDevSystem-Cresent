@@ -49,8 +49,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h4>{{$subject->subject_name}}</h4>
-                    <p>{{$subject->subject_description}}</p>
+                    <dl>
+                        <dt>{{$subject->subject_name}}</dt>
+                        <dd>{{$subject->subject_description}}</dd>
+                    </dl>
                     
                     Are you sure you want to delete this?
                 </div>
