@@ -52,7 +52,8 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (Auth::user()->avatar)
-                                    <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="rounded-circle" width="30px" height="30px">
+                                    <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="rounded-circle" width="50px">
+                                    
                                     @endif
                                     
                                     {{ Auth::user()->email }}
@@ -81,5 +82,7 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

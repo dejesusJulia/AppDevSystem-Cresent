@@ -2,13 +2,17 @@
     @if (session()->has('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>{{session()->get('message')}}</strong>
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="close"></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
 
     @elseif(session()->has('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>{{session()->get('error')}}</strong>
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="close"></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         
     @elseif($errors->any())
@@ -18,7 +22,9 @@
                     <li>{{$error}}</li>
                 @endforeach
             </ul>
-            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="close"></button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
 </div>

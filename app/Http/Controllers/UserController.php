@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserInfoRequest;
 use App\User;
 use App\Position;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -17,11 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = User::join('positions', 'users.position_id', '=', 'positions.id')->get();
         $users = User::leftJoin('positions', 'users.position_id', '=', 'positions.id')->select('users.*', 'positions.position')->get();
 
         return view('admin.users', compact('users'));
-        // dd($users);
     }
 
     /**
@@ -53,7 +52,8 @@ class UserController extends Controller
      */
     public function show($user)
     {
-        //
+        $user = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.*', 'positions.position')->where('users.id', $user)->first();
+        return view('show', compact('user'));
     }
 
     /**
@@ -71,7 +71,6 @@ class UserController extends Controller
             'positions' => $positions
         ];
         return view('profile-edit', compact('data'));
-        // dd($auth);
     }
 
     /**
@@ -83,25 +82,27 @@ class UserController extends Controller
      */
     public function update(UserInfoRequest $request)
     {
-        if(auth()->user()->avatar){
-            Storage::delete('/public/avatars/' . auth()->user()->avatar);
-            $request->avatar->store('avatars', 'public');
-        }
-
-        if(auth()->user()->portfolio){
-            Storage::delete('/public/resumes/' . auth()->user()->portfolio);
-            $request->portfolio->store('resumes', 'public');
-        }
-
         $data = [
             'name' => $request->name, 
             'email' => $request->email, 
-            'avatar' => $request->avatar->hashName(), 
-            'portfolio' => $request->portfolio->hashName(), 
             'website' => $request->website,
             'about' => $request->about,
             'position_id' => $request->position_id
         ];
+
+        if($request->hasFile('avatar')){
+            Storage::delete('/public/avatars/' . auth()->user()->avatar);
+            $request->avatar->store('avatars', 'public');
+            $imgname = $request->avatar->hashName();
+            $data['avatar'] = $imgname;
+        }
+
+        if($request->hasFile('portfolio')){
+            Storage::delete('/public/resumes/' . auth()->user()->portfolio);
+            $request->portfolio->store('resumes', 'public');
+            $filename = $request->portfolio->hashName();
+            $data['portfolio'] = $filename;
+        }
 
         auth()->user()->update($data);
         return redirect()->back()->with('message', 'Profile updated!');
@@ -115,7 +116,22 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        User::where('id', $user)->delete();
+        User::where('id', $user->id)->delete();
         return redirect()->back()->with('message', 'User deleted successfully');
     }
+
+    /* 
+    * View PDF
+    */
+    public function viewPdf($pdf){
+        return view('pdf-viewer', compact('pdf'));
+    }
+
+    /* 
+    * Download PDF
+    */
+    public function downloadPdf($pdf){
+        return response()->download(public_path('storage/resumes/' . $pdf));
+    }
+
 }

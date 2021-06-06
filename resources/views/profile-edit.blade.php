@@ -5,9 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <x-alert></x-alert>
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
-                    <h3>Profile</h3>
+                    <span class="card-title">Profile</span>
+                    <a href="{{route('home')}}" class="btn btn-outline-secondary float-right">Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{route('profile.update')}}" method="post" enctype="multipart/form-data">
@@ -78,6 +79,22 @@
                             <input type="submit" value="Update" class="btn btn-primary">
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <a href="{{route('profile.view', Auth::user()->portfolio)}}" target="blank">View</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('profile.download', auth()->user()->portfolio)}}">Download pdf</a>
+                        </li>
+                    </ul>
+
+                    
                 </div>
             </div>
         </div>

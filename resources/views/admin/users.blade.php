@@ -4,6 +4,7 @@
 
 {{-- DELETE MODAL --}}
 @foreach ($users as $user)
+    @if ($user->id !== Auth::user()->id)
     <div class="modal fade" id="user-destroy-{{$user->id}}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -22,25 +23,27 @@
                             <h4>{{$user->name}}</h4>
                             <ul>
                                 <li>{{$user->email}}</li>
-                                <li>{{$user->website}}</li>
-                                <li>{{$user->position}}</li>
+                                <li>{{$user->website ?? 'N/A'}}</li>
+                                <li>{{$user->position ?? 'N/A'}}</li>
                             </ul>
                         </div>
                     </div>                
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('user-destroy-{{$user->id}}').submit();">Delete</button>
+                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('destroy-user-{{$user->id}}').submit();">Delete</button>
                     <button class="btn btn-secondary" data-dismiss="modal" onclick="event.preventDefault()">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 @endforeach
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <a href="{{route('dash')}}" class="btn btn-secondary">Back</a>
+            <a href="{{route('dash')}}" class="btn btn-secondary mb-2">Back</a>
+            <x-alert></x-alert>
             <div class="card mb-3">
                 <div class="card-header">
                     <span class="card-title">Users with complete profile</span>
@@ -49,14 +52,17 @@
                 <div class="card-body">
                     <ul>
                         @foreach ($users as $user)
-                        <li>
-                            {{$user->name}} - {{$user->email}} - <a href="#" data-toggle="modal" data-target="#user-destroy-{{$user->id}}">delete</a>
-
-                            <form action="{{route('users.destroy', $user->id)}}" method="post" style="display: none">
-                                @csrf
-                                @method('delete')
-                            </form>
-                        </li>
+                            @if ($user->id !== Auth::user()->id)
+                                <li>       
+                                    {{$user->name}} - {{$user->email}} - 
+                                    <a href="#" data-toggle="modal" data-target="#user-destroy-{{$user->id}}">delete</a>
+                                
+                                    <form action="{{route('users.destroy', $user->id)}}" method="post" style="display: none" id="destroy-user-{{$user->id}}">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 </div>

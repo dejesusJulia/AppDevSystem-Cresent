@@ -70,10 +70,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <a href="{{route('dash')}}" class="btn btn-secondary mb-2">Back</a>
+            
             <div class="card mb-3">
                 <div class="card-header">
                     Subjects
-                    <a href="{{route('dash')}}" class="btn btn-secondary">Back</a>
                 </div>
 
                 <div class="card-body">

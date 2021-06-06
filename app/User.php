@@ -57,16 +57,4 @@ class User extends Authenticatable
     public function connectReceivers(){
         return $this->hasMany('App\Connection', 'receiver_id', 'id');
     }
-
-    // public static function checkOldFiles($avatar, $portfolio){
-    //     if(auth()->user()->avatar){
-    //         Storage::delete('/public/avatars/' . auth()->user()->avatar);
-    //         $avatar->store('avatars', 'public');
-    //     }
-
-    //     if(auth()->user()->portfolio){
-    //         Storage::delete('/public/resumes/' . auth()->user()->portfolio);
-    //         $portfolio->store('resumes', 'public');
-    //     }
-    // }
 }

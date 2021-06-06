@@ -26,6 +26,11 @@ Route::middleware('user')->group(function(){
 
     Route::get('/profile-edit/{user}', 'UserController@edit')->name('profile.edit');
     Route::patch('/profile-edit', 'UserController@update')->name('profile.update');
+
+    Route::get('/profile-view/{pdf}', 'UserController@viewPdf')->name('profile.view');
+    Route::get('/profile-download/{pdf}', 'UserController@downloadPdf')->name('profile.download');
+
+    Route::get('/users/show/{user}', 'UserController@show')->name('users');
 });
 
 Route::middleware('admin')->group(function(){
