@@ -35,7 +35,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->others !== null || $request->others !== ''){
+            $request->validate([
+                'others' => 'max:255'
+            ]);
+        }
+    
+        $data = $request->all();
+
+        Category::create($data);
+
+        return redirect()->back()->with('message', 'Field edited');
     }
 
     /**
@@ -80,6 +90,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Category::where('id', $category->id)->delete();
+        return redirect()->back()->with('message', 'Delete successful');
     }
+
 }

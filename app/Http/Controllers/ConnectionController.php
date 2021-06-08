@@ -14,17 +14,7 @@ class ConnectionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        // SELECT ALL CONNECTIONS GROUPED BY DATE
     }
 
     /**
@@ -35,7 +25,10 @@ class ConnectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        # SEND
+        $data = $request->all();
+        Connection::create($data);
+        return redirect()->back()->with('message', 'Request sent!');
     }
 
     /**
@@ -69,7 +62,7 @@ class ConnectionController extends Controller
      */
     public function update(Request $request, Connection $connection)
     {
-        //
+        # 
     }
 
     /**
@@ -80,6 +73,17 @@ class ConnectionController extends Controller
      */
     public function destroy(Connection $connection)
     {
-        //
+        Connection::where('id', $connection->id)->delete();
+        return redirect()->back();
+    }
+
+    public function acceptRequest(Connection $connection){
+        Connection::where('id', $connection->id)->update(['accept' => true]);
+        return redirect()->back();
+    }
+
+    public function declineRequest(Connection $connection){
+        Connection::where('id', $connection->id)->update(['accept' => false]);
+        return redirect()->back();
     }
 }

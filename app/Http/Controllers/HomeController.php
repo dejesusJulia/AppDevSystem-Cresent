@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Position;
+use App\Subject;
+use App\Category;
+use App\Connection;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
 // use Illuminate\Support\Facades\Validator;
@@ -18,7 +21,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // $this->middleware('user');
     }
 
     /**
@@ -32,7 +34,23 @@ class HomeController extends Controller
             $route = 'complete.edit';   
             return redirect()->route($route);
         }else{
-            return view('home');
+            $userId = auth()->user()->id;
+            $user = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.*', 'positions.position')->where('users.id', $userId)->first();
+
+            $subjects = Subject::all();
+
+            $categories = Category::leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'subjects.subject_name')->where('user_id', $userId)->get();
+
+            $connections = $this->getConnectionJoins($userId);
+
+            $data = [
+                'user' => $user, 
+                'subjects' => $subjects, 
+                'categories' =>$categories, 
+                'sent' => $connections['sent'], 
+                'received' => $connections['received']
+            ];
+            return view('home', compact('data'));
         }
         
     }
@@ -68,5 +86,14 @@ class HomeController extends Controller
         return view('admin.dash');
     }
 
-    
+    public function getConnectionJoins($userId){
+        $connections = [
+            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
+
+            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get()
+        ]; 
+
+        return $connections;
+        
+    }
 }

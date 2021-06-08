@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <x-alert></x-alert>
     <div class="card mb-3">
         <div class="card-header">
             <div class="row">
@@ -27,10 +28,13 @@
         <div class="card-footer">
             <a href="{{route('profile.view', $user->portfolio)}}" class="btn btn-info" target="blank">View resume</a>
             <a href="{{route('profile.download', $user->portfolio)}}" class="btn btn-success">Download</a>
-            <a href="#" onclick="">Connect</a>
+            <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();">Connect</a>
 
-            <form action="" method="post" class="d-none">
+            <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
                 @csrf
+                <input type="hidden" name="sender_id" value="{{Auth::user()->id}}">
+
+                <input type="hidden" name="receiver_id" value="{{$user->id}}">
             </form>
         </div>
     </div>
