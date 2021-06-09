@@ -39,7 +39,7 @@ class HomeController extends Controller
 
             $subjects = Subject::all();
 
-            $categories = Category::leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'subjects.subject_name')->where('user_id', $userId)->get();
+            $categories = $this->getCategories($userId);
 
             $connections = $this->getConnectionJoins($userId);
 
@@ -84,6 +84,19 @@ class HomeController extends Controller
 
     public function dash(){
         return view('admin.dash');
+    }
+
+    public function getCategories($userId){
+        $user = Category::select('id')->where('user_id', $userId)->get();
+        $categories = [];
+
+        if($user == null){
+            $categories = [0];
+        }else{
+            $categories = Category::leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'subjects.subject_name')->where('user_id', $userId)->get();
+        }
+
+        return $categories;
     }
 
     public function getConnectionJoins($userId){

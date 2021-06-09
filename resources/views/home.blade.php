@@ -47,7 +47,7 @@
 </div>
 
 {{-- DELETE FIELD MODAL --}}
-@foreach ($data['categories'] as $category)
+@forelse ($data['categories'] as $category)
     <div class="modal fade" id="category-destroy-modal-{{$category->id}}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -73,7 +73,9 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+
+@endforelse
 
 {{-- DELETE CONNECTION MODAL --}}
 @foreach ($data['sent'] as $sents)
@@ -136,9 +138,10 @@
                     <h4>About:</h4>
                     <p>{{$data['user']->about}}</p>
 
+                    {{-- FIELDS OF EXPERTISE --}}
                     <h4>Fields of Expertise:</h4>
-                    <ul>
-                        @foreach ($data['categories'] as $category)
+                    <ul class="list-unstyled">
+                        @forelse ($data['categories'] as $category)
                             <li>
                                 @if ($category->subject_id == null)
                                     {{$category->others}}
@@ -149,14 +152,17 @@
                                 <a href="#" data-target="#category-destroy-modal-{{$category->id}}" data-toggle="modal">Delete</a> 
                             </li>
                             
-
                             <form action="{{route('category.destroy', $category->id)}}" method="post" id="category-destroy-form-{{$category->id}}" class="d-none">
                                 @csrf
                                 @method('delete')
                             </form>
-                        @endforeach
+                        
+                        @empty 
+                        <li>You have not added any fields</li>
+                        @endforelse
                     </ul>
-
+                  
+                    {{-- OTHERS --}}
                     <h4>Others</h4>
                     <ul>
                         <li>
@@ -206,18 +212,29 @@
                         <li class="mb-2">
                             {{$received->name}} - {{$received->email}}
 
-                            @if ($received->accept == null)
+                            @if ($received->accept === null)
                                 <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
                                     confirm
                                 </span>
+
+                                <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
 
                             @elseif($received->accept == true)
                                 <span class="btn btn-success btn-sm disabled mr-2">
                                     confirmed
                                 </span>
-                            @endif
 
-                            <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                            
+                            @elseif($received->accept == false)
+                                <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
+                                confirm
+                                </span>
+
+                                <span class="btn btn-secondary btn-sm disabled mr-2">
+                                    declined
+                                </span>
+                            @endif
 
                             <form action="{{route('connection.acceptrequest', $received->id)}}" method="post" id="accept-{{$received->id}}" class="d-none">
                                 @csrf
