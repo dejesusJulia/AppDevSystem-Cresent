@@ -135,7 +135,7 @@ class HomeController extends Controller
     }
 
     public function selectBySubject($subjectId){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->get();
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->get();
 
         $data = [
             'users' => $users
@@ -145,7 +145,7 @@ class HomeController extends Controller
     }
 
     public function selectNullCateg(){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
 
         $data = [
             'users' => $users

@@ -42,7 +42,7 @@ Route::middleware('user')->group(function(){
     Route::delete('/category/destroy/{category}', 'CategoryController@destroy')->name('category.destroy');
 
     // TO CONNECT WITH OTHER USERS
-    Route::get('/users/show/{user}', 'UserController@show')->name('users');
+    Route::get('/users/show/{user}', 'UserController@show')->name('users.show');
     Route::post('/connection/store', 'ConnectionController@store')->name('connection.store');
     Route::put('/connection/accept-request/{connection}', 'ConnectionController@acceptRequest')->name('connection.acceptrequest');
     Route::put('/connection/decline-request/{connection}', 'ConnectionController@declineRequest')->name('connection.declinerequest');
