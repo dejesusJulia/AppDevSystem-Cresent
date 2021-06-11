@@ -57,4 +57,5 @@ class User extends Authenticatable
     public function connectReceivers(){
         return $this->hasMany('App\Connection', 'receiver_id', 'id');
     }
+
 }

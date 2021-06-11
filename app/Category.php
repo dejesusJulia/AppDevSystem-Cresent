@@ -17,4 +17,5 @@ class Category extends Model
     public function subjects(){
         return $this->belongsTo(Subject::class);
     }
+
 }

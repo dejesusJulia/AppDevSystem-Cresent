@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Position;
 use App\Subject;
 use App\Category;
 use App\Connection;
+use App\Position;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
 // use Illuminate\Support\Facades\Validator;
@@ -39,6 +39,8 @@ class HomeController extends Controller
 
             $subjects = Subject::all();
 
+            $positions = Position::all();
+
             $categories = $this->getCategories($userId);
 
             $connections = $this->getConnectionJoins($userId);
@@ -48,7 +50,8 @@ class HomeController extends Controller
                 'subjects' => $subjects, 
                 'categories' =>$categories, 
                 'sent' => $connections['sent'], 
-                'received' => $connections['received']
+                'received' => $connections['received'],
+                'positions' => $positions
             ];
             return view('home', compact('data'));
         }
@@ -86,6 +89,11 @@ class HomeController extends Controller
         return view('admin.dash');
     }
 
+    /* 
+    *
+    * JOINS 
+    *
+    */
     public function getCategories($userId){
         $user = Category::select('id')->where('user_id', $userId)->get();
         $categories = [];
@@ -109,4 +117,47 @@ class HomeController extends Controller
         return $connections;
         
     }
+
+    public function joinCUS(){
+        $categories = Category::join('users', 'categories.user_id', '=', 'users.id')->join('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->orderBy('users.created_at', 'desc')->get();
+
+        return $categories;
+    }
+
+    public function selectByPosition($positionId){
+        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->get();
+
+        $data = [
+            'users' => $users
+        ];
+
+        return view('search-by', compact('data'));
+    }
+
+    public function selectBySubject($subjectId){
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->get();
+
+        $data = [
+            'users' => $users
+        ];
+
+        return view('search-by', compact('data'));
+    }
+
+    public function selectNullCateg(){
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
+
+        $data = [
+            'users' => $users
+        ];
+
+        return view('search-by', compact('data'));
+    }
+
+    public function selectByPC($positionId, $subjectId){
+        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'subject.subject_name')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->get();
+
+        return $users;
+    }
+    
 }

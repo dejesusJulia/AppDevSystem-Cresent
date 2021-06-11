@@ -252,6 +252,38 @@
                     </ul>
                 </div>
             </div>
+
+            {{-- POSITIONS --}}
+            <div class="card mb-3">
+                <div class="card-header">Search by Position</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        @foreach ($data['positions'] as $position)
+                        <li>
+                            <a href="{{route('position.search', $position->id)}}">{{$position->position}}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            {{-- SUBJECTS --}}
+            <div class="card mb-3">
+                <div class="card-header">Search by Subject</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        @foreach ($data['subjects'] as $sub)
+                        <li>
+                            <a href="{{route('subject.search', $sub->id)}}">{{$sub->subject_name}}</a>
+                        </li>
+                        @endforeach
+
+                        <li>
+                            <a href="{{route('home.nosubject')}}">No subjects</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

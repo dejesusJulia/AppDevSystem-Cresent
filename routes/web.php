@@ -48,6 +48,11 @@ Route::middleware('user')->group(function(){
     Route::put('/connection/decline-request/{connection}', 'ConnectionController@declineRequest')->name('connection.declinerequest');
     Route::delete('/connection/destroy/{connection}', 'ConnectionController@destroy')->name('connection.destroy');
 
+    // TO SEARCH/FILTER RESULTSz
+    Route::get('/search-by/position/{positionId}', 'HomeController@selectByPosition')->name('position.search');
+    Route::get('/search-by/subject/{subjectId}', 'HomeController@selectBySubject')->name('subject.search');
+    Route::get('/search-by/no-fields', 'HomeController@selectNullCateg')->name('home.nosubject');
+
 });
 
 #################################
