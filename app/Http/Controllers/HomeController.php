@@ -86,7 +86,16 @@ class HomeController extends Controller
     }
 
     public function dash(){
-        return view('admin.dash');
+        $userCount = User::whereNotIn('id', [auth()->user()->id])->count();
+        $positionCount = Position::count();
+        $subjectCount = Subject::count();
+
+        $data = [
+            'userCount' => $userCount, 
+            'positionCount' => $positionCount, 
+            'subjectCount' => $subjectCount
+        ];
+        return view('admin.dash', compact('data'));
     }
 
     /* 

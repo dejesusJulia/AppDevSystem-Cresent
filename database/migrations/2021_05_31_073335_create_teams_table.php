@@ -18,7 +18,6 @@ class CreateTeamsTable extends Migration
             $table->string('team_name');
             $table->text('team_vision');
             $table->text('team_objectives');
-            $table->text('team_members');
             $table->timestamps();
         });
     }

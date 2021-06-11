@@ -182,7 +182,7 @@
                     Sent requests
                 </div>
                 <div class="card-body">
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
                             @forelse ($data['sent'] as $sent)
                             {{$sent->name}} - {{$sent->email}}
@@ -221,10 +221,12 @@
 
                             @elseif($received->accept == true)
                                 <span class="btn btn-success btn-sm disabled mr-2">
-                                    confirmed
+                                    Confirmed
                                 </span>
 
                                 <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+
+                                <span class="btn btn-primary btn-sm" onclick="">Add to team</span>
                             
                             @elseif($received->accept == false)
                                 <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
@@ -245,6 +247,11 @@
                                 @csrf
                                 @method('put')
                             </form>
+
+                            <form action="" method="post" id="add-teammate-form-{{$received->id}}" class="d-non">
+                                @csrf
+                                @method('put')
+                            </form>
                         </li>
                         @empty
                             <li>You have no connection requests</li>
@@ -253,6 +260,7 @@
                 </div>
             </div>
 
+            {{-- FILTERS --}}
             <div class="card mb-3">
                 <div class="card-header">
                     Filters
@@ -344,6 +352,11 @@
                             <a href="{{route('home.nosubject')}}">No subjects</a>
                         </li>
                     </ul>
+
+                    @if (Auth::user()->position_id == 1)
+                        <a href="{{route('team.create')}}">Create a team</a>
+                    @endif
+                    
                 </div>
             </div>
         </div>

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Team;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
+use App\Http\Requests\TeamRequest;
 
 class TeamController extends Controller
 {
@@ -24,7 +25,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        //
+        return view('create-team');
     }
 
     /**
@@ -33,9 +34,11 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TeamRequest $request)
     {
-        //
+        $data = $request->all();
+        Team::create($data);
+        return redirect()->back()->with('message', 'Team created');
     }
 
     /**
@@ -67,7 +70,7 @@ class TeamController extends Controller
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(TeamRequest $request, Team $team)
     {
         //
     }

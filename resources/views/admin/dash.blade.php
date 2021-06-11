@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">
                     View, Modify, or Delete
                 </div>
@@ -39,6 +39,17 @@
                             <a href="{{route('subject.index')}}">Subjects</a>
                         </li>
                     </ul>     
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">s</div>
+                <div class="card-body">
+                    <ul>
+                        <li>Users: {{$data['userCount']}}</li>
+                        <li>Positions: {{$data['positionCount']}}</li>
+                        <li>Subjects: {{$data['subjectCount']}}</li>
+                    </ul>
                 </div>
             </div>
         </div>
