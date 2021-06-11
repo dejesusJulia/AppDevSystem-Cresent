@@ -52,6 +52,7 @@ Route::middleware('user')->group(function(){
     Route::get('/search-by/position/{positionId}', 'HomeController@selectByPosition')->name('position.search');
     Route::get('/search-by/subject/{subjectId}', 'HomeController@selectBySubject')->name('subject.search');
     Route::get('/search-by/no-fields', 'HomeController@selectNullCateg')->name('home.nosubject');
+    Route::post('/search-by/position-and-subject', 'HomeController@selectByPS')->name('search.both');
 
 });
 

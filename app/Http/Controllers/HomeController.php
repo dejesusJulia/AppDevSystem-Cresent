@@ -154,10 +154,17 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
-    public function selectByPC($positionId, $subjectId){
-        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'subject.subject_name')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->get();
+    public function selectByPS(Request $request){
+        $positionId = $request->position_id;
+        $subjectId = $request->subject_id;
 
-        return $users;
+        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->get();
+
+        $data = [
+            'users' => $users
+        ];
+
+        return view('search-by', compact('data'));
     }
     
 }
