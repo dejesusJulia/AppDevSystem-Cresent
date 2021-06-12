@@ -32,7 +32,7 @@
             <a href="{{route('profile.view', $data['user']->portfolio)}}" class="btn btn-info" target="blank">View resume</a>
             <a href="{{route('profile.download', $data['user']->portfolio)}}" class="btn btn-success">Download</a>
 
-            @if ($data['user']->team_id === null || $data['connections']->contains($data['user']->id)) 
+            @if($data['user']->team_id == null || !($data['received']->contains('sender_id', $data['user']->id))) 
                 <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();">Connect</a>
 
                 <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
@@ -42,7 +42,8 @@
                     <input type="hidden" name="receiver_id" value="{{$data['user']->id}}">
                 </form>                
             @endif
-        </div>     
+        </div>   
     </div>
 </div>
 @endsection
+

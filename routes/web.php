@@ -59,6 +59,8 @@ Route::middleware('user')->group(function(){
     Route::post('/team/create', 'TeamController@store')->name('team.store');
     Route::get('/team/edit/', 'TeamController@edit')->name('team.edit');
     Route::patch('/team/edit/{team}', 'TeamController@update')->name('team.update');
+    Route::put('/team/add/sent/{member}', 'TeamController@addMemberSent')->name('team.addmembersent');
+    Route::put('/team/add/received/{member}', 'TeamController@addMemberReceived')->name('team.addmemberreceived');
 
 });
 

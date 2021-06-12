@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
+                <x-alert></x-alert>
                 <div class="card mb-3">
                     <div class="card-header">
                         <h5 class="card-title">Edit team details</h5>
@@ -50,7 +51,12 @@
                                 <li>
                                     {{$member->name}} - {{$member->email}}
                                     @if ($member->id !== Auth::user()->id)
-                                        <span class="btn btn-sm btn-danger">&times;</span>
+                                        <span class="btn btn-sm btn-danger" onclick="event.preventDefault();document.getElementById('remove-member-form-{{$member->id}}').submit();">&times;</span>
+
+                                        <form action="" method="post" id="remove-member-form-{{$member->id}}" class="d-none">
+                                            @csrf
+                                            @method('put')
+                                        </form>
                                     @else
                                         - You
                                     @endif
@@ -67,10 +73,10 @@
                             @forelse ($data['sent'] as $sent)
                                 <li>
                                     {{$sent->name}} - {{$sent->email}} - 
-                                    <span class="btn btn-success btn-sm">&plus;</span>
+                                    <span class="btn btn-success btn-sm" onclick="event.preventDefault();document.getElementById('add-sent-form-{{$sent->receiver_id}}').submit()">&plus;</span>
                                 </li>
 
-                                <form action="" method="post" id="add-member-form-{{$sent->receiver_id}}" class="d-none">
+                                <form action="{{route('team.addmembersent', $sent->receiver_id)}}" method="post" id="add-sent-form-{{$sent->receiver_id}}" class="d-none">
                                     @csrf
                                     @method('put')
                                 </form>
@@ -84,9 +90,10 @@
                             @forelse ($data['received'] as $received)
                                 <li>
                                     {{$received->name}} - {{$received->email}} - 
-                                    <span class="btn btn-success btn-sm">&plus;</span>
+                                    <span class="btn btn-success btn-sm" onclick="event.preventDefault();document.getElementById('add-received-form-{{$received->sender_id}}').submit()">&plus;</span>
                                 </li>
-                                <form action="" method="post" id="add-" class="d-none">
+
+                                <form action="{{route('team.addmemberreceived', $received->sender_id)}}" method="post" id="add-received-form-{{$received->sender_id}}" class="d-none">
                                     @csrf
                                     @method('put')
                                 </form>

@@ -69,9 +69,9 @@ class TeamController extends Controller
         $userId = auth()->user()->id;
         $teamId = auth()->user()->team_id;
         $data = [
-            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
+            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->whereNull('users.team_id')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
 
-            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
+            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->whereNull('users.team_id')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
 
             'members' => User::select('users.id', 'users.name', 'users.email')->where('team_id', $teamId)->get()
         ];
@@ -87,7 +87,9 @@ class TeamController extends Controller
      */
     public function update(TeamRequest $request, Team $team)
     {
-        //
+        $team = $request->all();
+        Team::where('id', auth()->user()->id)->update($team);
+        return redirect()->back()->with('message', 'Team details updated!');
     }
 
     /**
@@ -98,6 +100,19 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        Team::where('id', $team->id)->delete();
+        return redirect()->back()->with('message', 'Team deleted');
+    }
+
+    public function addMemberSent($member){
+        User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
+
+        return redirect()->back()->with('message', 'Member added!');
+    }
+
+    public function addMemberReceived($member){
+        User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
+
+        return redirect()->back()->with('message', 'Member added!');
     }
 }

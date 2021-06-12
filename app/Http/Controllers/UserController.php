@@ -55,11 +55,14 @@ class UserController extends Controller
     {
         $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $user)->first();
 
-        $connections = Connection::where('receiver_id', auth()->user()->id)->get();
+        $received = Connection::select('connections.sender_id')->where('receiver_id', auth()->user()->id)->get();
+
+        $sent = Connection::select('connections.receiver_id')->where('sender_id', auth()->user()->id)->get();
 
         $data = [
             'user' => $user, 
-            'connections' => $connections
+            'received' => $received, 
+            'sent' => $sent
         ];
         return view('show', compact('data'));
     }
