@@ -18,18 +18,19 @@
                             <div class="col-sm-10">
                                 <h5>{{$user->name}}</h5>
                                 <small>{{$user->email}}</small>
-                                @if (isset($user->position))
+
+                                @isset($user->position)
                                     <p>{{$user->position}} </p>
-                                @endif
+                                @endisset
 
-                                @if (isset($user->subject_name))
-                                <p>{{$user->subject_name}} </p>
-                                @endif
-                                
+                                @isset($user->subject_name)
+                                    <p>{{$user->subject_name}} </p>
+                                @endisset
 
-                                @if (isset($user->others))
+                                @isset($user->others)
                                     <p>{{$user->others}}</p>
-                                @endif
+                                @endisset
+                                
                             </div>
                         </div>
                     </div>

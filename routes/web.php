@@ -55,8 +55,10 @@ Route::middleware('user')->group(function(){
     Route::post('/search-by/position-and-subject', 'HomeController@selectByPS')->name('search.both');
 
     // ADD TEAM
-    Route::get('/create-team', 'TeamController@create')->name('team.create');
-    Route::post('/create-team', 'TeamController@store')->name('team.store');
+    Route::get('/team/create', 'TeamController@create')->name('team.create');
+    Route::post('/team/create', 'TeamController@store')->name('team.store');
+    Route::get('/team/edit/', 'TeamController@edit')->name('team.edit');
+    Route::patch('/team/edit/{team}', 'TeamController@update')->name('team.update');
 
 });
 

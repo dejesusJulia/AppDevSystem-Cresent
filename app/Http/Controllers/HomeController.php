@@ -35,7 +35,7 @@ class HomeController extends Controller
             return redirect()->route($route);
         }else{
             $userId = auth()->user()->id;
-            $user = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.*', 'positions.position')->where('users.id', $userId)->first();
+            $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $userId)->first();
 
             $subjects = Subject::all();
 

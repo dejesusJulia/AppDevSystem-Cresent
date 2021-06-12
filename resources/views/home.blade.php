@@ -134,6 +134,9 @@
                         <li>Position: {{$data['user']->position}}</li>
                         <li>Email: {{$data['user']->email}}</li>
                         <li>Personal Website/Social Media: {{$data['user']->website}}</li>
+                        @isset($data['user']->team_name)
+                            <li>Team: {{$data['user']->team_name}}</li>  
+                        @endisset
                     </ul>
                     <h4>About:</h4>
                     <p>{{$data['user']->about}}</p>
@@ -187,6 +190,13 @@
                             @forelse ($data['sent'] as $sent)
                             {{$sent->name}} - {{$sent->email}}
 
+                            @if ($sent->accept == true)
+                                - accepted
+                            @elseif($sent->accept == false)
+                                - declined
+                            @elseif($sent->accept === null)
+                                - not viewed yet
+                            @endif
                             - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
 
                             <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
@@ -225,8 +235,6 @@
                                 </span>
 
                                 <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
-
-                                <span class="btn btn-primary btn-sm" onclick="">Add to team</span>
                             
                             @elseif($received->accept == false)
                                 <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
@@ -244,11 +252,6 @@
                             </form>
 
                             <form action="{{route('connection.declinerequest', $received->id)}}" method="post" id="decline-{{$received->id}}" class="d-none">
-                                @csrf
-                                @method('put')
-                            </form>
-
-                            <form action="" method="post" id="add-teammate-form-{{$received->id}}" class="d-non">
                                 @csrf
                                 @method('put')
                             </form>
@@ -351,12 +354,20 @@
                         <li>
                             <a href="{{route('home.nosubject')}}">No subjects</a>
                         </li>
-                    </ul>
 
-                    @if (Auth::user()->position_id == 1)
-                        <a href="{{route('team.create')}}">Create a team</a>
-                    @endif
-                    
+                        @if (Auth::user()->position_id == 1)
+                            <li>
+                                <a href="{{route('team.create')}}">Create a team</a>
+                            </li>  
+                        @endif
+
+                        @isset($data['user']->team_id)
+                        <li>
+                            <a href="{{route('team.edit')}}">Update team</a>
+                        </li>
+                        @endisset
+
+                    </ul>    
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@ class TeamRequest extends FormRequest
     public function rules()
     {
         return [
-            'team_name' => 'required|max:50',
+            'team_name' => 'required|max:50|unique:teams,team_name,{$this->team->id}',
             'team_vision' => 'required|max:255', 
             'team_objectives' => 'required|max:255',
         ];

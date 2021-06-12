@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Team;
+use App\User;
+use App\Connection;
 // use Illuminate\Http\Request;
 use App\Http\Requests\TeamRequest;
 
@@ -38,6 +40,10 @@ class TeamController extends Controller
     {
         $data = $request->all();
         Team::create($data);
+        $teamId = Team::select('id')->where('team_name', $request->team_name)->first();
+
+        // User::where('id', auth()->user()->id)->update(['team_id' => $teamId->id]);
+        auth()->user()->update(['team_id' => $teamId->id]);
         return redirect()->back()->with('message', 'Team created');
     }
 
@@ -58,9 +64,18 @@ class TeamController extends Controller
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function edit(Team $team)
+    public function edit()
     {
-        //
+        $userId = auth()->user()->id;
+        $teamId = auth()->user()->team_id;
+        $data = [
+            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
+
+            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
+
+            'members' => User::select('users.id', 'users.name', 'users.email')->where('team_id', $teamId)->get()
+        ];
+        return view('edit-team', compact('data'));
     }
 
     /**

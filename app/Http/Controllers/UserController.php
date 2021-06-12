@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserInfoRequest;
 use App\User;
 use App\Position;
+use App\Connection;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
@@ -52,8 +53,15 @@ class UserController extends Controller
      */
     public function show($user)
     {
-        $user = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.*', 'positions.position')->where('users.id', $user)->first();
-        return view('show', compact('user'));
+        $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $user)->first();
+
+        $connections = Connection::where('receiver_id', auth()->user()->id)->get();
+
+        $data = [
+            'user' => $user, 
+            'connections' => $connections
+        ];
+        return view('show', compact('data'));
     }
 
     /**
