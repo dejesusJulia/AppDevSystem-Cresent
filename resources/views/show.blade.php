@@ -32,16 +32,21 @@
             <a href="{{route('profile.view', $data['user']->portfolio)}}" class="btn btn-info" target="blank">View resume</a>
             <a href="{{route('profile.download', $data['user']->portfolio)}}" class="btn btn-success">Download</a>
 
-            @if($data['user']->team_id == null || !($data['received']->contains('sender_id', $data['user']->id))) 
-                <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();">Connect</a>
+            @if (Auth::user()->position_id == 1 || Auth::user()->team_id === null)
+                @if (($data['user']->team_id == null || ($data['user']->team_id !== null && $data['user']->position == 'CEO/COO')) && (!($data['received']->contains('sender_id', $data['user']->id)) && !($data['sent']->contains('receiver_id', $data['user']->id))))
+                    <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();">Connect</a>
 
-                <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
-                    @csrf
-                    <input type="hidden" name="sender_id" value="{{Auth::user()->id}}">
-
-                    <input type="hidden" name="receiver_id" value="{{$data['user']->id}}">
-                </form>                
+                    <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
+                        @csrf
+                        <input type="hidden" name="sender_id" value="{{Auth::user()->id}}">
+        
+                        <input type="hidden" name="receiver_id" value="{{$data['user']->id}}">
+                    </form>  
+                @endif   
             @endif
+
+            
+            
         </div>   
     </div>
 </div>
