@@ -9,6 +9,9 @@ use App\Connection;
 use App\Position;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use Facade\FlareClient\Http\Response;
 // use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -175,5 +178,10 @@ class HomeController extends Controller
 
         return view('search-by', compact('data'));
     }
+
+    public function searchResults(){
+        return view('search');
+    }
     
+   
 }

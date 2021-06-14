@@ -57,7 +57,7 @@ class UserController extends Controller
 
         $received = Connection::select('connections.sender_id')->where('receiver_id', auth()->user()->id)->get();
 
-        $sent = Connection::select('connections.receiver_id')->where('sender_id', auth()->user()->id)->get();
+        $sent = Connection::select('connections.*')->where('sender_id', auth()->user()->id)->get();
 
         $data = [
             'user' => $user, 
