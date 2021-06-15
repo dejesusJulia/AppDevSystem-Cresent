@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::get('/tryapi', 'UserController@tryapi');
-
-Route::get('/users/query/{name}', 'ApiController@searchByName');
-Route::get('try/users', 'ApiController@trySearch');
+Route::get('/users/all/query/{name}', 'ApiController@searchByName');
+Route::get('/users/subjects/query/{subjectId}/{name}', 'ApiController@searchBySubject');
+Route::get('/users/positions/query/{positionId}/{name}', 'ApiController@searchByPosition');
+Route::get('/users/subjects-and-positions/query/{subjectId}/{positionId}/{name}', 'ApiController@searchByPS');
+Route::get('/users/subjects/null/{name}', 'ApiController@searchByNullCateg');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

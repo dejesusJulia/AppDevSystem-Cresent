@@ -7,25 +7,25 @@
             </div>
         </div>
     </div>
+    <h5>All users</h5>
 
-
-
-    @forelse (json_decode($searchResults) as $results)
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" alt="avatar" class="rounded-circle" width="50px" height="50px">
-                    </div>
-                    <div class="col-sm-10">
-                        <dl>
-                            <dt>{{$results->name}}</dt>
-                            <dd>{{$results->email}}</dd>
-                        </dl>
+    @forelse ($searchResults as $results)
+        <a href="{{route('users.show', $results->user_id)}}" class="text-decoration-none">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="media">
+                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3" alt="avatar" width="50px" height="50px">
+                        <div class="media-body">
+                          <h5 class="mt-0">{{$results->name}}</h5>
+                          <ul class="list-unstyled">
+                            <li>{{$results->email}}</li>
+                            <li>{{$results->position}}</li>
+                          </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>            
+            </div> 
+        </a>             
     @empty 
         <div class="card mb-3">
             <div class="card-body">
@@ -33,7 +33,4 @@
             </div>
         </div>
     @endforelse
-   
-    
-    
 </div>

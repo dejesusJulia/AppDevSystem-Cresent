@@ -53,15 +53,17 @@ Route::middleware('user')->group(function(){
     Route::get('/search-by/position/{positionId}', 'HomeController@selectByPosition')->name('position.search');
     Route::get('/search-by/subject/{subjectId}', 'HomeController@selectBySubject')->name('subject.search');
     Route::get('/search-by/no-fields', 'HomeController@selectNullCateg')->name('home.nosubject');
-    Route::post('/search-by/position-and-subject', 'HomeController@selectByPS')->name('search.both');
+    Route::get('/search-by/position-and-subject', 'HomeController@selectByPS')->name('search.both');
 
-    // ADD TEAM
+    // TEAM
     Route::get('/team/create', 'TeamController@create')->name('team.create');
     Route::post('/team/create', 'TeamController@store')->name('team.store');
     Route::get('/team/edit/', 'TeamController@edit')->name('team.edit');
     Route::patch('/team/edit/{team}', 'TeamController@update')->name('team.update');
     Route::put('/team/add/sent/{member}', 'TeamController@addMemberSent')->name('team.addmembersent');
     Route::put('/team/add/received/{member}', 'TeamController@addMemberReceived')->name('team.addmemberreceived');
+    Route::put('/team/remove/member/{member}', 'TeamController@removeMember')->name('team.removemember');
+ 
 
 });
 

@@ -5,22 +5,18 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Http\Controllers\ApiController;
 
-class SearchDropdown extends Component
+class SearchNull extends Component
 {
-    public $search = '';
-
+    public $nfn = '';
     public function render()
     {
-        $searchResults = [];
-
         $api = new ApiController();
-        $user = $api->searchByName($this->search);
-
+        $user = $api->searchByNullCateg($this->nfn);
 
         if($user !== null){
             $users = $user->content();
         }
 
-        return view('livewire.search-dropdown', ['searchResults' => json_decode($users)]);
+        return view('livewire.search-null', ['nfnResults' => json_decode($users)]);
     }
 }

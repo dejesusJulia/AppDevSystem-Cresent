@@ -1,6 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+@foreach ($data['members'] as $m)
+    <div class="modal fade" id="remove-member-modal-{{$m->id}}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remove</h5>
+                    <button class="close" type="button" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove {{$m->name}} from your team?
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('remove-member-form-{{$m->id}}').submit();">Remove</button>
+                    <button class="btn btn-secondary" onclick="event.preventDefault()" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+    {{-- MAIN CONTENT --}}
     <div class="container">
         <div class="row">
             <div class="col-md-7">
@@ -51,9 +75,9 @@
                                 <li>
                                     {{$member->name}} - {{$member->email}}
                                     @if ($member->id !== Auth::user()->id)
-                                        <span class="btn btn-sm btn-danger" onclick="event.preventDefault();document.getElementById('remove-member-form-{{$member->id}}').submit();">&times;</span>
+                                        <span class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-member-modal-{{$member->id}}">&times;</span>
 
-                                        <form action="" method="post" id="remove-member-form-{{$member->id}}" class="d-none">
+                                        <form action="{{route('team.removemember', $member->id)}}" method="post" id="remove-member-form-{{$member->id}}" class="d-none">
                                             @csrf
                                             @method('put')
                                         </form>

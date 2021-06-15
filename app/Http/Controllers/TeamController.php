@@ -17,7 +17,9 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        $teams = Team::join('users', 'teams.id', '=', 'users.team_id')->select('teams.*', 'users.id AS user_id', 'users.name', 'users.email')->get();
+        // CREATE VIEW
+        return view('');
     }
 
     /**
@@ -114,5 +116,10 @@ class TeamController extends Controller
         User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
 
         return redirect()->back()->with('message', 'Member added!');
+    }
+
+    public function removeMember($member){
+        User::where('id', $member)->update(['team_id' => null]);
+        return redirect()->back()->with('message', 'Member removed.');
     }
 }

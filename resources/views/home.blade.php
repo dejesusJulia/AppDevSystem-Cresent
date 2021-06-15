@@ -121,93 +121,11 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <a href="{{route('search.searchresults')}}">search</a>
                 </div>
             </div>
-            
-            {{-- FILTERS --}}
-            <div class="card mb-3">
-                <div class="card-header">
-                    Filters
-                </div>
-                <div class="card-body">
-                    {{-- POSITIONS --}}
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="dropdown mb-2">
-                                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Filter by Position
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    @foreach ($data['positions'] as $position)
-                                        <a href="{{route('position.search', $position->id)}}" class="dropdown-item">
-                                            {{$position->position}}
-                                        </a>    
-                                    @endforeach
-                                </div>
-                            </div> 
-                        </div>
-
-                        {{-- SUBJECTS --}}
-                        <div class="col-6">
-                            <div class="dropdown mb-2">
-                                <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Filter by Subjects/Fields
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    @foreach ($data['subjects'] as $sub)
-                                        <a href="{{route('subject.search', $sub->id)}}" class="dropdown-item">
-                                            {{$sub->subject_name}}
-                                        </a>    
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- SELECT BY BOTH --}}
-                    <form action="{{route('search.both')}}" method="post">
-                        @csrf
-                        <div class="form-row">
-                            <div class="col-5">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <label for="position-id-select" class="input-group-text">Position</label>
-                                    </div>
-
-                                    <select name="position_id" id="position-id-select" class="custom-select">
-                                        <option selected disabled>Choose one</option>
-                                        @foreach ($data['positions'] as $post)
-                                            <option value="{{$post->id}}">{{$post->position}}</option>
-                                        @endforeach
-                                        
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-5">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <label for="subject-id-select" class="input-group-text">Subjects</label>
-                                    </div>
-
-                                    <select name="subject_id" id="subject-id-select" class="custom-select">
-                                        <option selected disabled>Choose one</option>
-                                        @foreach ($data['subjects'] as $s)
-                                            <option value="{{$s->id}}">{{$s->subject_name}}</option>
-                                        @endforeach 
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-2">
-                                <input type="submit" value="Go" class="btn btn-primary">
-                            </div>
-                        </div>
-                    </form>
-                    <a href="{{route('home.nosubject')}}">No subjects</a>
-                </div>
-            </div>
-
+        
             {{-- USER INFO --}}
             <div class="card mb-3">
                 <div class="card-header">

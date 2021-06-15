@@ -9,10 +9,6 @@ use App\Connection;
 use App\Position;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
-use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
-use Facade\FlareClient\Http\Response;
-// use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -40,21 +36,16 @@ class HomeController extends Controller
             $userId = auth()->user()->id;
             $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $userId)->first();
 
-            $subjects = Subject::all();
-
-            $positions = Position::all();
-
             $categories = $this->getCategories($userId);
-
             $connections = $this->getConnectionJoins($userId);
+            $subjects = Subject::all();
 
             $data = [
                 'user' => $user, 
-                'subjects' => $subjects, 
                 'categories' =>$categories, 
                 'sent' => $connections['sent'], 
                 'received' => $connections['received'],
-                'positions' => $positions
+                'subjects' => $subjects
             ];
             return view('home', compact('data'));
         }
@@ -127,7 +118,6 @@ class HomeController extends Controller
         ]; 
 
         return $connections;
-        
     }
 
     public function joinCUS(){
@@ -137,20 +127,26 @@ class HomeController extends Controller
     }
 
     public function selectByPosition($positionId){
-        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->get();
+        $subjects = Subject::all();
+        $positions = Position::all();
 
         $data = [
-            'users' => $users
+            'positions' => $positions, 
+            'subjects' => $subjects, 
+            'positionID' => $positionId
         ];
 
         return view('search-by', compact('data'));
     }
 
     public function selectBySubject($subjectId){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->get();
+        $subjects = Subject::all();
+        $positions = Position::all();
 
         $data = [
-            'users' => $users
+            'positions' => $positions, 
+            'subjects' => $subjects, 
+            'subjectID' => $subjectId
         ];
 
         return view('search-by', compact('data'));
@@ -159,29 +155,44 @@ class HomeController extends Controller
     public function selectNullCateg(){
         $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
 
+        $subjects = Subject::all();
+        $positions = Position::all();
+
         $data = [
-            'users' => $users
+            'users' => $users, 
+            'positions' => $positions, 
+            'subjects' => $subjects
         ];
 
         return view('search-by', compact('data'));
     }
 
+
     public function selectByPS(Request $request){
         $positionId = $request->position_id;
         $subjectId = $request->subject_id;
-
-        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->get();
+        $subjects = Subject::all();
+        $positions = Position::all();
 
         $data = [
-            'users' => $users
+            'positions' => $positions, 
+            'subjects' => $subjects, 
+            'positionId' => $positionId, 
+            'subjectId' => $subjectId
         ];
 
         return view('search-by', compact('data'));
     }
 
     public function searchResults(){
-        return view('search');
+        $subjects = Subject::all();
+        $positions = Position::all();
+
+        $data = [
+            'subjects' => $subjects, 
+            'positions' => $positions
+        ];
+        
+        return view('search', compact('data'));
     }
-    
-   
 }
