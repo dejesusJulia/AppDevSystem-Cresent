@@ -7,6 +7,8 @@ use App\Subject;
 use App\Category;
 use App\Connection;
 use App\Position;
+use App\Team;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
 
@@ -17,9 +19,13 @@ class HomeController extends Controller
      *
      * @return void
      */
+
+    public $api;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->api = new ApiController();
     }
 
     /**
@@ -83,11 +89,21 @@ class HomeController extends Controller
         $userCount = User::whereNotIn('id', [auth()->user()->id])->count();
         $positionCount = Position::count();
         $subjectCount = Subject::count();
+        $teamCount = Team::count();
+        $teamMembers = $this->api->teamMembersCount();
 
         $data = [
             'userCount' => $userCount, 
             'positionCount' => $positionCount, 
-            'subjectCount' => $subjectCount
+            'subjectCount' => $subjectCount, 
+            'teamCount' => $teamCount, 
+            'positions' => $this->api->upPositionArray(), 
+            'counts' => $this->api->upCountArray(), 
+            'subjects' => $this->api->usSubjectArray(), 
+            'subCount' => $this->api->usCountArray(), 
+            'registeredDate' => $this->api->regUsersDate(), 
+            'registeredCount' => $this->api->regUsersCount(), 
+            'teamMembers' => json_decode($teamMembers->content())
         ];
         return view('admin.dash', compact('data'));
     }

@@ -68,6 +68,7 @@ class TeamController extends Controller
      */
     public function edit()
     {
+        $teamInfo = Team::where('id', auth()->user()->team_id)->first();
         $userId = auth()->user()->id;
         $teamId = auth()->user()->team_id;
         $data = [
@@ -75,7 +76,9 @@ class TeamController extends Controller
 
             'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->whereNull('users.team_id')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
 
-            'members' => User::select('users.id', 'users.name', 'users.email')->where('team_id', $teamId)->get()
+            'members' => User::select('users.id', 'users.name', 'users.email')->where('team_id', $teamId)->get(), 
+
+            'teamInfo' => $teamInfo
         ];
         return view('edit-team', compact('data'));
     }

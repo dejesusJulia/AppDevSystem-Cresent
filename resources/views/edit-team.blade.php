@@ -41,17 +41,17 @@
 
                             <div class="form-group">
                                 <label for="team-name">Team Name</label>
-                                <input type="text" name="team_name" id="team-name" class="form-control">
+                                <input type="text" name="team_name" id="team-name" class="form-control" value="{{$data['teamInfo']->team_name}}">
                             </div>
         
                             <div class="form-group">
                                 <label for="team-vision">Vision</label>
-                                <textarea name="team_vision" id="team-vision" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea name="team_vision" id="team-vision" cols="30" rows="5" class="form-control">{{$data['teamInfo']->team_vision}}</textarea>
                             </div>
         
                             <div class="form-group">
                                 <label for="team_objectives">Objectives</label>
-                                <textarea name="team_objectives" id="team-objectives" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea name="team_objectives" id="team-objectives" cols="30" rows="5" class="form-control">{{$data['teamInfo']->team_objectives}}</textarea>
                             </div>
         
                             <div class="form-group">

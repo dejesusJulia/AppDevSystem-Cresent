@@ -88,6 +88,116 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @livewireScripts
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js" integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+        var ctx1 = document.getElementById('positionsToUserChart');
+        var ctx2 = document.getElementById('subjectsToUserChart');
+        var ctx3 = document.getElementById('regUsersChart');
+
+        var date = new Date();
+        var month = date.toLocaleString('default', {month:'short'});
+        var date1 = month + ' 1';
+        var date2 = month + ' 10';
+        var date3 = month + ' 20';
+        var lastDay = new Date(date.getFullYear(), date.getMonth() +1, 0).getDate();
+        var date4 = month + ' ' + lastDay;
+
+        var myChart1 = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+            labels: {!!json_encode($data['positions'])!!},
+            datasets: [{
+                label: 'Users per Position',
+                // data: [12, 19, 3, 5, 6, 8],
+                data: {!!json_encode($data['counts'])!!},
+                backgroundColor: [
+                'rgba(1, 50, 67, 1)',
+                'rgba(51, 110, 123, 1)',
+                'rgba(197, 239, 247, 1)',
+                'rgba(129, 207, 224, 1)', 
+                'rgba(0, 181, 204, 1)',
+                'rgba(228, 241, 254, 1)'
+                ],
+            }]
+            },
+            options: {
+                //cutoutPercentage: 40,
+            responsive: true,
+        
+            }
+        });
+
+        var myChart2 = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+            labels: {!!json_encode($data['subjects'])!!},
+            datasets: [{
+                label: 'Users per Subject',
+                data: {!!json_encode($data['subCount'])!!},
+                backgroundColor: [
+                'rgba(42, 187, 155, 1)',
+                'rgba(27, 163, 156, 1)',
+                'rgba(162, 222, 208, 1)',
+                'rgba(54, 215, 183, 1)', 
+                'rgba(30, 130, 76, 1)'
+                ],
+            }]
+            },
+            options: {
+                //cutoutPercentage: 40,
+            responsive: true,
+        
+            }
+        });
+
+        var myLineChart = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: {!!json_encode($data['registeredDate'])!!},
+                datasets: [{
+                label: "User registration",
+                lineTension: 0.3,
+                backgroundColor: "rgba(2,117,216,0.2)",
+                borderColor: "rgba(2,117,216,1)",
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(2,117,216,1)",
+                pointBorderColor: "rgba(255,255,255,0.8)",
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                pointHitRadius: 50,
+                pointBorderWidth: 2,
+                data: {!!json_encode($data['registeredCount'])!!},
+                }],
+            },
+            options: {
+                scales: {
+                xAxes: [{
+                    time: {
+                    unit: 'date'
+                    },
+                    gridLines: {
+                    display: false
+                    },
+                    ticks: {
+                    maxTicksLimit: 3
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                    min: 0,
+                    max: 30,
+                    maxTicksLimit: 5
+                    },
+                    gridLines: {
+                    color: "rgba(0, 0, 0, .125)",
+                    }
+                }],
+                },
+                legend: {
+                display: false
+                }
+            }
+            });
+    </script>
     
 </body>
 </html>

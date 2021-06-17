@@ -19,6 +19,10 @@ Route::get('/users/subjects/query/{subjectId}/{name}', 'ApiController@searchBySu
 Route::get('/users/positions/query/{positionId}/{name}', 'ApiController@searchByPosition');
 Route::get('/users/subjects-and-positions/query/{subjectId}/{positionId}/{name}', 'ApiController@searchByPS');
 Route::get('/users/subjects/null/{name}', 'ApiController@searchByNullCateg');
+Route::get('/count-of-users-per-position', 'ApiController@positionUserCount');
+Route::get('/count-of-users-per-subject', 'ApiController@subjectUserCount');
+Route::get('/count-of-registered-users', 'ApiController@registeredUsersCount');
+Route::get('/count-of-team-members', 'ApiController@teamMembersCount');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
