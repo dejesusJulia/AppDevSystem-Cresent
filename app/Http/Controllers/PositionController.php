@@ -19,6 +19,10 @@ class PositionController extends Controller
         return view('admin.positions', compact('positions'));
     }
 
+    public function getAllPosition(){
+        return Position::all();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -45,17 +49,6 @@ class PositionController extends Controller
         Position::create($data);
 
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Position $position)
-    {
-        //
     }
 
     /**
@@ -99,5 +92,9 @@ class PositionController extends Controller
     {
         Position::where('id', $position->id)->delete();
         return redirect()->back()->with('message', 'Post deleted successfully');
+    }
+
+    public function getPositionCount(){
+        return Position::count();
     }
 }

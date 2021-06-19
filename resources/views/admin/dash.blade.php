@@ -17,6 +17,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a href="{{route('admin.editprofile')}}">Edit profile</a>
                 </div>
             </div>
 
@@ -52,13 +53,6 @@
                         <li>Teams: {{$data['teamCount']}}</li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-header">TO DO</div>
-                <ul>
-                    <li>Edit admin profile</li>
-                </ul>
             </div>
 
             <div class="row">

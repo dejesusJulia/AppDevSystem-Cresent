@@ -60,29 +60,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Category  $category
@@ -92,6 +69,25 @@ class CategoryController extends Controller
     {
         Category::where('id', $category->id)->delete();
         return redirect()->back()->with('message', 'Delete successful');
+    }
+
+    public function getUserCateg($userId){
+        $user = Category::select('id')->where('user_id', $userId)->get();
+        $categories = [];
+
+        if($user == null){
+            $categories = [0];
+        }else{
+            $categories = Category::leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'subjects.subject_name')->where('user_id', $userId)->get();
+        }
+
+        return $categories;
+    }
+
+    public function joinCUS(){
+        $categories = Category::join('users', 'categories.user_id', '=', 'users.id')->join('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->orderBy('users.created_at', 'desc')->get();
+
+        return $categories;
     }
 
 }

@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    @forelse ($nfpsResults as $result) 
+    @forelse ($nfpsResults->data as $result) 
     <a href="{{route('users.show', $result->user_id)}}" class="text-decoration-none">
         <div class="card mb-3">
             <div class="card-body">
@@ -31,4 +31,35 @@
         </div>
     </div>
     @endforelse
+
+    {{-- PAGINATION --}}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if ($nfpsResults->prev_page_url !== null)
+            <li class="page-item">
+                <a class="page-link" href="{{$nfpsResults->prev_page_url}}">Previous</a>
+            </li>
+            @else 
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-disabled="true">Previous</a>
+            </li>
+            @endif
+           
+          @for ($i = 1; $i <= $nfpsResults->last_page; $i++)
+            <li class="page-item">
+                <a class="page-link" href="">{{$i}}</a>
+            </li>
+          @endfor
+
+            @if ($nfpsResults->next_page_url !== null)
+            <li class="page-item">
+                <a class="page-link" href="{{$nfpsResults->next_page_url}}">Next</a>
+            </li>
+            @else 
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-disabled="true">Next</a>
+            </li>
+            @endif
+        </ul>
+    </nav>
 </div>

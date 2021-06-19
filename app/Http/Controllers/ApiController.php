@@ -15,35 +15,35 @@ class ApiController extends Controller
 {
     // SEARCH ALL USERS 
     public function searchByName($name){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('users.name', 'LIKE', '%'. $name. '%')->get();
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('users.name', 'LIKE', '%'. $name. '%')->paginate(10);
 
         return response()->json($users);
     }
 
     // SEARCH BY SUBJECT/FIELD OF EXPERTISE
     public function searchBySubject($subjectId, $name){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position', 'categories.subject_id')->where('categories.subject_id', $subjectId)->where('users.name', 'LIKE', '%' . $name . '%')->paginate(10);
 
         return response()->json($users);
     }
 
     // SEARCH BY POSITION
     public function searchByPosition($positionId, $name){
-        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
+        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->paginate(10);
 
         return response()->json($users);
     }
 
     // SEARCH USERS BY POSITION AND SUBJECT
     public function searchByPS($subjectId, $positionId, $name){
-        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%'.$name.'%')->get();
+        $users = Category::join('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar')->where('categories.subject_id', $subjectId)->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%'.$name.'%')->paginate(10);
 
         return response()->json($users);
     }
 
     // SEARCH USERS WITH NO REGISTERED FIELD/SUBJECT
     public function searchByNullCateg($name){
-        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->whereNull('categories.id')->where('users.name', 'LIKE', '%'.$name.'%')->get();
+        $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->whereNull('categories.id')->where('users.name', 'LIKE', '%'.$name.'%')->paginate(10);
 
         return response()->json($users);
     }
@@ -153,12 +153,14 @@ class ApiController extends Controller
         return $subjectArr;
     }
 
+    // GET NUMBER OF USERS REGISTERED PER DAY
     public function registeredUsersCount(){
         $users = User::select(DB::raw('count(*) as user_count'), DB::raw('DATE(created_at) as date'))->groupBy('date')->get();
 
         return response()->json($users);
     }
 
+    // STORE DATE OF USER REGISTRATION TO ARRAY
     public function regUsersDate(){
         $reg = $this->registeredUsersCount();
         $json = json_decode($reg->content());
@@ -171,6 +173,7 @@ class ApiController extends Controller
         return $regDate;
     }
 
+    // STORE COUNT OF USER REGISTRATION TO ARRAY
     public function regUsersCount(){
         $reg = $this->registeredUsersCount();
         $json = json_decode($reg->content());
@@ -183,6 +186,7 @@ class ApiController extends Controller
         return $regCount;
     }
 
+    // GET COUNT OF MEMBERS PER TEAM
     public function teamMembersCount(){
         $userCount = User::select(DB::raw('count(*) as user_count'), 'team_id')->groupBy('team_id')->orderBy('team_id', 'desc')->get();
         $teams = Team::select('id', 'team_name')->get();

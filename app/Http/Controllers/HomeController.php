@@ -3,12 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Subject;
-use App\Category;
-use App\Connection;
-use App\Position;
-use App\Team;
-use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewUserInfoRequest;
 
@@ -21,11 +15,22 @@ class HomeController extends Controller
      */
 
     public $api;
+    public $team;
+    public $connection;
+    public $category;
+    public $subject;
+    public $position;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->api = new ApiController();
+        $this->team = new TeamController();
+        $this->connection = new ConnectionController();
+        $this->category = new CategoryController();
+        $this->subject = new SubjectController();
+        $this->position = new PositionController();
+
     }
 
     /**
@@ -42,16 +47,14 @@ class HomeController extends Controller
             $userId = auth()->user()->id;
             $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $userId)->first();
 
-            $categories = $this->getCategories($userId);
-            $connections = $this->getConnectionJoins($userId);
-            $subjects = Subject::all();
-
             $data = [
                 'user' => $user, 
-                'categories' =>$categories, 
-                'sent' => $connections['sent'], 
-                'received' => $connections['received'],
-                'subjects' => $subjects
+                'categories' =>$this->category->getUserCateg($userId), 
+                'sent' => $this->connection->getSent($userId), 
+                'received' => $this->connection->getReceived($userId),
+                'subjects' => $this->subject->showAllSub(), 
+                'positions' => $this->position->getAllPosition(), 
+                'teams' => $this->team->getTeamNames()
             ];
             return view('home', compact('data'));
         }
@@ -60,7 +63,7 @@ class HomeController extends Controller
 
     public function edit(){
         if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
-            $positions = Position::all();
+            $positions = $this->position->getAllPosition();
             return view('complete-profile', compact('positions'));
 
         }else{
@@ -87,9 +90,9 @@ class HomeController extends Controller
 
     public function dash(){
         $userCount = User::whereNotIn('id', [auth()->user()->id])->count();
-        $positionCount = Position::count();
-        $subjectCount = Subject::count();
-        $teamCount = Team::count();
+        $positionCount = $this->position->getPositionCount();
+        $subjectCount = $this->subject->getSubCount();
+        $teamCount = $this->team->teamCount();
         $teamMembers = $this->api->teamMembersCount();
 
         $data = [
@@ -108,47 +111,10 @@ class HomeController extends Controller
         return view('admin.dash', compact('data'));
     }
 
-    /* 
-    *
-    * JOINS 
-    *
-    */
-    public function getCategories($userId){
-        $user = Category::select('id')->where('user_id', $userId)->get();
-        $categories = [];
-
-        if($user == null){
-            $categories = [0];
-        }else{
-            $categories = Category::leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'subjects.subject_name')->where('user_id', $userId)->get();
-        }
-
-        return $categories;
-    }
-
-    public function getConnectionJoins($userId){
-        $connections = [
-            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
-
-            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get()
-        ]; 
-
-        return $connections;
-    }
-
-    public function joinCUS(){
-        $categories = Category::join('users', 'categories.user_id', '=', 'users.id')->join('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->orderBy('users.created_at', 'desc')->get();
-
-        return $categories;
-    }
-
     public function selectByPosition($positionId){
-        $subjects = Subject::all();
-        $positions = Position::all();
-
         $data = [
-            'positions' => $positions, 
-            'subjects' => $subjects, 
+            'positions' => $this->position->getAllPosition(), 
+            'subjects' => $this->subject->showAllSub(), 
             'positionID' => $positionId
         ];
 
@@ -156,12 +122,9 @@ class HomeController extends Controller
     }
 
     public function selectBySubject($subjectId){
-        $subjects = Subject::all();
-        $positions = Position::all();
-
         $data = [
-            'positions' => $positions, 
-            'subjects' => $subjects, 
+            'positions' => $this->position->getAllPosition(), 
+            'subjects' => $this->subject->showAllSub(), 
             'subjectID' => $subjectId
         ];
 
@@ -171,13 +134,10 @@ class HomeController extends Controller
     public function selectNullCateg(){
         $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
 
-        $subjects = Subject::all();
-        $positions = Position::all();
-
         $data = [
             'users' => $users, 
-            'positions' => $positions, 
-            'subjects' => $subjects
+            'positions' => $this->position->getAllPosition(), 
+            'subjects' => $this->subject->showAllSub()
         ];
 
         return view('search-by', compact('data'));
@@ -185,28 +145,20 @@ class HomeController extends Controller
 
 
     public function selectByPS(Request $request){
-        $positionId = $request->position_id;
-        $subjectId = $request->subject_id;
-        $subjects = Subject::all();
-        $positions = Position::all();
-
         $data = [
-            'positions' => $positions, 
-            'subjects' => $subjects, 
-            'positionId' => $positionId, 
-            'subjectId' => $subjectId
+            'positions' => $this->position->getAllPosition(), 
+            'subjects' => $this->subject->showAllSub(), 
+            'positionId' =>  $request->position_id, 
+            'subjectId' => $request->subject_id
         ];
 
         return view('search-by', compact('data'));
     }
 
     public function searchResults(){
-        $subjects = Subject::all();
-        $positions = Position::all();
-
         $data = [
-            'subjects' => $subjects, 
-            'positions' => $positions
+            'subjects' => $this->subject->showAllSub(), 
+            'positions' => $this->position->getAllPosition()
         ];
         
         return view('search', compact('data'));

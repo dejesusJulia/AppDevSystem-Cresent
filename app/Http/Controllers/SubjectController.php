@@ -18,6 +18,10 @@ class SubjectController extends Controller
         return view('admin.subjects', compact('subjects'));
     }
 
+    public function showAllSub(){
+        return Subject::all();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -53,7 +57,8 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        $subject = Subject::where('id', $subject->id)->first();
+        return $subject;
     }
 
     /**
@@ -96,5 +101,9 @@ class SubjectController extends Controller
     {
         Subject::where('id', $subject->id)->delete();
         return redirect()->back()->with('message', 'Subject deleted successfully');
+    }
+
+    public function getSubCount(){
+        return Subject::count();
     }
 }

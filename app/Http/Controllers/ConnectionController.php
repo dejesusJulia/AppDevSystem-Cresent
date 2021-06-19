@@ -86,4 +86,18 @@ class ConnectionController extends Controller
         Connection::where('id', $connection->id)->update(['accept' => false]);
         return redirect()->back();
     }
+
+    public function getSent($userId){
+        $sent = Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get();
+
+        return $sent;
+    }
+
+    public function getReceived($userId){
+        $received = Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get();
+
+        return $received;
+    }
+
+    
 }

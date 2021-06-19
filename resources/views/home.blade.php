@@ -102,6 +102,37 @@
     </div>
 @endforeach
 
+{{-- DELETE TEAM MODAL --}}
+@isset(Auth::user()->team_id)
+    
+
+<div class="modal fade" id="team-delete-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete team</h5>
+                <button class="close" type="button" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this team? 
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-team-form').submit()">Delete</button>
+
+                <form action="{{route('team.destroy', $data['user']->team_id)}}" method="post" class="d-none" id="delete-team-form-{{$data['user']->team_id}}">
+                    @csrf
+                    @method('delete')
+                </form>
+
+                <button class="btn btn-sm btn-secondary" onclick="event.preventDefault()" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endisset
 {{-- MAIN CONTENT --}}
 <div class="container">
     <div class="row justify-content-center">
@@ -197,11 +228,13 @@
                                 - accepted
                             @elseif($sent->accept == false)
                                 - declined
+                                - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
                             @elseif($sent->accept === null)
                                 - not viewed yet
-                            @endif
-                            - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
 
+                                - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
+                            @endif
+                            
                             <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
                                 @csrf
                                 @method('delete')
@@ -280,10 +313,51 @@
 
                         @isset($data['user']->team_id)
                         <li>
-                            <a href="{{route('team.edit')}}">Update team</a>
+                            <a href="{{route('team.edit', Auth::user()->team_id)}}">Update team</a>
                         </li>
                         @endisset
                     </ul>    
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title">Teams</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        @foreach ($data['teams'] as $team)
+                        <li>
+                            <a href="{{route('team.show', $team->id)}}">{{$team->team_name}}</a>
+                            <small>Created at: {{$team->created_at}}</small>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title">Positions</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        @foreach ($data['positions'] as $position) 
+                        <li>
+                            <dl>
+                                <dt>{{$position->position}}</dt>
+                                <dd>{{$position->post_description}}</dd>
+                            </dl>
+                        </li>
+                        @endforeach
+                    </ul>
+    
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <a href="#" data-toggle="modal" data-target="#team-delete-modal" class="text-danger">Delete team</a>
                 </div>
             </div>
         </div>

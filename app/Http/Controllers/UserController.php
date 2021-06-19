@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UserInfoRequest;
+use App\Http\Requests\AdminInfoRequest;
 use App\User;
 use App\Position;
 use App\Connection;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -122,6 +122,36 @@ class UserController extends Controller
     */
     public function downloadPdf($pdf){
         return response()->download(public_path('storage/resumes/' . $pdf));
+    }
+
+    // ADMIN EDIT PROFILE
+    public function adminEditProfile(){
+        $admin = User::select('name', 'email', 'avatar', 'website')->where('id', auth()->user()->id)->first();
+
+        return view('admin.edit-admin-profile', compact('admin'));
+    }
+
+    // ADMIN UPDATE PROFILE
+    public function adminUpdateProfile(AdminInfoRequest $request){
+        $userId = auth()->user()->id;
+        $avatar = User::select('avatar')->where('id', $userId)->first();     
+        $data = [
+            'name' => $request->name, 
+            'email' => $request->email, 
+            'website' => $request->website,
+        ];
+
+        if($request->hasFile('avatar')){
+            if($avatar !== null){
+                Storage::delete('/public/avatars/' . auth()->user()->avatar);
+            }
+            
+            $request->avatar->store('avatars', 'public');
+            $imgname = $request->avatar->hashName();
+            $data['avatar'] = $imgname;
+        } 
+        auth()->user()->update($data);
+        return redirect()->back()->with('message', 'Profile successfully updated');
     }
 
 }
