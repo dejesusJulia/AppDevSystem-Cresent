@@ -47,7 +47,7 @@
            
           @for ($i = 1; $i <= $nfpsResults->last_page; $i++)
             <li class="page-item">
-                <a class="page-link" href="">{{$i}}</a>
+                <a class="page-link" href="{{Request::url().'?page=' . $i}}">{{$i}}</a>
             </li>
           @endfor
 

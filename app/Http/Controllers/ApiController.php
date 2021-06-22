@@ -9,7 +9,10 @@ use App\Connection;
 use App\Category;
 use App\Subject;
 use App\Team;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use DateTime;
 
 class ApiController extends Controller
 {
@@ -211,5 +214,95 @@ class ApiController extends Controller
         }
         
         return response()->json(collect($teamsArr));
+    }
+
+    public function connectionCountData(){
+        // $connections = Connection::select(DB::raw('count(*) as user_count'), DB::raw('WEEK(created_at) as date'))->groupBy('date')->get();
+
+        $connections = Connection::select(DB::raw('DATE(created_at) as date'), DB::raw('WEEK(created_at) as week'))->get();
+
+        return response()->json($connections);
+    }
+
+    public function connectionDates(){
+        $year = date('Y');
+        $month = date('F');
+        $firstDay = date('F d Y', strtotime('first day of ' . $month));
+        $lastDay = date('F d Y', strtotime('last day of ' . $month));
+        $numberOfWeeks = Carbon::parse($lastDay)->weekOfMonth;
+        $week1 = Carbon::parse($firstDay)->format('W');
+        $weekL = Carbon::parse($lastDay)->format('W');
+        $weekDiff = intval($weekL) - intval($week1);
+
+        $firstweekDay1 = date('F d Y', strtotime(Carbon::parse($firstDay)->startOfWeek()->toDateString()));
+        $lastweekDay1 = date('F d Y' ,strtotime(Carbon::parse($lastDay)->startOfWeek()->toDateString()));
+        $lwDay1 = Carbon::parse($lastDay)->startOfWeek()->toDateString();
+
+        $samp = date('F d Y', strtotime($lastweekDay1));
+
+        $test = [$firstweekDay1];
+        $index = [];
+        $j = 0;
+
+        for($i = $weekDiff; $i > 1; $i--){
+            $index[$j] = date('F d Y', strtotime('-'. strval($i) . ' weeks ' . strval($lwDay1)));
+            if($index[$j] !== $firstweekDay1){
+                array_push($test, $index[$j]);
+            }
+            $j++;
+        }
+        array_push($test, $lastweekDay1);
+
+        $try = [
+            'Current year' => $year, 
+            'Current Month' => $month, 
+            'First day' => $firstDay, 
+            'Last Day' => $lastDay, 
+            'Number of weeks' => $numberOfWeeks,
+            'Week of Year of First Day' => $week1, 
+            'Week of Year of Last Day' => $weekL, 
+            'First Day of the First Week of the Month' => $firstweekDay1,
+            'First day of the last week of the month' => $lastweekDay1, 
+            'week diff' => $weekDiff, 
+            'test' => $samp, 
+            'arr' => $test, 
+            'index' => $index
+        ];
+
+        return response()->json($try);
+    }
+
+    public function getWeeklyDatesPerMonth(){
+        $year = date('Y');
+        $month = date('F');
+        $firstDay = date('F d Y', strtotime('first day of ' . $month));
+        $lastDay = date('F d Y', strtotime('last day of ' . $month));
+        $week1 = Carbon::parse($firstDay)->format('W');
+        $weekL = Carbon::parse($lastDay)->format('W');
+        $weekDiff = intval($weekL) - intval($week1);
+
+        $firstweekDay1 = date('F d Y', strtotime(Carbon::parse($firstDay)->startOfWeek()->toDateString()));
+        $lastweekDay1 = date('F d Y' ,strtotime(Carbon::parse($lastDay)->startOfWeek()->toDateString()));
+        $lwDay1 = Carbon::parse($lastDay)->startOfWeek()->toDateString();
+
+        $datesArr = [$firstweekDay1];
+        $index = [];
+        $j = 0;
+
+        for($i = $weekDiff; $i > 1; $i--){
+            $index[$j] = date('F d Y', strtotime('-'. strval($i) . ' weeks ' . strval($lwDay1)));
+            if($index[$j] !== $firstweekDay1){
+                array_push($datesArr, $index[$j]);
+            }
+            $j++;
+        }
+        array_push($datesArr, $lastweekDay1);
+
+        $data = [
+            'datesArr' => $datesArr, 
+            'weekNumber' => $weekL
+        ];
+        
+        return $data;
     }
 }

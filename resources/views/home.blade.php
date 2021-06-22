@@ -120,9 +120,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-team-form').submit()">Delete</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-team-form-{{Auth::user()->team_id}}').submit()">Delete</button>
 
-                <form action="{{route('team.destroy', $data['user']->team_id)}}" method="post" class="d-none" id="delete-team-form-{{$data['user']->team_id}}">
+                <form action="{{route('team.destroy',Auth::user()->team_id)}}" method="post" class="d-none" id="delete-team-form-{{Auth::user()->team_id}}">
                     @csrf
                     @method('delete')
                 </form>
@@ -316,6 +316,12 @@
                             <a href="{{route('team.edit', Auth::user()->team_id)}}">Update team</a>
                         </li>
                         @endisset
+
+                        @isset(Auth::user()->team_id)
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#team-delete-modal" class="text-danger">Delete current team</a>
+                        </li>
+                        @endisset
                     </ul>    
                 </div>
             </div>
@@ -352,12 +358,6 @@
                         @endforeach
                     </ul>
     
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-body">
-                    <a href="#" data-toggle="modal" data-target="#team-delete-modal" class="text-danger">Delete team</a>
                 </div>
             </div>
         </div>

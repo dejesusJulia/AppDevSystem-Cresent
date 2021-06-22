@@ -23,6 +23,8 @@ Route::get('/count-of-users-per-position', 'ApiController@positionUserCount');
 Route::get('/count-of-users-per-subject', 'ApiController@subjectUserCount');
 Route::get('/count-of-registered-users', 'ApiController@registeredUsersCount');
 Route::get('/count-of-team-members', 'ApiController@teamMembersCount');
+Route::get('/connection-count', 'ApiController@connectionCountData');
+Route::get('/sampledate', 'ApiController@connectionDates');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

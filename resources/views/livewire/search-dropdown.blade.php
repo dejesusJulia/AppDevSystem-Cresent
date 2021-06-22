@@ -34,7 +34,7 @@
             </div>
         </div>
     @endforelse
-
+        {{Request::url()}}
     {{-- PAGINATION --}}
     <nav aria-label="Page navigation example">
         <ul class="pagination">

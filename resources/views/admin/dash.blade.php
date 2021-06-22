@@ -86,7 +86,6 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Team Name</th>
                                 <th scope="col">Team Members</th>
-                                <th scope="col"></th>
                             </tr>
                         </thead>
 
@@ -96,11 +95,6 @@
                                 <th scope="row">{{$team->team_id}}</th>
                                 <th>{{$team->team_name}}</th>
                                 <th>{{$team->count}}</th>
-                                <th>
-                                    <span class="btn btn-danger btn-sm">
-                                        &times;
-                                    </span>
-                                </th>
                             </tr>
                             @endforeach
                         </tbody>
