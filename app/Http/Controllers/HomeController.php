@@ -104,8 +104,8 @@ class HomeController extends Controller
             'counts' => $this->api->upCountArray(), 
             'subjects' => $this->api->usSubjectArray(), 
             'subCount' => $this->api->usCountArray(), 
-            'registeredDate' => $this->api->regUsersDate(), 
-            'registeredCount' => $this->api->regUsersCount(), 
+            'weeklyDates' => $this->api->getWeekLabels(),  
+            'connectionCount' => $this->api->connectionsData(),  
             'teamMembers' => json_decode($teamMembers->content())
         ];
         return view('admin.dash', compact('data'));

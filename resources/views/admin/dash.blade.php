@@ -1,107 +1,145 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-header">
-                    Admin Dashboard
-                </div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                    <a href="{{route('admin.editprofile')}}">Edit profile</a>
-                </div>
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">person</i>
+              </div>
+              <p class="card-category">Users</p>
+              <h3 class="card-title">{{$data['userCount']}}
+              </h3>
             </div>
-
-            <div class="card mb-3">
-                <div class="card-header">
-                    View, Modify, or Delete
-                </div>
-
-                <div class="card-body">
-                    <ul>
-                        <li>
-                            <a href="{{route('position.index')}}">Positions</a>
-                        </li>
-
-                        <li>
-                            <a href="{{route('users.index')}}">Users</a>
-                        </li>
-
-                        <li>
-                            <a href="{{route('subject.index')}}">Subjects</a>
-                        </li>
-                    </ul>     
-                </div>
+            <div class="card-footer"></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-success card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">badge</i>
+              </div>
+              <p class="card-category">Position</p>
+              <h3 class="card-title">{{$data['positionCount']}}</h3>
             </div>
-
-            <div class="card mb-3">
-                <div class="card-header">Count</div>
-                <div class="card-body">
-                    <ul>
-                        <li>Users: {{$data['userCount']}}</li>
-                        <li>Positions: {{$data['positionCount']}}</li>
-                        <li>Subjects: {{$data['subjectCount']}}</li>
-                        <li>Teams: {{$data['teamCount']}}</li>
-                    </ul>
-                </div>
+            <div class="card-footer"></div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-danger card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">subjects</i>
+              </div>
+              <p class="card-category">Subject</p>
+              <h3 class="card-title">{{$data['subjectCount']}}</h3>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <canvas id="positionsToUserChart" width="400" height="400"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <canvas id="subjectsToUserChart" width="400" height="400"></canvas>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-footer">
+              <!-- <div class="stats">
+                <i class="material-icons">local_offer</i> Tracked from Github
+              </div> -->
             </div>
-
-            <div class="card mb-3">
-                <div class="card-body">
-                    <canvas id="regUsersChart" width="400" height="400"></canvas>
-                </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">groups</i>
+              </div>
+              <p class="card-category">Teams</p>
+              <h3 class="card-title">{{$data['teamCount']}}</h3>
             </div>
-
-            <div class="card mb-3">
+            <div class="card-footer">
+              <!-- <div class="stats">
+                <i class="material-icons">update</i> Just Updated
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-chart">
+            <div class="card-header card-header-success">
+              <div class="ct-chart" id="positionsToUserChart"></div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Users per position</h4>
+              <!-- <p class="card-category">
+                <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p> -->
+            </div>
+            <div class="card-footer">
+              <!-- <div class="stats">
+                <i class="material-icons">access_time</i> updated 4 minutes ago
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card card-chart">
+            <div class="card-header card-header-warning">
+              <div class="ct-chart" id="subjectsToUserChart"></div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Users per Subject</h4>
+              <!-- <p class="card-category">Last Campaign Performance</p> -->
+            </div>
+            <div class="card-footer">
+              <!-- <div class="stats">
+                <i class="material-icons">access_time</i> campaign sent 2 days ago
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card card-chart">
+                <div class="card-header card-header-danger">
+                  <div class="ct-chart" id="connectionsCountChart"></div>
+                </div>
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Team Name</th>
-                                <th scope="col">Team Members</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($data['teamMembers'] as $team)
-                            <tr>
-                                <th scope="row">{{$team->team_id}}</th>
-                                <th>{{$team->team_name}}</th>
-                                <th>{{$team->count}}</th>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                  <h4 class="card-title">Connections per week</h4>
+                  <p class="card-category">For the month of {{date('F')}}</p> 
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">info</i> Shows progress per week
+                  </div>
                 </div>
             </div>
         </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-info">
+              <h4 class="card-title">Teams</h4>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-info">
+                  <th>ID</th>
+                  <th>Team Name</th>
+                  <th>Team Members</th>
+                </thead>
+                <tbody>
+                    @foreach($data['teamMembers'] as $team)
+                  <tr>
+                    <td>{{$team->team_id}}</td>
+                    <td>{{$team->team_name}}</td>
+                    <td>{{$team->count}}</td>
+                  </tr>
+                    @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 @endsection
