@@ -109,7 +109,7 @@
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">info</i> Shows progress per week
+                    <i class="material-icons">info</i> Shows progress per week in a month
                   </div>
                 </div>
             </div>

@@ -48,7 +48,7 @@ class PositionController extends Controller
 
         Position::create($data);
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Post created successfully');
     }
 
     /**
@@ -77,9 +77,11 @@ class PositionController extends Controller
             'post_description' => 'required|max:255'
         ]);
 
-        Position::where('id', $position->id)->update($data);
+        Position::where('id', $position)->update($data);
+
 
         return redirect()->back()->with('message', 'Position updated successfully');
+
     }
 
     /**

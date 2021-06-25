@@ -84,7 +84,7 @@ Route::middleware('admin')->group(function(){
     Route::post('/positions/store', 'PositionController@store')->name('position.store');
 
     Route::patch('/positions/edit/{position}', 'PositionController@update')->name('position.update');
-    Route::delete('/positions/delete/{position}')->name('position.destroy');
+    Route::delete('/positions/delete/{position}', 'PositionController@destroy')->name('position.destroy');
 
     Route::get('/users', 'UserController@index')->name('users.index');
     Route::delete('/users/delete/{user}', 'UserController@destroy')->name('users.destroy');

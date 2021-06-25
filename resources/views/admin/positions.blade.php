@@ -1,123 +1,142 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-{{-- EDIT/UPDATE MODAL --}}
-@foreach ($positions as $position)
-    <div class="modal fade" id="edit-{{$position->id}}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modify</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{route('position.update', $position->id)}}" method="post">
-                        @csrf
-                        @method('patch')
-    
-                        <div class="form-group">
-                            <label for="position">Position</label>
-                            <input type="text" name="position" id="position" class="form-control" value="{{$position->position}}"> 
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="post-description">Description</label>
-                            <textarea name="post_description" id="post-description" cols="30" rows="5" class="form-control">{{$position->post_description}}</textarea>
-                        </div>
-    
-                        <div class="form-group">
-                            <input type="submit" value="Update" class="btn btn-primary">
-                        </div>
-                    </form>
-                </div>
+    <!-- EDIT MODAL -->
+      @foreach($positions as $position)
+      <div class="modal fade" id="edit-{{$position->id}}" tabindex="-1" role="dialog" aria-labelledby="edit-{{$position->id}}-Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="edit-{{$position->id}}-Label">Edit position</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-        </div>
-    </div>
-@endforeach
+            <div class="modal-body">
+              <form action="{{route('position.update', $position->id)}}" method="post" class="form">
+                @csrf
+                @method('patch')
 
-{{-- DELETE MODAL --}}
-@foreach ($positions as $position)
-    <div class="modal fade" id="destroy-{{$position->id}}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h4>{{$position->position}}</h4>
-                    <p>{{$position->post_description}}</p>
-                    
-                    Are you sure you want to delete this?
+                <div class="form-group">
+                  <label for="position">Position</label>
+                  <input type="text" name="position" id="position" class="form-control" value="{{$position->position}}">
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('position-destroy-{{$position->id}}').submit();">Delete</button>
-                    <button class="btn btn-secondary" data-dismiss="modal" onclick="event.preventDefault()">Cancel</button>
+                <div class="form-group">
+                  <label for="post-description">Description</label>
+                  <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control">{{$position->post_description}}</textarea>
                 </div>
+
+                <input type="submit" value="Update" class="btn btn-primary btn-block" >
+              </form>
             </div>
+          </div>
         </div>
-    </div>
-@endforeach
+      </div>
+      @endforeach
 
-{{-- MAIN CONTENT --}}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-header">
-                    Positions
-                    <a href="{{route('dash')}}" class="btn btn-secondary">Back</a>
+      <!-- DELETE MODAL -->
+      @foreach($positions as $position)
+      <div class="modal fade" id="destroy-{{$position->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete subject</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want delete {{$position->position}}?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" onclick="event.preventDefault();document.getElementById('position-destroy-{{$position->id}}').submit();">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      @endforeach
+
+      <!-- MAIN CONTENT -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+                <x-alert></x-alert>
+              <div class="card">
+                <div class="card-header card-header-danger">
+                  <h4 class="card-title ">Positions</h4>
                 </div>
-
                 <div class="card-body">
-                    <ul>
+                  <div class="table-responsive">
+                    <table class="table" id="position-list">
+                      <thead class=" text-danger">
+                        <th>
+                          ID
+                        </th>
+                        <th>
+                          Position
+                        </th>
+                        <th></th>
+                      </thead>
+                      <tbody>
                         @foreach ($positions as $position)
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#edit-{{$position->id}}">
-                                {{$position->position}}
-                            </a>
+                        <tr>
+                          <td>
+                            {{$position->id}}
+                          </td>
+                          <td>
+                            {{$position->position}}
+                          </td>
+                          <td class="td-action">
+                            <button type="button" rel="tooltip" title="Edit position" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$position->id}}">
+                              <i class="material-icons">edit</i>
+                            </button>
 
-                            <a href="#" class="text-danger" data-toggle="modal" data-target="#destroy-{{$position->id}}">Delete</a>
+                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#destroy-{{$position->id}}">
+                              <i class="material-icons">close</i>
+                            </button>
 
                             <form action="{{route('position.destroy', $position->id)}}" method="post" style="display: none;" id="position-destroy-{{$position->id}}">
-                                @csrf
-                                @method('delete')
+                              @csrf
+                              @method('delete')
                             </form>
-                        </li>
+                          </td>
+                        </tr>
                         @endforeach
-                    </ul>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header">
-                    Add new Position
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Add New Position</h4>
                 </div>
+
                 <div class="card-body">
-                    <form action="{{route('position.store')}}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="position">Position</label>
-                            <input type="text" name="position" id="position" class="form-control">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="post-description">Description</label>
-                            <textarea name="post_description" id="post-description" cols="30" rows="5" class="form-control"></textarea>
-                        </div>
-    
-                        <div class="form-group">
-                            <input type="submit" value="Submit" class="btn btn-primary">
-                        </div>
-                    </form>
-                </div>   
+                  <form action="{{route('position.store')}}" method="post" class="form">
+                    @csrf
+                    <div class="form-group">
+                      <label for="position">Position</label>
+                      <input type="text" name="position" id="position" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="post-description">Description</label>
+                      <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control"></textarea>
+                    </div>
+
+                    <input type="submit" value="Create position" class="btn btn-primary btn-block">
+                  </form>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 @endsection

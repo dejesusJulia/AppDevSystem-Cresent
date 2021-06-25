@@ -1,126 +1,141 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-{{-- EDIT/UPDATE MODAL --}}
-@foreach ($subjects as $subject)
-    <div class="modal fade" id="edit-{{$subject->id}}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modify</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{route('subject.update', $subject->id)}}" method="post">
-                        @csrf
-                        @method('patch')
-    
-                        <div class="form-group">
-                            <label for="subject-name">Subject</label>
-                            <input type="text" name="subject_name" id="subject-name" class="form-control" value="{{$subject->subject_name}}"> 
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="subject-description">Description</label>
-                            <textarea name="subject_description" id="subject-description" cols="30" rows="5" class="form-control">{{$subject->subject_description}}</textarea>
-                        </div>
-    
-                        <div class="form-group">
-                            <input type="submit" value="Update" class="btn btn-primary">
-                        </div>
-                    </form>
-                </div>
+<!-- EDIT MODAL -->
+      @foreach($subjects as $subject)
+      <div class="modal fade" id="edit-{{$subject->id}}" tabindex="-1" role="dialog" aria-labelledby="edit-{{$subject->id}}-Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="edit-{{$subject->id}}-Label">Edit subject</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-        </div>
-    </div>
-@endforeach
+            <div class="modal-body">
+              <form action="{{route('subject.update', $subject->id)}}" method="post" class="form">
+                @csrf
+                @method('patch')
 
-{{-- DELETE MODAL --}}
-@foreach ($subjects as $subject)
-    <div class="modal fade" id="destroy-{{$subject->id}}">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <dl>
-                        <dt>{{$subject->subject_name}}</dt>
-                        <dd>{{$subject->subject_description}}</dd>
-                    </dl>
-                    
-                    Are you sure you want to delete this?
+                <div class="form-group">
+                  <label for="subject-name">Subject name</label>
+                  <input type="text" name="subject_name" id="subject-name" class="form-control" value="{{$subject->subject_name}}">
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('subject-destroy-{{$subject->id}}').submit();">Delete</button>
-                    <button class="btn btn-secondary" data-dismiss="modal" onclick="event.preventDefault()">Cancel</button>
+                <div class="form-group">
+                  <label for="subject-description">Description</label>
+                  <textarea name="subject_description" id="subject-description" cols="10" rows="5" class="form-control">{{$subject->subject_description}}</textarea>
                 </div>
+                <input type="submit" value="Update" class="btn btn-primary btn-block">
+              </form>              
             </div>
+          </div>
         </div>
-    </div>
-@endforeach
+      </div>
+      @endforeach
 
-{{-- MAIN CONTENT --}}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <a href="{{route('dash')}}" class="btn btn-secondary mb-2">Back</a>
-            
-            <div class="card mb-3">
-                <div class="card-header">
-                    Subjects
+      <!-- DELETE MODAL -->
+      @foreach($subjects as $subject)
+      <div class="modal fade" id="destroy-{{$subject->id}}" tabindex="-1" role="dialog" aria-labelledby="destroy-{{$subject->id}}Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="destroy-{{$subject->id}}Label">Delete subject</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want delete {{$subject->subject_name}}?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="event.preventDefault()">Cancel</button>
+              <button type="button" class="btn btn-danger" onclick="event.preventDefault();document.getElementById('subject-destroy-{{$subject->id}}').submit();">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      @endforeach
+
+      <!-- MAIN CONTENT -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+                <x-alert></x-alert>
+              <div class="card">
+                <div class="card-header card-header-success">
+                  <h4 class="card-title ">Subjects</h4>
                 </div>
-
                 <div class="card-body">
-                    <ul>
+                  <div class="table-responsive">
+                    <table class="table" id="subject-list">
+                      <thead class=" text-primary">
+                        <th>
+                          ID
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th></th>
+                      </thead>
+                      <tbody>
                         @foreach ($subjects as $subject)
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#edit-{{$subject->id}}">
-                                {{$subject->subject_name}}
-                            </a>
+                        <tr>
+                          <td>
+                            {{$subject->id}}
+                          </td>
+                          <td>
+                            {{$subject->subject_name}}
+                          </td>
+                          <td class="td-action">
+                            <button type="button" rel="tooltip" title="Edit subject" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$subject->id}}">
+                              <i class="material-icons">edit</i>
+                            </button>
 
-                            <a href="#" class="text-danger" data-toggle="modal" data-target="#destroy-{{$subject->id}}">Delete</a>
+                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#destroy-{{$subject->id}}">
+                              <i class="material-icons">close</i>
+                            </button>
 
                             <form action="{{route('subject.destroy', $subject->id)}}" method="post" style="display: none;" id="subject-destroy-{{$subject->id}}">
-                                @csrf
-                                @method('delete')
+                              @csrf
+                              @method('delete')
                             </form>
-                        </li>
+                          </td>
+                        </tr>
                         @endforeach
-                    </ul>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header">
-                    Add new subject
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Add New Subject</h4>
                 </div>
+
                 <div class="card-body">
-                    <form action="{{route('subject.store')}}" method="post">
-                        @csrf
-                        <div class="form-group">
-                            <label for="subject-name">Subject</label>
-                            <input type="text" name="subject_name" id="subject-name" class="form-control">
-                        </div>
-    
-                        <div class="form-group">
-                            <label for="subject_description">Description</label>
-                            <textarea name="subject_description" id="subject_description" cols="30" rows="5" class="form-control"></textarea>
-                        </div>
-    
-                        <div class="form-group">
-                            <input type="submit" value="Submit" class="btn btn-primary">
-                        </div>
-                    </form>
-                </div>   
+                  <form action="{{route('subject.store')}}" method="post" class="form">
+                    @csrf
+                    <div class="form-group">
+                      <label for="subject-name">Subject</label>
+                      <input type="text" name="subject_name" id="subject-name" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="subject_description">Description</label>
+                      <textarea name="subject_description" id="subject_description" cols="10" rows="5" class="form-control"></textarea>
+                    </div>
+
+                    <input type="submit" value="Create subject" class="btn btn-primary btn-block">
+                  </form>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 @endsection

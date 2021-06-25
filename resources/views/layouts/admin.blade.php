@@ -70,6 +70,20 @@ The above copyright notice and this permission notice shall be included in all c
               <p>Subjects</p>
             </a>
           </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{{route('admin.editprofile')}}">
+              <i class="material-icons">person</i>
+              <p>User Profile</p>
+            </a>
+          </li>
+
+          <li class="nav-item active-pro ">
+            <a class="nav-link" href="{{route('logout')}}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+              <i class="material-icons">logout</i>
+              <p>Logout</p>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -109,6 +123,7 @@ The above copyright notice and this permission notice shall be included in all c
               </li>
             </ul>
           </div>
+
         </div>
       </nav>
       <!-- End Navbar -->
@@ -151,68 +166,7 @@ The above copyright notice and this permission notice shall be included in all c
       </footer>
     </div>
   </div>
-  <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-      <a href="#" data-toggle="dropdown">
-        <i class="fa fa-cog fa-2x"> </i>
-      </a>
-      <ul class="dropdown-menu">
-        <li class="header-title"> Sidebar Filters</li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger active-color">
-            <div class="badge-colors ml-auto mr-auto">
-              <span class="badge filter badge-purple" data-color="purple"></span>
-              <span class="badge filter badge-azure" data-color="azure"></span>
-              <span class="badge filter badge-green" data-color="green"></span>
-              <span class="badge filter badge-warning" data-color="orange"></span>
-              <span class="badge filter badge-danger" data-color="danger"></span>
-              <span class="badge filter badge-rose active" data-color="rose"></span>
-            </div>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="{{asset('/storage/img/sidebar-1.jpg')}}" alt="sidebar-1.jpg">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="{{asset('/storage/img/sidebar-2.jpg')}}" alt="sidebar-2.jpg">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="{{asset('/storage/img/sidebar-3.jpg')}}" alt="sidebar-3.jpg">
-          </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
-            <img src="{{asset('/storage/img/sidebar-4.jpg')}}" alt="sidebar-4.jpg">
-          </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
-        </li>
-        <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
-            View Documentation
-          </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
-  </div>
+
   <!--   Core JS Files   -->
   <script src="{{asset('js/material-dashboard/core/jquery.min.js')}}" type="text/javascript"></script>
    <script src="{{asset('js/material-dashboard/core/popper.min.js')}}" type="text/javascript"></script>
@@ -221,7 +175,7 @@ The above copyright notice and this permission notice shall be included in all c
     <script src="{{asset('js/material-dashboard/core/popper.min.js')}}" type="text/javascript"></script>
 
   <!-- Plugin for the momentJs  -->
-  {{-- <script src="{{asset('js/material-dashboard/plugins/moment.min.js')}}" type="text/javascript"></script> --}}
+  <script src="{{asset('js/material-dashboard/plugins/moment.min.js')}}" type="text/javascript"></script>
 
   <!-- Forms Validations Plugin -->
   <script src="{{asset('js/material-dashboard/plugins/jquery.validate.min.js')}}" type="text/javascript"></script>
@@ -255,105 +209,7 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('js/material-dashboard/material-dashboard.js')}}" type="text/javascript"></script>
 
-  @if (Route::currentRouteName()== 'dash')
-    {{-- CHARTS --}}
-  <script type="text/javascript">
-    if ($('#positionsToUserChart').length != 0 || $('#subjectsToUserChart').length != 0 || $('#connectionsCountChart').length != 0) {
-
-  dataPositionsToUserChart = {
-    labels: {!!json_encode($data['positions'])!!},
-    series: [
-    {!!json_encode($data['counts'])!!}
-    ]
-  };
-
-  optionsPositionsToUserChart = {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 0,
-    high: 12, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
-    },
-  }
-
-  var positionsToUserChart = new Chartist.Line('#positionsToUserChart', dataPositionsToUserChart, optionsPositionsToUserChart);
-
-  md.startAnimationForLineChart(positionsToUserChart);
-
-
-  /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-  dataSubjectsToUserChart = {
-    labels: {!!json_encode($data['subjects'])!!},
-    series: [
-        {!!json_encode($data['subCount'])!!}
-    ]
-  };
-
-  optionsSubjectsToUserChart = {
-    lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0
-    }),
-    low: 0,
-    high: 12, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    chartPadding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
-    }
-  }
-
-  var subjectsToUserChart = new Chartist.Line('#subjectsToUserChart', dataSubjectsToUserChart, optionsSubjectsToUserChart);
-
-  // start animation for the Completed Tasks Chart - Line Chart
-  md.startAnimationForLineChart(subjectsToUserChart);
-
-
-  /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-  var dataConnectionsCountChart = {
-    labels: {!!json_encode($data['weeklyDates'])!!},
-    series: [
-        {!!json_encode($data['connectionCount'])!!}
-
-    ]
-  };
-  var optionsConnectionsCountChart = {
-    axisX: {
-      showGrid: false
-    },
-    low: 0,
-    high: 12,
-    chartPadding: {
-      top: 0,
-      right: 5,
-      bottom: 0,
-      left: 0
-    }
-  };
-  var responsiveOptions = [
-    ['screen and (max-width: 640px)', {
-      seriesBarDistance: 5,
-      axisX: {
-        labelInterpolationFnc: function(value) {
-          return value[0];
-        }
-      }
-    }]
-  ];
-  var connectionsCountChart = Chartist.Bar('#connectionsCountChart', dataConnectionsCountChart, optionsConnectionsCountChart, responsiveOptions);
-
-  //start animation for the Emails Subscription Chart
-  md.startAnimationForBarChart(connectionsCountChart);
-  }
-  </script>
-  @endif
+  <script src="{{asset('js/material-dashboard/demo.js')}}" type="text/javascript"></script>
 
   <!-- SIDEBAR script -->
   <script>
@@ -528,13 +384,143 @@ The above copyright notice and this permission notice shall be included in all c
     });
   </script>
 
-  {{-- <script type="text/javascript">
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
+  @if (Route::currentRouteName()== 'dash')
+    {{-- CHARTS --}}
+  <script type="text/javascript">
+    if ($('#positionsToUserChart').length != 0 || $('#subjectsToUserChart').length != 0 || $('#connectionsCountChart').length != 0) {
 
+  dataPositionsToUserChart = {
+    labels: {!!json_encode($data['positions'])!!},
+    series: [
+    {!!json_encode($data['counts'])!!}
+    ]
+  };
+
+  optionsPositionsToUserChart = {
+    lineSmooth: Chartist.Interpolation.cardinal({
+      tension: 0
+    }),
+    low: 0,
+    high: 12, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    },
+  }
+
+  var positionsToUserChart = new Chartist.Line('#positionsToUserChart', dataPositionsToUserChart, optionsPositionsToUserChart);
+
+  md.startAnimationForLineChart(positionsToUserChart);
+
+
+  /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
+
+  dataSubjectsToUserChart = {
+    labels: {!!json_encode($data['subjects'])!!},
+    series: [
+        {!!json_encode($data['subCount'])!!}
+    ]
+  };
+
+  optionsSubjectsToUserChart = {
+    lineSmooth: Chartist.Interpolation.cardinal({
+      tension: 0
+    }),
+    low: 0,
+    high: 12, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }
+  }
+
+  var subjectsToUserChart = new Chartist.Line('#subjectsToUserChart', dataSubjectsToUserChart, optionsSubjectsToUserChart);
+
+  // start animation for the Completed Tasks Chart - Line Chart
+  md.startAnimationForLineChart(subjectsToUserChart);
+
+
+  /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
+
+  var dataConnectionsCountChart = {
+    labels: {!!json_encode($data['weeklyDates'])!!},
+    series: [
+        {!!json_encode($data['connectionCount'])!!}
+
+    ]
+  };
+  var optionsConnectionsCountChart = {
+    axisX: {
+      showGrid: false
+    },
+    low: 0,
+    high: 12,
+    chartPadding: {
+      top: 0,
+      right: 5,
+      bottom: 0,
+      left: 0
+    }
+  };
+  var responsiveOptions = [
+    ['screen and (max-width: 640px)', {
+      seriesBarDistance: 5,
+      axisX: {
+        labelInterpolationFnc: function(value) {
+          return value[0];
+        }
+      }
+    }]
+  ];
+  var connectionsCountChart = Chartist.Bar('#connectionsCountChart', dataConnectionsCountChart, optionsConnectionsCountChart, responsiveOptions);
+
+  //start animation for the Emails Subscription Chart
+  md.startAnimationForBarChart(connectionsCountChart);
+  }
+  </script>
+  @endif
+
+  @if (Route::currentRouteName()== 'position.index')
+  <script type="text/javascript">
+    $(document).ready( function () {
+      $('#position-list').DataTable();
+    } );
+  </script>
+  @endif
+
+  @if (Route::currentRouteName()== 'subject.index')
+  <script type="text/javascript">
+    $(document).ready( function () {
+      $('#subject-list').DataTable();
+    } );
+  </script>
+  @endif
+
+  @if (Route::currentRouteName()== 'users.index')
+  <script type="text/javascript">
+    $(document).ready( function () {
+      $('#user-list').DataTable();
+    } );
+  </script>
+  @endif
+
+  @if (Route::currentRouteName() == 'admin.editprofile')
+  <script type="text/javascript">
+    $('.form-file-simple .inputFileVisible').click(function() {
+      $(this).siblings('.inputFileHidden').trigger('click');
     });
-  </script> --}}
+  
+    $('.form-file-simple .inputFileHidden').change(function() {
+      var filename = $(this).val().replace(/C:\\fakepath\\/i, '');
+      $(this).siblings('.inputFileVisible').val(filename);
+    });
+    </script>
+  @endif
+
 </body>
 
 </html>
