@@ -46,38 +46,38 @@ The above copyright notice and this permission notice shall be included in all c
         </a></div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
-            <a class="nav-link" href="{{route('dash')}}">
+          <li class="nav-item" id="dash-link">
+            <a class="nav-link " href="{{route('dash')}}">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item " id="users-link">
             <a class="nav-link" href="{{route('users.index')}}">
               <i class="material-icons">groups</i>
               <p>Users List</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item " id="positions-link">
             <a class="nav-link" href="{{route('position.index')}}">
               <i class="material-icons">badge</i>
-              <p>Positions</p>
+              <p>Positions List</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item " id="subjects-link">
             <a class="nav-link" href="{{route('subject.index')}}">
               <i class="material-icons">subjects</i>
-              <p>Subjects</p>
+              <p>Subjects List</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item " id="profile-link">
             <a class="nav-link" href="{{route('admin.editprofile')}}">
               <i class="material-icons">person</i>
               <p>User Profile</p>
             </a>
           </li>
 
-          <li class="nav-item active-pro ">
+          <li class="nav-item active-pro " id="logout-link">
             <a class="nav-link" href="{{route('logout')}}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
               <i class="material-icons">logout</i>
@@ -380,6 +380,19 @@ The above copyright notice and this permission notice shall be included in all c
           }, 1000);
 
         });
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var path = window.location.href;
+
+      $('.sidebar-wrapper .nav li').each(function(){
+        //console.log($(this).find('a').attr('href'));
+        if($(this).find('a').attr('href') == path){
+          $(this).addClass('active').siblings().removeClass('active');
+        }
       });
     });
   </script>
