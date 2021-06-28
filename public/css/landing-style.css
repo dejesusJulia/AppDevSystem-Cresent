@@ -1,0 +1,561 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+section {
+    font-family: 'Poppins', sans-serif;
+    color: #4b4237;
+}
+
+/* Navigation Bar */
+
+#navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    /* background: rgba(255, 255, 255, 0.8); */
+}
+
+#navbar .row {
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar .navbar-brand img {
+    height: 70px;
+}
+
+#navbar .col-md-5 .signin {
+    border: none;
+    padding: 10px 30px;
+    margin: 10px 0;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #d5a021;
+    transition: all 0.5s ease-in-out;
+}
+
+#navbar .col-md-5 .signin:hover {
+    text-decoration: none;
+    color: #d5a021;
+    background: #4b4237;;
+}
+
+/* Landing Banner */
+
+#banner {
+    position: relative;
+}
+
+#banner.landing .row img{
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+}
+
+.greetings {
+    position: absolute;
+    width: 100%;
+    padding: 0 12%;
+    margin: 200px 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.greetings h1 {
+    font-size: 58px;
+    font-weight: 700;
+}
+
+.greetings h3 {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.greetings .register {
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: #d5a021;
+    transition: all 0.5s ease-in-out;
+}
+
+.greetings .register:hover {
+    text-decoration: none;
+    color: #d5a021;
+    background: #4b4237;;
+}
+
+.overlay {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Introduction */
+
+#intro .col-md-12.roots {
+    padding: 50px 200px 20px;
+    max-width: 100%;
+}
+
+#intro .col-md-12 h1 {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#intro .col-md-12 p {
+    margin: 20px 0 30px;
+    text-align: justify;
+    text-align-last: center ;
+}
+
+#intro .col-md-6 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#intro .col-md-6.intro {
+    padding: 120px 70px 80px;
+    max-width: 100%;
+    color: #ffffff;
+    background-color: #d5a021;
+}
+
+#intro .col-md-6 h1 {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#intro .col-md-6 p {
+    margin: 20px 0;
+    text-align: justify;
+}
+
+/* Features */
+
+#features .col-md-12.label {
+    padding: 50px 200px 20px;
+    max-width: 100%;
+}
+
+#features .col-md-12 h5 {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    color: #d5a021;
+}
+
+#features .col-md-12 h1 {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#features .col-md-12 p {
+    margin: 20px 0 30px;
+    text-align: justify;
+    text-align-last: center ;
+}
+
+#features .container {
+    width: 100%;
+    height: 100%;
+    padding: 0 70px 20px;
+}
+
+#features .col-lg-4 {
+	padding: 70px 30px;
+    border-radius: 50px;
+    background-color: #fff4c1;
+}
+
+#features .col-lg-4:nth-child(2) {
+    background-color: #fff1b3;
+}
+
+#features .col-lg-4 img {
+    height: 14vh;
+    margin: 10px 0;
+}
+
+#features .col-lg-4 h1 {
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #4b4237;
+}
+
+#features .col-lg-4 p {
+    text-align: justify;
+}
+
+/* Get In Touch */
+
+#get .container-fluid {
+    height: 100%;
+    padding: 40px 0 0;
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(213, 159, 33));
+}
+
+#get .row.logo {
+    padding: 20px 0;
+}
+
+#get .col-md-12 img {
+    height: 200px;
+}
+
+#get .row.touch {
+    padding: 20px 70px 0;
+}
+
+#get .col-md-6.matter {
+    padding: 40px;
+    max-width: 100%;
+    color: #ffffff;
+}
+
+#get .col-md-6 h5 {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    color: #d5a021;
+}
+
+#get .col-md-6 h1 {
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#get .col-md-6 p {
+    margin: 20px 0;
+    text-align: justify;
+}
+
+#get .col-md-6.reach {
+    padding: 40px;
+    max-width: 100%;
+    color: #ffffff;
+}
+
+#get .contact {
+    margin: 15px;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    color: #4b4237;
+    background-color: #fff6e9;
+}
+
+#get .contact i {
+    margin: 0 20px 0 10px;
+    color: #d5a021;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Footer */
+
+#footer .end-bar {
+    min-height: 8vh;
+    font-size: 12px;
+    text-transform: capitalize;
+    color: #ffffff;
+    background-color: #4b4237;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#footer .end-bar p{
+    margin-top: 15px;
+    text-transform: capitalize;
+}
+
+/* Back To Top */
+
+#back-to-top-btn {
+    position: fixed;
+    display: none;
+    bottom: 20px;
+    right: 20px;
+    border: 2px solid #d5a021;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #d5a021;
+    transition: 0.4s ease-in-out;
+}
+
+#back-to-top-btn:hover, #back-to-top-btn:focus {
+    border: 2px solid #4b4237;
+    background-color: #4b4237;
+    color: #ffffff;
+}
+
+
+/* Responsiveness */
+
+@media screen and (max-width: 1024px) {
+
+    /* Introduction  */
+    /* Features */
+
+    #intro .col-md-12.roots,
+    #features .col-md-12.label {
+        padding: 50px 140px 20px;
+    }
+
+    #features .container {
+        width: 100%;
+        height: 100%;
+        padding: 0 20px 20px;
+    }
+
+    #features .col-lg-4 {
+        padding: 40px 30px;
+    }
+
+    /* Get In Touch */
+
+    #get .row.touch {
+        padding: 20px 30px 0;
+    }
+
+    #get .col-md-6.matter,
+    #get .col-md-6.reach {
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    /* Landing Banner */
+
+    .greetings {
+        align-items: center;
+    }
+    
+    .greetings h1 {
+        font-size: 50px;
+    }
+    
+    .greetings h3 {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Introduction */
+    /* Features */
+
+    #intro .col-md-12.roots,
+    #features .col-md-12.label {
+        padding: 50px 100px 20px;
+    }
+
+    #intro .col-md-12 h1,
+    #intro .col-md-6 h1,
+    #features .col-md-12 h1 {
+        font-size: 24px;
+    }
+
+    #intro .col-md-12 p,
+    #intro .col-md-6 p,
+    #features .col-md-12 p,
+    #features .col-lg-4 p {
+        font-size: 14px;
+    }
+
+    #intro .col-md-6.intro {
+        padding: 100px 70px 80px;
+    }
+
+    #features .col-md-12 h5 {
+        font-size: 12px;
+    }
+
+    #features .col-lg-4 img {
+        height: 12vh;
+    }
+    
+    #features .col-lg-4 h1 {
+        font-size: 18px;
+    }
+
+    /* Get In Touch */
+
+    #get .col-md-12 img {
+        height: 150px;
+    }
+
+    #get .col-md-6 h5 {
+        font-size: 12px;
+    }
+    
+    #get .col-md-6 h1 {
+        font-size: 24px;
+    }
+    
+    #get .col-md-6 p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+
+    /* Navigation Bar */
+
+    #navbar .col-md-5 .signin {
+        padding: 10px 30px;
+        font-size: 10px;
+    }
+
+    /* Landing Banner */
+
+    .greetings {
+        margin: 150px 0;
+    }
+    
+    .greetings h1 {
+        font-size: 40px;
+    }
+    
+    .greetings h3 {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .greetings .register{
+        font-size: 10px;
+    }
+
+    /* Introduction */
+    /* Features */
+
+    #intro .col-md-12.roots,
+    #features .col-md-12.label {
+        padding: 50px 70px 20px;
+    }
+
+    #intro .col-md-6.intro {
+        padding: 60px 70px;
+    }
+
+    /* Get In Touch */
+
+    #get .container-fluid {
+        padding: 0;
+    }
+
+    #get .col-md-12 img {
+        height: 100px;
+    }
+
+    #get .col-md-6.matter {
+        padding: 0 40px;
+    }
+
+    #get .col-md-6.reach {
+        padding: 0 0 20px 0;
+    }
+
+    #get .contact {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    #get .contact i {
+        font-size: 14px;
+    }
+
+    /* Footer */
+
+    #footer .end-bar p {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+
+    /* Navigation Bar */
+
+    #navbar .navbar-brand img {
+        height: 30px;
+    }
+
+    #navbar .col-md-5 .signin {
+        padding: 5px 25px;
+        font-size: 10px;
+    }
+
+    /* Landing Banner */
+
+    .greetings {
+        margin: 150px 0;
+    }
+    
+    .greetings h3 {
+        display: none;
+    }
+
+    /* Introduction */
+    /* Features */
+
+    #intro .col-md-12.roots,
+    #features .col-md-12.label {
+        padding: 50px 40px 20px;
+    }
+
+    #intro .col-md-6.intro {
+        padding: 50px 40px;
+    }
+
+    /* Get In Touch */
+
+    #get .col-md-6.matter {
+        padding: 0 10px;
+    }
+
+    /* Footer */
+
+    #footer .end-bar p {
+        font-size: 8px;
+    }
+}

@@ -29,19 +29,20 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Files -->
   <link href="{{asset('css/material-dashboard/material-dashboard.min.css')}}" rel="stylesheet"/>
   <link href="{{asset('css/material-dashboard/demo.css')}}" rel="stylesheet"/>
+  <link rel="icon" href="{{asset('storage/img/Logo/Favicon.png')}}"> 
 
   <!-- CSS Just for demo purpose, don't include it in your project -->
 </head>
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white" data-image="{{asset('/storage/img/sidebar-1.jpg')}}">
+    <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{asset('/storage/img/sidebar-1.jpg')}}">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
         Tip 2: you can also add an image using data-image tag
     -->
-      <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
+      <div class="logo"><a href="{{asset('storage/img/Logo/Crescent.png')}}" class="simple-text logo-normal">
           Cresent
         </a></div>
       <div class="sidebar-wrapper">
