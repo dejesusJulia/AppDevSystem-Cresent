@@ -7,11 +7,11 @@
     <div class="offset-2 row">
         {{-- POSITION --}}
         <div class="col-md-1">
-            <a href="{{route('search.searchresults')}}">Search All</a>
+            <a href="{{route('search.searchresults')}}" class="">Search All</a>
         </div>
         <div class="col-md-2">
             <div class="dropdown mb-2">
-                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="btn --btn-goldenrod dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Position
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -27,7 +27,7 @@
         {{-- SUBJECT --}}
         <div class="col-md-2">
             <div class="dropdown mb-2">
-                <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="btn --btn-goldenrod dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Subjects/Fields
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -46,14 +46,14 @@
             <form action="{{route('search.both')}}" method="get">
                 @csrf
                 <div class="input-group">
-                    <select name="position_id" id="position-id-select" class="custom-select">
+                    <select name="position_id" id="position-id-select" class="custom-select --bg-translucent-white">
                         <option selected disabled>Position</option>
                         @foreach ($data['positions'] as $post)
                             <option value="{{$post->id}}">{{$post->position}}</option>
                         @endforeach
                     </select>
 
-                    <select name="subject_id" id="subject-id-select" class="custom-select">
+                    <select name="subject_id" id="subject-id-select" class="custom-select --bg-translucent-white">
                         <option selected disabled>Subject</option>
                         @foreach ($data['subjects'] as $s)
                             <option value="{{$s->id}}">{{$s->subject_name}}</option>
@@ -61,7 +61,7 @@
                     </select>
 
                     <div class="input-group-append">
-                        <input type="submit" value="Go" class="btn btn-primary">
+                        <input type="submit" value="Go" class="btn --btn-goldenrod">
                     </div>
                 </div>
             </form>

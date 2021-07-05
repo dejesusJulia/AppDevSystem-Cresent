@@ -1,0 +1,166 @@
+:root{
+    /* TEXT */
+    --font-regular: 'Poppins', sans-serif;
+    --extra-bold: 800 ;
+    --bold: 700 ;
+    --thin: 100;
+
+    /* COLORS */
+    --eggshell: #ede7d9;
+    --goldenrod: #d5a021;
+    --papaya-whip: #fff1d2;
+    --dark-lava: #4b4237;
+    /* --danger: rgb(124, 40, 40); */
+    --danger: rgb(146, 46, 46);
+    --success: rgb(132, 179, 24);
+
+}
+body{
+    background-color: var(--eggshell) !important;
+    font-weight: 500;
+    /* background-color: rgba(237, 231, 217, 1) !important; */
+    font-family: var(--font-regular);
+}
+.--card-header-bg{ background-color: var(--goldenrod) !important;}
+.--card-body-bg{ background-color: var(--dark-lava) !important;}
+
+.--heading-color{ color: var(--papaya-whip);}
+
+.--btn-custom{
+    background-color: var(--goldenrod);
+    color: var(--papaya-whip);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.--btn-custom:hover{
+    background-color: var(--papaya-whip);
+    color: var(--goldenrod);
+}
+
+.--a-btn-custom{
+    text-decoration: none;
+    background-color: var(--goldenrod);
+    color: var(--papaya-whip);
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    
+}
+
+.--a-btn-custom:hover{
+    text-decoration: none;
+    background-color: var(--papaya-whip);
+    color: var(--goldenrod);
+    /* font-weight: 600; */
+    
+}
+
+.--a-btn-custom-dark{
+    text-decoration: none;
+    background-color: var(--goldenrod);
+    color: var(--dark-lava);
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.--a-btn-custom-dark:hover{
+    text-decoration: none;
+    background-color: var(--dark-lava);
+    color: var(--goldenrod);
+    /* font-weight: 600; */
+    
+}
+
+.--text-color-light{
+    color: var(--eggshell);
+}
+
+.--text-color-dark{
+    color: var(--dark-lava);
+}
+
+.--a-links-dark{
+    text-decoration: none;
+    color: var(--goldenrod);
+    transition: all 0.3s ease;
+}
+
+.--a-links-dark:hover{
+    text-decoration: underline 2px solid var(--goldenrod);
+    color: var(--papaya-whip);
+}
+.--bg-translucent{
+    background-color: rgba(75, 66, 55, 0.2);
+    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.--bg-translucent-white{
+    background-color: rgba(255, 255, 255, 0.377);
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.--text-color-darker{
+    color: #302a23;
+}
+
+.--backdrop{
+    z-index: -1;
+    opacity: 0.2;
+    width: 100%;
+    height: auto;
+    position: fixed;
+}
+
+.--back{
+    background: url('storage/img/Backdrops/Mesh.jpg') no-repeat center;
+    /* background-attachment: fixed; */
+}
+
+.--dark-lava-bg{
+    background-color: var(--dark-lava);
+}
+
+.--goldenrod-bg{
+    background-color: var(--goldenrod);
+}
+
+.--papaya-whip-bg{
+    background-color: var(--papaya-whip);
+}
+
+.--card-links{
+    text-decoration: none;
+    color: var(--papaya-whip);
+    transition: all 0.3s ease;
+}
+
+.--card-links:hover{
+    text-decoration: underline 2px solid var(--goldenrod);
+    color: var(--papaya-whip);
+}
+
+.--btn-goldenrod{
+    background-color: var(--goldenrod);
+    color: var(--dark-lava);
+    transition: all 0.3s ease;
+}
+
+.--btn-goldenrod:hover{
+    background-color: var(--dark-lava);
+    color: var(--goldenrod);
+}
+
+.--danger-bg{
+    background-color: var(--danger);
+}
+
+.--success-bg{
+    background-color: var(--success);
+}
+

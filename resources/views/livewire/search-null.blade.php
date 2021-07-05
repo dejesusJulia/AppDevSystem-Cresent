@@ -9,11 +9,11 @@
     </div>
 
     @forelse ($nfnResults->data as $result) 
-    <a href="{{route('users.show', $result->user_id)}}" class="text-decoration-none">
-        <div class="card mb-3">
-            <div class="card-body">
+    <a href="{{route('users.show', $result->user_id)}}" class="--card-links">
+        <div class="card mb-3 --bg-translucent p-4">
+            <div class="card-body --card-body-bg">
                 <div class="media">
-                    <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3" width="50px" height="50px">
+                    <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3" width="50px" height="50px" style="object-fit: contain">
                     <div class="media-body">
                         <h5 class="mt-0">{{$result->name}}</h5>
                         <ul class="list-unstyled">
@@ -38,7 +38,7 @@
         <ul class="pagination">
             @if ($nfnResults->prev_page_url !== null)
             <li class="page-item">
-                <a class="page-link" href="{{$nfnResults->prev_page_url}}">Previous</a>
+                <a class="page-link --bg-translucent-white" href="{{$nfnResults->prev_page_url}}">Previous</a>
             </li>
             @else 
             <li class="page-item disabled">
@@ -48,13 +48,13 @@
         
         @for ($i = 1; $i <= $nfnResults->last_page; $i++)
             <li class="page-item">
-                <a class="page-link" href="{{Request::url().'?page=' . $i}}">{{$i}}</a>
+                <a class="page-link --bg-translucent-white" href="{{Request::url().'?page=' . $i}}">{{$i}}</a>
             </li>
         @endfor
 
             @if ($nfnResults->next_page_url !== null)
             <li class="page-item">
-                <a class="page-link" href="{{$nfnResults->next_page_url}}">Next</a>
+                <a class="page-link --bg-translucent-white" href="{{$nfnResults->next_page_url}}">Next</a>
             </li>
             @else 
             <li class="page-item disabled">

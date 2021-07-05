@@ -10,11 +10,11 @@
     <h5>All users</h5>
 
     @forelse ($searchResults->data as $results)
-        <a href="{{route('users.show', $results->user_id)}}" class="text-decoration-none">
-            <div class="card mb-3">
-                <div class="card-body">
+        <a href="{{route('users.show', $results->user_id)}}" class="--card-links">
+            <div class="card mb-3 p-4 --bg-translucent">
+                <div class="card-body --card-body-bg">
                     <div class="media">
-                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3" alt="avatar" width="50px" height="50px">
+                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3" alt="avatar" width="50px" height="50px" style="object-fit: contain">
                         <div class="media-body">
                           <h5 class="mt-0">{{$results->name}}</h5>
                           <ul class="list-unstyled">
@@ -34,33 +34,32 @@
             </div>
         </div>
     @endforelse
-        {{Request::url()}}
     {{-- PAGINATION --}}
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             @if ($searchResults->prev_page_url !== null)
-            <li class="page-item">
-                <a class="page-link" href="{{$searchResults->prev_page_url}}">Previous</a>
+            <li class="page-item ">
+                <a class="page-link --bg-translucent-white" href="{{$searchResults->prev_page_url}}">Previous</a>
             </li>
             @else 
-            <li class="page-item disabled">
-                <a class="page-link" href="#" aria-disabled="true">Previous</a>
+            <li class="page-item disabled ">
+                <a class="page-link --bg-translucent-white" href="#" aria-disabled="true">Previous</a>
             </li>
             @endif
            
           @for ($i = 1; $i <= $searchResults->last_page; $i++)
             <li class="page-item">
-                <a class="page-link" href="http://127.0.0.1:8000/search/users?page={{$i}}">{{$i}}</a>
+                <a class="page-link --bg-translucent-white" href="http://127.0.0.1:8000/search/users?page={{$i}}">{{$i}}</a>
             </li>
           @endfor
 
             @if ($searchResults->next_page_url !== null)
             <li class="page-item">
-                <a class="page-link" href="{{$searchResults->next_page_url}}">Next</a>
+                <a class="page-link --bg-translucent-white" href="{{$searchResults->next_page_url}}">Next</a>
             </li>
             @else 
             <li class="page-item disabled">
-                <a class="page-link" href="#" aria-disabled="true">Next</a>
+                <a class="page-link --bg-translucent-white" href="#" aria-disabled="true">Next</a>
             </li>
             @endif
         </ul>
