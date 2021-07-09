@@ -103,8 +103,8 @@ class TeamController extends Controller
      */
     public function update(TeamRequest $request, Team $team)
     {
-        $team = $request->all();
-        Team::where('id', auth()->user()->id)->update($team);
+        $team = $request->except(['_token', '_method']);
+        Team::where('id', auth()->user()->team_id)->update($team);
         return redirect()->back()->with('message', 'Team details updated!');
     }
 

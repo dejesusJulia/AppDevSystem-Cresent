@@ -1,20 +1,14 @@
 <div class="mb-3">
+    <h2>All Users</h2>
     <div class="form-group">
-        <div class="input-group">
-            <input type="search" name="search" id="search" class="form-control" wire:model="search" placeholder="Search">
-            <div class="input-group-append">
-                <label for="search" class="input-group-text">Search</label>
-            </div>
-        </div>
+        <input type="search" name="search" id="search" class="form-control --search-bar" wire:model="search" placeholder="Search">
     </div>
-    <h5>All users</h5>
-
     @forelse ($searchResults->data as $results)
-        <a href="{{route('users.show', $results->user_id)}}" class="--card-links">
-            <div class="card mb-3 p-4 --bg-translucent">
-                <div class="card-body --card-body-bg">
+        <a href="{{route('users.show', $results->user_id)}}" class="--card-links-dark">
+            <div class="card mb-3 --card-bg-light" >
+                <div class="card-body ">
                     <div class="media">
-                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3" alt="avatar" width="50px" height="50px" style="object-fit: contain">
+                        <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3 rounded-circle" alt="avatar" width="50px" height="50px" style="object-fit: contain">
                         <div class="media-body">
                           <h5 class="mt-0">{{$results->name}}</h5>
                           <ul class="list-unstyled">

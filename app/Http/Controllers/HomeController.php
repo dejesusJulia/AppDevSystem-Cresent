@@ -143,7 +143,6 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
-
     public function selectByPS(Request $request){
         $data = [
             'positions' => $this->position->getAllPosition(), 

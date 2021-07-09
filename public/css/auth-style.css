@@ -91,7 +91,8 @@ form.log-in-form {
 .input-field input {
   background: none;
   outline: none;
-  border: none;
+  border: 0px;
+  border-radius: 25px;
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;

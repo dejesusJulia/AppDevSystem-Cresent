@@ -1,24 +1,23 @@
 <div class="mb-3">
     <div class="form-group">
-        <div class="input-group">
-            <input type="search" name="nfp" id="nfp" class="form-control" placeholder="Search" wire:model="nfp">
-            <div class="input-group-append">
-                <label for="nfp" class="input-group-text">Search</label>
-            </div>
-        </div>
+        <input type="search" name="nfp" id="nfp" class="form-control --search-bar" placeholder="Search" wire:model="nfp">
     </div>
 
     @forelse ($nfpResults->data as $result) 
-    <a href="{{route('users.show', $result->user_id)}}" class="--card-links">
-        <div class="card mb-3 --bg-translucent p-4">
-            <div class="card-body --card-body-bg">
+    <a href="{{route('users.show', $result->user_id)}}" class="--card-links-dark">
+        <div class="card mb-3 --card-bg-light" >
+            <div class="card-body">
                 <div class="media">
-                    <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3" width="50px" height="50px" style="object-fit: contain">
+                    <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3 rounded-circle" width="50px" height="50px" style="object-fit: contain">
                     <div class="media-body">
                         <h5 class="mt-0">{{$result->name}}</h5>
                         <ul class="list-unstyled">
                             <li>{{$result->email}}</li>
-                            <li>{{$result->subject_name}}</li>
+                            <li>
+                                @for ($i = 0; $i < count($result->subject_name); $i++)
+                                    {{$result->subject_name[$i]}},
+                                @endfor
+                            </li>
                         </ul>
                     </div>
                 </div>

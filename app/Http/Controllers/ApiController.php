@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiController extends Controller
 {
@@ -32,9 +33,40 @@ class ApiController extends Controller
 
     // SEARCH BY POSITION
     public function searchByPosition($positionId, $name){
-        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->paginate(10);
+        // $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->paginate(10);
 
-        return response()->json($users);
+        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
+        $userCollect = [];
+        foreach($users as $user){
+            if(empty($userCollect)){
+                $userCollect[] = [
+                    'user_id' => $user->user_id,
+                    'avatar' => $user->avatar,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'subject_name' => [$user->subject_name]
+                ];
+            }else if(in_array($user->user_id, array_column($userCollect, 'user_id'))){
+                $key = key($userCollect);
+                array_push($userCollect[$key]['subject_name'], $user->subject_name); 
+          
+            }else if(!in_array($user->user_id, array_column($userCollect, 'user_id'))){
+                array_push($userCollect, [
+                    'user_id' => $user->user_id,
+                    'avatar' => $user->avatar,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'subject_name' => [$user->subject_name]
+                ]);
+            }
+        }
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentItems = array_slice($userCollect, $perPage*($currentPage -1), $perPage);
+
+        $paginator = new LengthAwarePaginator($currentItems, count($userCollect), $perPage, $currentPage);
+        return response()->json($paginator);
     }
 
     // SEARCH USERS BY POSITION AND SUBJECT

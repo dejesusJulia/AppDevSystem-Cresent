@@ -20,11 +20,17 @@
                 <div class="form-group">
                   <label for="subject-name">Subject name</label>
                   <input type="text" name="subject_name" id="subject-name" class="form-control" value="{{$subject->subject_name}}">
+                  @error('subject_name')
+                    <small class="text-danger">{{$message}}</small>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="subject-description">Description</label>
                   <textarea name="subject_description" id="subject-description" cols="10" rows="5" class="form-control">{{$subject->subject_description}}</textarea>
+                  @error('subject_description')
+                    <small class="text-danger">{{$message}}</small>
+                  @enderror
                 </div>
                 <input type="submit" value="Update" class="btn btn-primary btn-block">
               </form>              

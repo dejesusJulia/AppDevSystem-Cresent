@@ -305,7 +305,7 @@
                 <div class="card-body">
                     <ul class="list-unstyled">
 
-                        @if (Auth::user()->position_id == 1)
+                        @if (Auth::user()->position_id == 1 && Auth::user()->team_id == null)
                             <li>
                                 <a href="{{route('team.create')}}">Create a team</a>
                             </li>  

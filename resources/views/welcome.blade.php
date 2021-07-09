@@ -110,7 +110,6 @@
         <div class="container-fluid">
             <div class="row logo text-center no-gutters">
                 <div class="col-md-12">
-                    <img src="images/Logo/Crescent.png" alt="Logo" class="img-fluid">
                     <img src="{{asset('storage/img/Logo/Crescent.png')}}" alt="Logo" class="img-fluid">
                 </div>
             </div>

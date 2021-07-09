@@ -24,7 +24,7 @@ class TeamRequest extends FormRequest
     public function rules()
     {
         return [
-            'team_name' => 'required|max:50|unique:teams,team_name,{$this->team->id}',
+            'team_name' => 'required|max:50',
             'team_vision' => 'required|max:255', 
             'team_objectives' => 'required|max:255',
         ];
@@ -37,4 +37,12 @@ class TeamRequest extends FormRequest
             'team_objectives.required' => 'Please type in your team objectives'
         ];
     }
+
+    // public function withValidator($validator){
+    //     $validator->after(function ($validator) {
+    //         if ($this->somethingElseIsInvalid()) {
+    //             $validator->errors()->add('field', 'Something is wrong with this field!');
+    //         }
+    //     });
+    // }
 }

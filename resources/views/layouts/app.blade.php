@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{asset('storage/img/Logo/Favicon.png')}}"> 
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Cresent</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -26,12 +26,12 @@
     @livewireStyles
 
 </head>
-<body>
-    <div id="app">
+<body >
+    <div id="app" >
         <nav class="navbar navbar-expand-md navbar-light --card-body-bg shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="--a-links-light" href="{{ route('home') }}">
+                    <h5 class="mb-0">Cresent</h5>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -57,7 +57,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (Auth::user()->avatar)
                                     <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="rounded-circle" width="30px" height ="30px"style="object-fit: contain">
                                     
@@ -85,8 +85,9 @@
             </div>
         </nav>
 
-        <div>
-            <img src="{{asset('storage/img/Backdrops/Mesh.jpg')}}" alt="" class="--backdrop img-fluid">
+        <div >
+            <img src="{{asset('storage/img/Backdrops/Mesh.jpg')}}" alt="" class="--backdrop">
+            {{-- <div class="--overlay"></div> --}}
             
             <main class="py-4">
                 @yield('content')

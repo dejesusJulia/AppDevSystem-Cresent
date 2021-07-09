@@ -23,16 +23,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-5 --card-body-bg rounded">
-                    <h4 class="--text-color-darker" style="font-weight: 800 !important;">About</h4>
+                <div class="pt-3 px-4 pb-2 --card-body-bg rounded">
+                    <h4 class="--text-color-goldenrod" style="font-weight: 800 !important;">About</h4>
                     <p class="--text-color-light">{{$data['user']->about}}</p>
-                    <div class="clear-fix">
-                        <div class="float-right">
-                            <a href="{{route('profile.view', $data['user']->portfolio)}}" class="--a-btn-custom mr-1" target="blank">View resume</a>
-                            <a href="{{route('profile.download', $data['user']->portfolio)}}" class="--a-btn-custom mr-1">Download Resume</a>
-                            @if (Auth::user()->position_id == 1 || Auth::user()->team_id === null)
+                    <div class="d-flex flex-wrap justify-content-end">
+                        <a href="{{route('profile.view', $data['user']->portfolio)}}" class="--a-btn-custom mr-1 mb-1" target="blank">View resume</a>
+                        
+                        <a href="{{route('profile.download', $data['user']->portfolio)}}" class="--a-btn-custom mr-1 mb-1">Download Resume</a>
+                        
+                        @if (Auth::user()->position_id == 1 || Auth::user()->team_id === null)
                                 @if (($data['user']->team_id == null || ($data['user']->team_id !== null && $data['user']->position == 'CEO/COO')) && (!($data['received']->contains('sender_id', $data['user']->id)) && !($data['sent']->contains('receiver_id', $data['user']->id))))
-                                <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();" class="--a-btn-custom">Connect</a>
+                                <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();" class="--a-btn-custom mb-1 mr-1">Connect</a>
 
                                 <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
                                     @csrf
@@ -43,7 +44,7 @@
                                 @endif   
                             @endif  
                         </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>
