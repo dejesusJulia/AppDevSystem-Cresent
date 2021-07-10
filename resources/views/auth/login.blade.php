@@ -18,7 +18,7 @@
       }
       
     </style>
-    <title>Sign in & Sign up Form</title>
+    <title>Cresent</title>
   </head>
   <body>
     <div class="container">

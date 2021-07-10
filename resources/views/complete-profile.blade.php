@@ -6,58 +6,73 @@
         <div class="col-md-8">
             <x-alert></x-alert>
             <div class="card mb-3">
-                <div class="card-header">
+                <div class="card-header --card-header-bg">
                     <h3>Complete your profile</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body --card-body-bg --text-color-goldenrod p-4">
                     <form action="{{route('complete.update')}}" method="post" enctype="multipart/form-data" class="form">
                         @csrf
                         <div class="form-group row">
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" name="avatar" id="avatar" class="custom-file-input">
-                                        <label class="custom-file-label" for="avatar">Choose photo</label>
-                                    </div>
-                                </div>
+                            <div class="col-6 mb-1">
+                                <input type="file" name="avatar" id="avatar" hidden onchange="event.preventDefault(); document.getElementById('avatar-label').innerText = document.getElementById('avatar').files[0].name">
+
+                                <label for="avatar" id="avatar-label" class="--file-label-btn-goldenrod btn btn-block">Upload your image</label>
+
+                                @error('avatar')
+                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                @enderror 
                             </div>
                             
-                            <div class="col-6">
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" name="portfolio" id="portfolio" class="custom-file-input">
-                                        <label for="portfolio" class="custom-file-label">Upload resume</label>
+                            <div class="col-6 mb-1">
+                                <input type="file" name="portfolio" id="portfolio" hidden onchange="event.preventDefault(); document.getElementById('portfolio-label').innerText = document.getElementById('portfolio').files[0].name">
+                                
+                                <label for="portfolio" id="portfolio-label"
+                                class="--file-label-btn-goldenrod btn btn-block">Upload resume</label>
+                                @error('portfolio')
+                                    <div>
+                                        <small style="color: rgb(255, 121, 121)">{{$message}}</small>
                                     </div>
-                                </div>
+                                @enderror
                             </div>                      
                         </div>
 
                         <div class="form-group row">
                             <label for="website" class="col-sm-3">Website/Social Media</label>
-                            <input type="text" name="website" id="website" class="col-sm-8 form-control" placeholder="Put your personal website or link to your social media">
+                            <div class="col-sm-9">
+                                <input type="text" name="website" id="website" class="form-control --input-text-box" placeholder="Put your personal website or link to your social media">
+                                @error('website')
+                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                @enderror 
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="about">About</label>
-                            <textarea name="about" id="about" class="form-control" cols="30" rows="5"></textarea>
+                        <div class="form-group row">
+                            <label for="about" class="col-sm-3">About</label>
+                            <div class="col-sm-9">
+                                <textarea name="about" id="about" class="form-control --input-text-box" cols="20" rows="5"></textarea>
+                                @error('about')
+                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                @enderror 
+                            </div>  
                         </div>
 
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label for="position" class="input-group-text">Your desired position/role</label>
-                                </div>
-                                <select name="position_id" id="position" class="custom-select">
+                        <div class="form-group row">
+                            <label for="position" class="col-sm-3">Position/Role</label>
+                            <div class="col-sm-9">
+                                <select name="position_id" id="position" class="--input-text-box form-control">
                                     <option value="" selected disabled>Choose one</option>
                                     @foreach ($positions as $position)
                                         <option value="{{$position->id}}">{{$position->position}}</option>
                                     @endforeach
-                                </select>
-                            </div>    
+                                </select>   
+                                @error('position_id')
+                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                @enderror 
+                            </div>
                         </div>
 
                         <div>
-                            <button type="submit" class="btn btn-primary btn-block">Update</button>
+                            <button type="submit" class="btn --a-btn-custom btn-block mb-1">Update</button>
                         </div>
                     </form>
                 </div>
@@ -66,7 +81,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card mb-3">
+            <div class="card mb-3 --bg-translucent --text-color-dark">
                 <div class="card-header">
                     Positions and their functions
                 </div>

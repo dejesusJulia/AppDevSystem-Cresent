@@ -86,7 +86,7 @@
                             <button class="btn --accordion-btn btn-block m-0" data-toggle="collapse" data-target="#member-collapse">Members</button>
                         </div>
 
-                        <div id="member-collapse" class="collapse" data-parent="#team-accordion">
+                        <div id="member-collapse" class="collapse show" data-parent="#team-accordion">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover">

@@ -27,7 +27,7 @@
 
 </head>
 <body >
-    <div id="app" >
+    <div id="app" class="bckgd-img">
         <nav class="navbar navbar-expand-md navbar-light --card-body-bg shadow-sm">
             <div class="container">
                 <a class="--a-links-light" href="{{ route('home') }}">
@@ -86,7 +86,7 @@
         </nav>
 
         <div >
-            <img src="{{asset('storage/img/Backdrops/Mesh.jpg')}}" alt="" class="--backdrop">
+            {{-- <img src="{{asset('storage/img/Backdrops/Mesh.jpg')}}" alt="" class="--backdrop"> --}}
             {{-- <div class="--overlay"></div> --}}
             
             <main class="py-4">
