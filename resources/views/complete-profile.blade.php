@@ -77,9 +77,9 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
+        {{-- POSITIONS DISPLAY --}}
         <div class="col-md-4">
             <div class="card mb-3 --bg-translucent --text-color-dark">
                 <div class="card-header">

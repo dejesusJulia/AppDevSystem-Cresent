@@ -9,10 +9,8 @@ use App\Connection;
 use App\Category;
 use App\Subject;
 use App\Team;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiController extends Controller
@@ -33,8 +31,6 @@ class ApiController extends Controller
 
     // SEARCH BY POSITION
     public function searchByPosition($positionId, $name){
-        // $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->paginate(10);
-
         $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
         $userCollect = [];
         foreach($users as $user){
@@ -248,12 +244,14 @@ class ApiController extends Controller
         return response()->json(collect($teamsArr));
     }
 
+    // GET COUNT OF CONNECTIONS PER WEEK
     public function betweenDates($startDate, $endDate){
         $connections = Connection::select(DB::raw('count(*) as user_count'))->whereBetween('created_at', [$startDate, $endDate])->first();
 
         return $connections;
     }
 
+    // GET WEEK DATES PER MONTH
     public function getWeeklyDatesPerMonth(){
         $year = date('Y');
         $month = date('F');
@@ -289,18 +287,20 @@ class ApiController extends Controller
         ];
     }
 
+    // GET WEEK LABELS IN CURRENT MONTH
     public function getWeekLabels(){
         $weekDate = $this->getWeeklyDatesPerMonth();
         $weekDateCount = count($weekDate['startDates']);
         $dateLabels = [];
 
         for($d = 0; $d < $weekDateCount; $d++){
-            $dateLabels[$d] = date('m/d', strtotime($weekDate['startDates'][$d])) . ' - ' . date('m/d', strtotime($weekDate['endDates'][$d]));
+            $dateLabels[$d] = date('Md', strtotime($weekDate['startDates'][$d])) . ' - ' . date('Md', strtotime($weekDate['endDates'][$d]));
         }
 
         return $dateLabels;
     }
 
+    // GET STATS OF CONNECTION REQUESTS PER WEEK IN A MONTH
     public function connectionsData(){
         $weekDates = $this->getWeeklyDatesPerMonth();
         $weekDateCount = count($weekDates['startDates']);

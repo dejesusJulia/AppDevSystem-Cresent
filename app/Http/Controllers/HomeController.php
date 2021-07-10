@@ -61,6 +61,7 @@ class HomeController extends Controller
         
     }
 
+    // PROFILE COMPLETION GET REQUEST
     public function edit(){
         if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
             $positions = $this->position->getAllPosition();
@@ -72,6 +73,7 @@ class HomeController extends Controller
         
     }
 
+    // PROFILE COMPLETION POST REQUEST
     public function update(NewUserInfoRequest $request){ 
         $id = auth()->user()->id;
         $request->avatar->store('avatars', 'public');
@@ -88,6 +90,7 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
+    // ADMIN DASHBOARD
     public function dash(){
         $userCount = User::whereNotIn('id', [auth()->user()->id])->count();
         $positionCount = $this->position->getPositionCount();
@@ -111,6 +114,7 @@ class HomeController extends Controller
         return view('admin.dash', compact('data'));
     }
 
+    // SEARCH PAGE: BY POSITION
     public function selectByPosition($positionId){
         $data = [
             'positions' => $this->position->getAllPosition(), 
@@ -121,6 +125,7 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
+    // SEARCH PAGE: BY SUBJECT/FIELD OF EXPERTISE
     public function selectBySubject($subjectId){
         $data = [
             'positions' => $this->position->getAllPosition(), 
@@ -131,6 +136,7 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
+    // SEARCH PAGE: NO SUBJECTS/FIELDS
     public function selectNullCateg(){
         $users = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('categories', 'users.id', '=', 'categories.user_id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('categories.user_id')->get();
 
@@ -143,6 +149,7 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
+    // SEARCH PAGE: BY POSITION && SUBJECT
     public function selectByPS(Request $request){
         $data = [
             'positions' => $this->position->getAllPosition(), 
@@ -154,6 +161,7 @@ class HomeController extends Controller
         return view('search-by', compact('data'));
     }
 
+    // SEARCH PAGE: ALL USERS
     public function searchResults(){
         $data = [
             'subjects' => $this->subject->showAllSub(), 

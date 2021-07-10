@@ -135,167 +135,239 @@
 @endisset
 {{-- MAIN CONTENT --}}
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <x-alert></x-alert>
-            {{-- LOGGED IN! --}}
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h3>User Dashboard</h3>
-                </div>
+    <div class="row">
+        {{-- USER INFORMATION/aside --}}
+        <div class="col-md-4">
+            <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
+                <div class="card-header --card-header-bg --text-color-light text-center" style="border-radius:15px 15px 0 0;">User Information</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                <div class="card-body --custom-card-body --card-body-bg --text-color-papaya-whip">
+                    <div class="d-flex flex-column align-items-center text-center --users">
+
+                        <img src="{{asset('storage/avatars/'. Auth::user()->avatar)}}" alt="user" class="rounded-circle" style="width: 100px; height:100px; object-fit:contain;">
+                        <div class="mt-3">
+                            <h4>{{$data['user']->name}}</h4>
+                            <p class="--positions">{{$data['user']->position}}</p>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <a href="{{route('profile.edit', auth()->user()->id)}}" class="--edit-profile btn btn-block">Edit profile</a>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <a href="#" data-target="#subject-expertise" data-toggle="modal" class="--add-expertise btn btn-block">Add field of expertise</a>
+
+                                    <form action="{{route('category.destroy', $category->id)}}" method="post" id="category-destroy-form-{{$category->id}}" class="d-none">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            
                         </div>
-                    @endif
+                    </div>
 
-                    {{ __('You are logged in!') }}
+                    <hr class="--separator">
 
-                    <a href="{{route('search.searchresults')}}">search</a>
+                    <div class="row p-2">
+                        <div class="col-12 mb-3 d-flex --details justify-content-between">
+                            <div class="--icons">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="--info">{{$data['user']->website}}</div>
+                        </div>
+
+                        <div class="col-12 mb-3 d-flex justify-content-between --details">
+                            <div class="--icons">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="--info">{{$data['user']->email}}</div>
+                        </div>
+
+                        @isset($data['user']->team_name)
+                        <div class="col-12 mb-3 d-flex justify-content-between --details">
+                            <div class="--icons">
+                                <i class="fas fa-users"></i>
+                            </div>
+
+                            <div class="--info">{{$data['user']->team_name}}</div>
+                        </div>
+                        @endisset
+                    </div>
+
+                    <hr class="--separator">
+
+                    <div class="p-2">
+                        <div class="d-flex flex-column --about">
+                            <h1>About</h1>
+                            <p>{{$data['user']->about}}</p>
+                        </div>
+                    </div>
+
+                    <hr class="--separator">
+
+                    <div class="p-2">
+                        <div class="d-flex flex-column">
+                            <div class="--expertise">
+                                <h1>Field/s of expertise</h1>
+                            </div>
+
+                            <div class="--fields d-flex flex-column">
+                                @forelse ($data['categories'] as $category)
+                                <div class="d-flex justify-content-between">
+                                    <p>
+                                        @if ($category->subject_id == null || $category->others !== null)
+                                        {{$category->others}}
+                                        @else
+                                            {{$category->subject_name}}
+                                        @endif
+                                    </p>
+    
+                                    <a href="#" data-target="#category-destroy-modal-{{$category->id}}" data-toggle="modal" class="--delete">Delete</a>   
+                                </div>
+
+                                @empty 
+                                <div class="d-flex justify-content-center">
+                                    <p>You have not added a field yet</p>
+                                </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        
-            {{-- USER INFO --}}
-            <div class="card mb-3">
-                <div class="card-header">
-                    User info
+        </div>
+
+        {{-- MAIN COLUMN --}}
+        <div class="col-md-8">
+            <x-alert></x-alert>
+            {{-- DASH --}}
+            <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
+                <div class="card-header --card-header-bg text-center --text-color-light" style="border-radius:15px 15px 0 0;">
+                    <h3 class="mb-0">User Dashboard</h3>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>Name: {{$data['user']->name}}</li>
-                        <li>Position: {{$data['user']->position}}</li>
-                        <li>Email: {{$data['user']->email}}</li>
-                        <li>Personal Website/Social Media: {{$data['user']->website}}</li>
-                        @isset($data['user']->team_name)
-                            <li>Team: {{$data['user']->team_name}}</li>  
-                        @endisset
-                    </ul>
-                    <h4>About:</h4>
-                    <p>{{$data['user']->about}}</p>
 
-                    {{-- FIELDS OF EXPERTISE --}}
-                    <h4>Fields of Expertise:</h4>
-                    <ul class="list-unstyled">
-                        @forelse ($data['categories'] as $category)
-                            <li>
-                                @if ($category->subject_id == null)
-                                    {{$category->others}}
-                                @else
-                                    {{$category->subject_name}}
-                                @endif
-                                - 
-                                <a href="#" data-target="#category-destroy-modal-{{$category->id}}" data-toggle="modal">Delete</a> 
-                            </li>
-                            
-                            <form action="{{route('category.destroy', $category->id)}}" method="post" id="category-destroy-form-{{$category->id}}" class="d-none">
-                                @csrf
-                                @method('delete')
-                            </form>
-                        
-                        @empty 
-                        <li>You have not added any fields</li>
-                        @endforelse
-                    </ul>
-                  
-                    {{-- OTHERS --}}
-                    <h4>Others</h4>
-                    <ul>
-                        <li>
-                            <a href="{{route('profile.edit', auth()->user()->id)}}">Edit profile</a>
-                        </li>
+                <div class="card-body --card-body-bg --text-color-light --custom-card-body">
+                    <div class="d-flex justify-content-around --dashboard">
+                        <h5>Welcome to Cresent!</h5>
+                        <a href="{{route('search.searchresults')}}" class="--search-link">Search Users</a>
+                    </div>
 
-                        <li>
-                            <a href="#" data-target="#subject-expertise" data-toggle="modal">Add field of expertise</a>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
 
             {{-- SENT REQUESTS --}}
-            <div class="card mb-3">
-                <div class="card-header">
+            <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
+                <div class="card-header --card-header-bg text-center --text-color-light" style="border-radius:15px 15px 0 0;">
                     Sent requests
                 </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li>
+                <div class="card-body --card-body-bg --text-color-light --custom-card-body">
+                    <table class="--sent-request-tbl">
+                        <thead>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </thead>
+
+                        <tbody>
                             @forelse ($data['sent'] as $sent)
-                            {{$sent->name}} - {{$sent->email}}
+                            <tr>
+                                <td>{{$sent->name}}</td>
+                                <td>{{$sent->email}}</td>
 
-                            @if ($sent->accept == true)
-                                - accepted
-                            @elseif($sent->accept == false)
-                                - declined
-                                - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
-                            @elseif($sent->accept === null)
-                                - not viewed yet
-
-                                - <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
-                            @endif
-                            
-                            <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
-                                @csrf
-                                @method('delete')
-                            </form>
+                                @if ($sent->accept == true)
+                                <td>Accepted</td>
+                                @elseif($sent->accept == false)
+                                <td>Declined</td>
+                                @elseif($sent->accept === null)
+                                <td>Not viewed Yet</td>
+                                <td>
+                                    <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
+                                    <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                </td>
+                                @endif
+                            </tr>
                             @empty
-                                You have not sent anything
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
                             @endforelse
-                        </li>     
-                    </ul>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
             {{-- RECEIVED REQUESTS --}}
-            <div class="card mb-3">
-                <div class="card-header">
+            <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
+                <div class="card-header --card-header-bg text-center --text-color-light" style="border-radius:15px 15px 0 0;">
                     Received requests
                 </div>
-                <div class="card-body">
-                    <ul>  
-                        @forelse ($data['received'] as $received)
-                        <li class="mb-2">
-                            {{$received->name}} - {{$received->email}}
+                <div class="card-body card-body --card-body-bg --text-color-light --custom-card-body">
+                    <table class="--received-request-tbl">
+                        <thead>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </thead>
 
-                            @if ($received->accept === null)
-                                <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
-                                    confirm
-                                </span>
+                        <tbody>
+                            @forelse ($data['received'] as $received)
+                            <tr>
+                                <td>{{$received->name}}</td>
+                                <td>{{$received->email}}</td>
+                                @if ($received->accept === null)
+                                <td>
+                                    <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
+                                        confirm
+                                    </span>
 
-                                <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
-
-                            @elseif($received->accept == true)
-                                <span class="btn btn-success btn-sm disabled mr-2">
-                                    Confirmed
-                                </span>
-
-                                <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
-                            
-                            @elseif($received->accept == false)
-                                <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
-                                confirm
-                                </span>
-
-                                <span class="btn btn-secondary btn-sm disabled mr-2">
-                                    declined
-                                </span>
-                            @endif
-
-                            <form action="{{route('connection.acceptrequest', $received->id)}}" method="post" id="accept-{{$received->id}}" class="d-none">
-                                @csrf
-                                @method('put')
-                            </form>
-
-                            <form action="{{route('connection.declinerequest', $received->id)}}" method="post" id="decline-{{$received->id}}" class="d-none">
-                                @csrf
-                                @method('put')
-                            </form>
-                        </li>
-                        @empty
-                            <li>You have no connection requests</li>
-                        @endforelse
-                    </ul>
+                                    <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                </td>
+                                @elseif($received->accept == true)
+                                <td>
+                                    <span class="btn btn-success btn-sm disabled mr-2">
+                                        Confirmed
+                                    </span>
+                                    <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                </td>
+                                @elseif($received->accept == false)
+                                <td>
+                                    <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
+                                        confirm
+                                    </span>
+        
+                                    <span class="btn btn-secondary btn-sm disabled mr-2">
+                                        declined
+                                    </span>
+                                </td>
+                                @endif
+                                <form action="{{route('connection.acceptrequest', $received->id)}}" method="post" id="accept-{{$received->id}}" class="d-none">
+                                    @csrf
+                                    @method('put')
+                                </form>
+    
+                                <form action="{{route('connection.declinerequest', $received->id)}}" method="post" id="decline-{{$received->id}}" class="d-none">
+                                    @csrf
+                                    @method('put')
+                                </form>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

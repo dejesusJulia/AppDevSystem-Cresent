@@ -20,7 +20,7 @@ class AdminMiddleware
             return $next($request);
         }
 
-        // if ADMIN
+        // if USER
         if(auth()->user()->user_role == 0){
             return redirect()->route('home');
         }

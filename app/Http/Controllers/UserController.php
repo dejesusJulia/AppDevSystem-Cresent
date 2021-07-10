@@ -7,11 +7,20 @@ use App\Http\Requests\UserInfoRequest;
 use App\Http\Requests\AdminInfoRequest;
 use App\User;
 use App\Position;
+use App\Category;
 use App\Connection;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    protected $connection;
+    protected $category;
+
+    public function __construct()
+    {
+        $this->connection = new ConnectionController();
+        $this->category = new CategoryController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -106,6 +115,22 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $categories = $this->category->getUserCateg($user->id);
+        $connections_sender = $this->connection->getSent($user->id);
+        $connections_receiver = $this->connection->getReceived($user->id);
+
+        if(!is_array($categories) || !in_array(0, $categories) || is_a($categories, 'Illuminate\Database\Eloquent\Collection')){
+            Category::where('user_id', $user->id)->delete();
+        }
+
+        if($connections_sender !== null){
+            Connection::where('sender_id', $user->id)->delete();
+        }
+
+        if($connections_receiver !==null){
+            Connection::where('receiver_id', $user->id)->delete();
+        }
+
         User::where('id', $user->id)->delete();
         return redirect()->back()->with('message', 'User deleted successfully');
     }
@@ -124,14 +149,14 @@ class UserController extends Controller
         return response()->download(public_path('storage/resumes/' . $pdf));
     }
 
-    // ADMIN EDIT PROFILE
+    // ADMIN EDIT PROFILE GET 
     public function adminEditProfile(){
         $admin = User::select('name', 'email', 'avatar', 'website')->where('id', auth()->user()->id)->first();
 
         return view('admin.edit-admin-profile', compact('admin'));
     }
 
-    // ADMIN UPDATE PROFILE
+    // ADMIN UPDATE PROFILE POST
     public function adminUpdateProfile(AdminInfoRequest $request){
         $userId = auth()->user()->id;
         $avatar = User::select('avatar')->where('id', $userId)->first();     

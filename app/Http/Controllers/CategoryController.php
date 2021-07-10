@@ -8,26 +8,6 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,17 +29,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Category  $category
@@ -71,6 +40,7 @@ class CategoryController extends Controller
         return redirect()->back()->with('message', 'Delete successful');
     }
 
+    // GET ALL CATEGORIES OF A USER
     public function getUserCateg($userId){
         $user = Category::select('id')->where('user_id', $userId)->get();
         $categories = [];
@@ -84,6 +54,7 @@ class CategoryController extends Controller
         return $categories;
     }
 
+    // JOIN CATEGORIES, USERS, AND SUBJECTS TABLE
     public function joinCUS(){
         $categories = Category::join('users', 'categories.user_id', '=', 'users.id')->join('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->orderBy('users.created_at', 'desc')->get();
 

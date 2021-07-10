@@ -23,16 +23,6 @@ class SubjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -59,17 +49,6 @@ class SubjectController extends Controller
     {
         $subject = Subject::where('id', $subject->id)->first();
         return $subject;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Subject $subject)
-    {
-        //
     }
 
     /**
@@ -103,6 +82,7 @@ class SubjectController extends Controller
         return redirect()->back()->with('message', 'Subject deleted successfully');
     }
 
+    // GET NUMBER OF SUBJECTS
     public function getSubCount(){
         return Subject::count();
     }

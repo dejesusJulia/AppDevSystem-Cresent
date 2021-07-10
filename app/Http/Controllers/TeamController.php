@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Team;
 use App\User;
 use App\Connection;
-// use Illuminate\Http\Request;
 use App\Http\Requests\TeamRequest;
 
 class TeamController extends Controller
@@ -128,23 +127,27 @@ class TeamController extends Controller
         // dd($users);
     }
 
+    // ADD MEMBER FROM SENT REQUESTS
     public function addMemberSent($member){
         User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
 
         return redirect()->back()->with('message', 'Member added!');
     }
 
+    // ADD MEMBER FROM RECEIVED REQUESTS
     public function addMemberReceived($member){
         User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
 
         return redirect()->back()->with('message', 'Member added!');
     }
 
+    // REMOVE A MEMBER
     public function removeMember($member){
         User::where('id', $member)->update(['team_id' => null]);
         return redirect()->back()->with('message', 'Member removed.');
     }
 
+    // NUMBER OF TEAMS
     public function teamCount(){
         return Team::count();
     }

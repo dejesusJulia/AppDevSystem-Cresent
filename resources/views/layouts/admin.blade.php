@@ -198,9 +198,6 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- Library for adding dinamically elements -->
   <script src="{{asset('js/material-dashboard/plugins/arrive.min.js')}}" type="text/javascript"></script>
 
-  <!--  Google Maps Plugin    -->
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-
   <!-- Chartist JS -->
   <script src="{{asset('js/material-dashboard/plugins/chartist.min.js')}}" type="text/javascript"></script>
 
@@ -398,6 +395,7 @@ The above copyright notice and this permission notice shall be included in all c
     });
   </script>
 
+{{-- IF ON DASHBOARD --}}
   @if (Route::currentRouteName()== 'dash')
     {{-- CHARTS --}}
   <script type="text/javascript">
@@ -415,7 +413,7 @@ The above copyright notice and this permission notice shall be included in all c
       tension: 0
     }),
     low: 0,
-    high: 12, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 12, 
     chartPadding: {
       top: 0,
       right: 0,
@@ -457,9 +455,6 @@ The above copyright notice and this permission notice shall be included in all c
   // start animation for the Completed Tasks Chart - Line Chart
   md.startAnimationForLineChart(subjectsToUserChart);
 
-
-  /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
   var dataConnectionsCountChart = {
     labels: {!!json_encode($data['weeklyDates'])!!},
     series: [
@@ -492,12 +487,12 @@ The above copyright notice and this permission notice shall be included in all c
   ];
   var connectionsCountChart = Chartist.Bar('#connectionsCountChart', dataConnectionsCountChart, optionsConnectionsCountChart, responsiveOptions);
 
-  //start animation for the Emails Subscription Chart
   md.startAnimationForBarChart(connectionsCountChart);
   }
   </script>
   @endif
 
+  {{-- IF ON POSITIONS PAGE --}}
   @if (Route::currentRouteName()== 'position.index')
   <script type="text/javascript">
     $(document).ready( function () {
@@ -506,6 +501,7 @@ The above copyright notice and this permission notice shall be included in all c
   </script>
   @endif
 
+  {{-- IF ON SUBJECTS PAGE --}}
   @if (Route::currentRouteName()== 'subject.index')
   <script type="text/javascript">
     $(document).ready( function () {
@@ -514,6 +510,7 @@ The above copyright notice and this permission notice shall be included in all c
   </script>
   @endif
 
+  {{-- IF ON USERS PAGE --}}
   @if (Route::currentRouteName()== 'users.index')
   <script type="text/javascript">
     $(document).ready( function () {
@@ -522,6 +519,7 @@ The above copyright notice and this permission notice shall be included in all c
   </script>
   @endif
 
+  {{-- IF ON ADMIN PROFILE --}}
   @if (Route::currentRouteName() == 'admin.editprofile')
   <script type="text/javascript">
     $('.form-file-simple .inputFileVisible').click(function() {
