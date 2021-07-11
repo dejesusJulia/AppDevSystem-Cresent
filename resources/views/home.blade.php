@@ -78,7 +78,7 @@
 @endforelse
 
 {{-- DELETE CONNECTION MODAL --}}
-@foreach ($data['sent'] as $sents)
+@foreach ($data['sent']->data as $sents)
     <div class="modal fade" id="sent-destroy-modal-{{$sents->id}}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -104,8 +104,6 @@
 
 {{-- DELETE TEAM MODAL --}}
 @isset(Auth::user()->team_id)
-    
-
 <div class="modal fade" id="team-delete-modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -156,10 +154,7 @@
                                 <div class="col-md-7">
                                     <a href="#" data-target="#subject-expertise" data-toggle="modal" class="--add-expertise btn btn-block">Add field of expertise</a>
 
-                                    <form action="{{route('category.destroy', $category->id)}}" method="post" id="category-destroy-form-{{$category->id}}" class="d-none">
-                                        @csrf
-                                        @method('delete')
-                                    </form>
+                                    
                                 </div>
                             </div>
                             
@@ -215,15 +210,17 @@
                             <div class="--fields d-flex flex-column">
                                 @forelse ($data['categories'] as $category)
                                 <div class="d-flex justify-content-between">
-                                    <p>
-                                        @if ($category->subject_id == null || $category->others !== null)
-                                        {{$category->others}}
-                                        @else
-                                            {{$category->subject_name}}
-                                        @endif
-                                    </p>
-    
-                                    <a href="#" data-target="#category-destroy-modal-{{$category->id}}" data-toggle="modal" class="--delete">Delete</a>   
+                                    @if ($category->subject_id == null || $category->others !== null)
+                                    <p>{{$category->others}}</p>
+                                    @else
+                                    <p>{{$category->subject_name}}</p>
+                                    <a href="#" data-target="#category-destroy-modal-{{$category->id}}" data-toggle="modal" class="--delete">Delete</a>
+
+                                    <form action="{{route('category.destroy', $category->id)}}" method="post" id="category-destroy-form-{{$category->id}}" class="d-none">
+                                        @csrf
+                                        @method('delete')
+                                    </form>
+                                    @endif   
                                 </div>
 
                                 @empty 
@@ -263,45 +260,80 @@
                     Sent requests
                 </div>
                 <div class="card-body --card-body-bg --text-color-light --custom-card-body">
-                    <table class="--sent-request-tbl">
-                        <thead>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </thead>
+                    <div class="table-responsive">
+                        <table class="table table-borderless" id="sent-reqs-tbl">
+                            <thead>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </thead>
 
-                        <tbody>
-                            @forelse ($data['sent'] as $sent)
-                            <tr>
-                                <td>{{$sent->name}}</td>
-                                <td>{{$sent->email}}</td>
+                            <tbody>
+                                @forelse ($data['sent']->data as $sent)
+                                <tr>
+                                    <td>{{$sent->name}}</td>
+                                    <td>{{$sent->email}}</td>
 
-                                @if ($sent->accept == true)
-                                <td>Accepted</td>
-                                @elseif($sent->accept == false)
-                                <td>Declined</td>
-                                @elseif($sent->accept === null)
-                                <td>Not viewed Yet</td>
-                                <td>
-                                    <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
-                                    <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
-                                        @csrf
-                                        @method('delete')
-                                    </form>
-                                </td>
+                                    @if ($sent->accept == true)
+                                    <td>Accepted</td>
+                                    @elseif($sent->accept == false)
+                                    <td>Declined</td>
+                                    @elseif($sent->accept === null)
+                                    <td>Not viewed Yet</td>
+                                    <td>
+                                        <a href="#" data-target="#sent-destroy-modal-{{$sent->id}}" data-toggle="modal">Delete request</a>
+                                        <form action="{{route('connection.destroy', $sent->id)}}" method="post" id="connection-destroy-form-{{$sent->id}}">
+                                            @csrf
+                                            @method('delete')
+                                        </form>
+                                    </td>
+                                    @endif
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    @if ($data['sent']->data !== null)
+                    {{$data['sent']->current_page}}
+                        {{-- <nav>
+                            <ul class="pagination">
+                                @if ($data['sent']->prev_page_url !== null)
+                                    <li class="page-item">
+                                        <a href="{{$data['sent']->prev_page_url}}" class="page-link">Prev</a>
+                                    </li>
+                                @else 
+                                <li class="page-item disabled">
+                                    <a href="#" class="page-link">Prev</a>
+                                </li>
                                 @endif
-                            </tr>
-                            @empty
-                            <tr>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+
+                                @for ($i = 1; $i < $data['sent']->last_page; $i++)
+                                    <li class="page-item">
+                                        <a href="{{$i}}" class="page-link">a</a>
+                                    </li>
+                                @endfor
+
+                                @if ($data['sent']->next_page_url !== null)
+                                    <li class="page-item">
+                                        <a href="{{$data['sent']->next_page_url}}" class="page-link">Next</a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link"></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav> --}}
+                    @endif
                 </div>
             </div>
 
@@ -311,7 +343,7 @@
                     Received requests
                 </div>
                 <div class="card-body card-body --card-body-bg --text-color-light --custom-card-body">
-                    <table class="--received-request-tbl">
+                    <table class="--received-request-tbl" id="received-reqs-tbl">
                         <thead>
                             <th>Name</th>
                             <th>Email</th>
@@ -319,32 +351,34 @@
                         </thead>
 
                         <tbody>
-                            @forelse ($data['received'] as $received)
+                            @forelse ($data['received']->data as $received)
                             <tr>
                                 <td>{{$received->name}}</td>
                                 <td>{{$received->email}}</td>
                                 @if ($received->accept === null)
                                 <td>
-                                    <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
+                                    <span class="--confirm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
                                         confirm
                                     </span>
 
-                                    <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                    <span class="--decline" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
                                 </td>
                                 @elseif($received->accept == true)
                                 <td>
-                                    <span class="btn btn-success btn-sm disabled mr-2">
+                                    <span class="--confirmed disabled mr-2">
                                         Confirmed
                                     </span>
-                                    <span class="btn btn-secondary btn-sm" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                    @if ($received->team_id !== Auth::user()->team_id)
+                                        <span class="--decline" onclick="event.preventDefault(); document.getElementById('decline-{{$received->id}}').submit();">Decline</span>
+                                    @endif
                                 </td>
                                 @elseif($received->accept == false)
                                 <td>
-                                    <span class="btn btn-success btn-sm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
+                                    <span class="--confirm mr-2" onclick="event.preventDefault();document.getElementById('accept-{{$received->id}}').submit();">
                                         confirm
                                     </span>
         
-                                    <span class="btn btn-secondary btn-sm disabled mr-2">
+                                    <span class="--declined disabled mr-2">
                                         declined
                                     </span>
                                 </td>
@@ -371,6 +405,29 @@
                 </div>
             </div>
 
+            {{-- TEAM MANAGEMENT --}}
+            <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
+                <div class="card-header --card-header-bg text-center --text-color-light" style="border-radius:15px 15px 0 0;">
+                    Team Management
+                </div>
+
+                <div class="card-body card-body --card-body-bg --text-color-light --custom-card-body">
+                    <table id="sample" class="table">
+                        <thead>
+                            <th>ss</th>
+                            <th>ss</th>
+                            <th>ss</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ssss</td>
+                                <td>ssss</td>
+                                <td>ssss</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             {{-- OTHERS --}}
             <div class="card mb-3">
                 <div class="card-header">Others</div>

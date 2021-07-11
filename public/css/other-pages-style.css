@@ -423,6 +423,17 @@ body{
     border-top: 1px solid var(--goldenrod);
     border-bottom: 1px solid var(--goldenrod);
 }
+#sent-reqs-tbl td{
+    color: var(--papaya-whip);
+    font-size: 12px;
+}
+#sent-reqs-tbl th{
+    border-top: 1px solid var(--goldenrod);
+    border-bottom: 1px solid var(--goldenrod);
+    color: var(--papaya-whip);
+    font-size: 12px;
+}
+
 
 .--sent-request-tbl td, .--received-request-tbl td{
     padding: 20px 0 0;
@@ -443,7 +454,7 @@ body{
     color: #ff7171;
 }
 
-.--received-request-tbl td a{
+.--received-request-tbl td span{
     border: none;
     margin: 0 10px 0 0;
     font-size: 12px;
@@ -452,6 +463,7 @@ body{
     text-decoration: none;
     color: #d5a021;
     transition: all 0.5s ease-in-out;
+    cursor: pointer;
 }
 
 .--received-request-tbl td .--confirm:hover{
@@ -461,6 +473,12 @@ body{
 .--received-request-tbl td .--decline:hover{
     color: #ff7171;
 }
+
+.--received-request-tbl td .--confirmed, .--received-request-tbl td .--declined{
+    color: #2b251f;
+    cursor: text;
+}
+
 
 
 

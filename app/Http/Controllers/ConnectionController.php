@@ -47,18 +47,18 @@ class ConnectionController extends Controller
     }
 
     // GET ALL REQUESTS SENT BY USER
-    public function getSent($userId){
-        $sent = Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get();
+    // public function getSent($userId){
+    //     $sent = Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email', 'users.team_id')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get();
 
-        return $sent;
-    }
+    //     return $sent;
+    // }
 
     // GET ALL REQUESTS RECEIVED BY USER
-    public function getReceived($userId){
-        $received = Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get();
+    // public function getReceived($userId){
+    //     $received = Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email', 'users.team_id')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get();
 
-        return $received;
-    }
+    //     return $received;
+    // }
 
     
 }

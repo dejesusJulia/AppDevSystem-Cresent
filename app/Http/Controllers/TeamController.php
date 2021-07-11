@@ -86,7 +86,7 @@ class TeamController extends Controller
 
             'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->whereNull('users.team_id')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
 
-            'members' => User::select('users.id', 'users.name', 'users.email')->where('team_id', $teamId)->get(), 
+            'members' => User::select('users.id', 'users.name', 'users.email', 'users.position_id')->where('team_id', $teamId)->get(), 
 
             'teamInfo' => $teamInfo
         ];

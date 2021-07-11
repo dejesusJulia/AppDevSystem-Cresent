@@ -24,7 +24,8 @@ Route::get('/count-of-users-per-subject', 'ApiController@subjectUserCount');
 Route::get('/count-of-registered-users', 'ApiController@registeredUsersCount');
 Route::get('/count-of-team-members', 'ApiController@teamMembersCount');
 Route::get('/connection-count', 'ApiController@connectionsData');
-// Route::get('/connection-count', 'ApiController@betweenDates');
+Route::get('/get-sent/{userId}', 'ApiController@getSent');
+Route::get('/get-received/{userId}', 'ApiController@getReceived');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

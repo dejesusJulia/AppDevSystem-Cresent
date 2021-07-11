@@ -46,12 +46,13 @@ class HomeController extends Controller
         }else{
             $userId = auth()->user()->id;
             $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $userId)->first();
-
+            $sent = $this->api->getSent($userId);
+            $received = $this->api->getReceived($userId);
             $data = [
                 'user' => $user, 
                 'categories' =>$this->category->getUserCateg($userId), 
-                'sent' => $this->connection->getSent($userId), 
-                'received' => $this->connection->getReceived($userId),
+                'sent' => json_decode($sent->content()), 
+                'received' => json_decode($received->content()),
                 'subjects' => $this->subject->showAllSub(), 
                 'positions' => $this->position->getAllPosition(), 
                 'teams' => $this->team->getTeamNames()

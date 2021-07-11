@@ -79,6 +79,21 @@ class ApiController extends Controller
         return response()->json($users);
     }
 
+    // GET ALL REQUESTS SENT BY USER
+    public function getSent($userId){
+        $sent = Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email', 'users.team_id')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->paginate(5, ['*'], 'get-sent');
+
+        return response()->json($sent);
+    }
+
+    // GET ALL REQUESTS RECEIVED BY USER
+    public function getReceived($userId){
+        $received = Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email', 'users.team_id')->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->paginate(5, ['*'], 'get-received');
+
+        return response()->json($received);
+    }
+
+    #### ADMIN ####
     // COUNT USERS PER POSITION
     public function positionUserCount(){
         $positionOfUser = [];

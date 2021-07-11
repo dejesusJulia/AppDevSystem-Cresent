@@ -99,8 +99,18 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{asset('js/material-dashboard/core/jquery.min.js')}}" type="text/javascript"></script>
+   <script src="{{asset('js/material-dashboard/core/popper.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('js/material-dashboard/plugins/jquery.dataTables.min.js')}}" type="text/javascript"></script>
+    {{-- IF ON HOME PAGE --}}
     @livewireScripts
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js" integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
+    @if (Route::currentRouteName() == 'home')
+    <script type="text/javascript">
+        $(document).ready( function () {
+        $('#sample').DataTable();
+        } );
+    </script>
+    @endif
 </body>
 </html>

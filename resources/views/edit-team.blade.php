@@ -95,7 +95,10 @@
                                             <tr>
                                                 <td>{{$member->name}}</td>
                                                 <td>{{$member->email}}</td>
-                                                @if ($member->id !== Auth::user()->id)
+                                                {{-- @if ()
+                                                    
+                                                @endif --}}
+                                                @if (Auth::user()->position_id == 1 && $member->id !== Auth::user()->id)
                                                 <td>
                                                     <span class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-member-modal-{{$member->id}}">&times;</span>
 
@@ -105,7 +108,7 @@
                                                     </form>
                                                 </td>
                                                 @else
-                                                <td>You</td>
+                                                <td>-</td>
                                                 @endif
                                             </tr>
                                             @empty
