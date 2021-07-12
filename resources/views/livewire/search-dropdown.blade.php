@@ -4,8 +4,8 @@
         <input type="search" name="search" id="search" class="form-control --search-bar" wire:model="search" placeholder="Search">
     </div>
     @forelse ($searchResults->data as $results)
-        <a href="{{route('users.show', $results->user_id)}}" class="--card-links-dark">
-            <div class="card mb-3 --card-bg-light" >
+        <a href="{{route('users.show', $results->user_id)}}" class="--search-card-links">
+            <div class="card mb-3 --search-card" >
                 <div class="card-body ">
                     <div class="media">
                         <img src="{{asset('/storage/avatars/'. $results->avatar)}}" class="align-self-start mr-3 rounded-circle" alt="avatar" width="50px" height="50px" style="object-fit: contain">
@@ -22,7 +22,7 @@
         </a>
         
     @empty 
-        <div class="card mb-3">
+        <div class="card mb-3 --search-card">
             <div class="card-body">
                 <p>No results</p>
             </div>

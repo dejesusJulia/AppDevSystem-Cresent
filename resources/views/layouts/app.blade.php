@@ -99,18 +99,24 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{asset('js/material-dashboard/core/jquery.min.js')}}" type="text/javascript"></script>
-   <script src="{{asset('js/material-dashboard/core/popper.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('js/material-dashboard/plugins/jquery.dataTables.min.js')}}" type="text/javascript"></script>
-    {{-- IF ON HOME PAGE --}}
     @livewireScripts
-    
-    @if (Route::currentRouteName() == 'home')
-    <script type="text/javascript">
-        $(document).ready( function () {
-        $('#sample').DataTable();
-        } );
-    </script>
+
+    @if (Route::currentRouteName()== 'home')
+        <script type="text/javascript">
+            function showSubjectDescription(){
+                var id = document.getElementById('subject-name').value;
+
+                var descriptions = document.querySelectorAll('.--subject-descriptions');
+
+                for(let desc of descriptions){
+                    if(id == desc.getAttribute('data-number')){
+                        desc.style.display = 'block';
+                    }else{
+                        desc.style.display = 'none';
+                    }
+                }
+            }
+        </script>
     @endif
 </body>
 </html>

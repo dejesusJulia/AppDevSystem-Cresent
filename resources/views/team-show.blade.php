@@ -2,42 +2,84 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card mb-3 --bg-translucent p-3 my-3">
-                    <div class="card-header --card-body-bg rounded mb-2">
-                        <h2 class="card-title mb-0 --text-color-goldenrod">{{$group['details']->team_name}}</h2>
-                        <span>{{$group['details']->created_at}}</span>
-                    </div>
-    
-                    <div class="card-body --text-color-light --card-body-bg rounded ">
-                        <h5 class="--text-color-goldenrod">Vision</h5>
-                            <p>{{$group['details']->team_vision}}</p>
-                        <h5 class="--text-color-goldenrod">Objectives</h5>
-                            <p>{{$group['details']->team_objectives}}</p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-header h-25 --goldenrod-bg"></div>
+
+                    <div class="card-body --dark-lava-bg p-0 text-center">
+                        <div class="list-group list-group-flush" style="border-radius: 15px">
+                            <a href="{{route('home')}}" class="list-group-item list-group-action --links-list">Home</a>
+                            <a href="{{route('search.searchresults')}}" class="list-group-item list-group-action --links-list">Search</a>
+                            <a href="{{URL::previous()}}" class="list-group-item list-group-action --links-list">Back</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mt-3">
-            <h3 class="--text-color-dark text-center">Members</h3>
-        </div>
-        <div class="row justify-content-center">
-            @foreach ($group['members'] as $member)
-            <div class="col-md-6">
-                <a href="{{route('users.show', $member->id)}}" class="--card-links-dark">
-                    <div class="card mb-3 --card-bg-light">
-                        <div class="card-body">
-                            <img src="{{asset('/storage/avatars/'.$member->avatar)}}" alt="avatar" class="rounded-circle" style="width:50px; height:50px; object-fit:contain;">
-                            <dl>
-                                <dt>{{$member->name}}</dt>
-                                <dd>{{$member->email}}</dd>
-                            </dl>
+
+            <div class="col-md-9">
+                <div class="card --dark-lava-bg rounded" style="border-radius: 15px !important;">
+                    <div class="card-body">
+                        <div class="p-3">
+                            <div class="text-center">
+                                <h2 class="card-title mb-0 --text-color-goldenrod">{{$group['details']->team_name}}</h2>
+                                <span class="--text-color-papaya-whip">{{$group['details']->created_at}}</span>
+                            </div>
+
+                            <hr class="--separator">
+
+                            <h5 class="--text-color-goldenrod">Vision</h5>
+                            <p class="--text-color-papaya-whip">{{$group['details']->team_vision}}</p>
+
+                            <hr class="--separator">
+
+                            <h5 class="--text-color-goldenrod">Objectives</h5>
+                            <p class="--text-color-papaya-whip">{{$group['details']->team_objectives}}</p>
+
+                            <hr class="--separator">
+
+                            <div>
+                                <h5 class="--text-color-goldenrod">Members</h5>
+                                <div class="list-group list-group-flush --dark-lava-bg">
+
+                                    @foreach ($group['members'] as $member)
+                                    @if ($member->id !== Auth::user()->id)
+                                        
+                                    
+                                    <a href="{{route('users.show', $member->id)}}" class="list-group-item list-group-item-action --links-list">
+                                        <div class="media" style="background-color: transparent">
+                                            <img src="{{asset('/storage/avatars/'.$member->avatar)}}" alt="" class="rounded-circle" style="width:50px; height:50px; object-fit:contain;">
+
+                                            <div class="media-body pl-4 --text-color-papaya-whip">
+                                                <dl>
+                                                    <dt>{{$member->name}}</dt>
+                                                    <dd>{{$member->email}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    @else 
+                                    <a href="{{route('home')}}" class="list-group-item list-group-item-action --links-list">
+                                        <div class="media" style="background-color: transparent">
+                                            <img src="{{asset('/storage/avatars/'.$member->avatar)}}" alt="" class="rounded-circle" style="width:50px; height:50px; object-fit:contain;">
+
+                                            <div class="media-body pl-4 --text-color-papaya-whip">
+                                                <dl>
+                                                    <dt>{{$member->name}}</dt>
+                                                    <dd>{{$member->email}}</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    @endif
+                                    @endforeach
+                                </div>
+                            </div>   
                         </div>
                     </div>
-                </a> 
+                </div>
             </div>
-            @endforeach
         </div>
     </div>
 @endsection

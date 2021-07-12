@@ -15,7 +15,7 @@
                         <label for="team-name">Team Name</label>
                         <input type="text" name="team_name" id="team-name" class="form-control --input-text-box">
                         @error('team_name')
-                            <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                            <small class="--text-color-danger">{{$message}}</small>
                         @enderror
                     </div>
                     
@@ -23,7 +23,7 @@
                         <label for="team-vision">Vision</label>
                         <textarea name="team_vision" id="team-vision" cols="30" rows="5" class="form-control --input-text-box"></textarea>
                         @error('team_vision')
-                            <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                            <small class="--text-color-danger">{{$message}}</small>
                         @enderror
                     </div>
 
@@ -31,7 +31,7 @@
                         <label for="team_objectives">Objectives</label>
                         <textarea name="team_objectives" id="team-objectives" cols="30" rows="5" class="form-control --input-text-box"></textarea>
                         @error('team_objectives')
-                            <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                            <small class="--text-color-danger">{{$message}}</small>
                         @enderror
                     </div>
 

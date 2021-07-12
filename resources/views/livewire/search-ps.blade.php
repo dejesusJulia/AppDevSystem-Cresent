@@ -4,8 +4,8 @@
     </div>
 
     @forelse ($nfpsResults->data as $result) 
-    <a href="{{route('users.show', $result->user_id)}}" class="--card-links-dark">
-        <div class="card mb-3 --card-bg-light" >
+    <a href="{{route('users.show', $result->user_id)}}" class="--search-card-links">
+        <div class="card mb-3 --search-card" >
             <div class="card-body">
                 <div class="media">
                     <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3 rounded-circle" width="50px" height="50px" style="object-fit: contain">
@@ -20,7 +20,7 @@
         </div>
     </a>
     @empty 
-    <div class="card mb-3">
+    <div class="card mb-3 --search-card">
         <div class="card-body">
             No results
         </div>
