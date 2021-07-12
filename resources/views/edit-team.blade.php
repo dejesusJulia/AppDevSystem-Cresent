@@ -16,8 +16,17 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('remove-member-form-{{$m->id}}').submit();">Remove</button>
-                    <button class="btn btn-secondary" onclick="event.preventDefault()" data-dismiss="modal">Cancel</button>
+                    <div class="row w-100">
+                        <div class="col-md-6">
+                            <button class="btn btn-block --modal-btn-danger" onclick="event.preventDefault();document.getElementById('remove-member-form-{{$m->id}}').submit();">Remove</button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <button class="btn btn-block btn-secondary" onclick="event.preventDefault()" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -29,12 +38,12 @@
         <div class="row">
             <div class="col-md-7">
                 <x-alert></x-alert>
-                <div class="card mb-3">
-                    <div class="card-header --card-header-bg --text-color-dark">
+                <div class="card mb-3" style="border-radius: 15px">
+                    <div class="card-header --goldenrod-bg --text-color-dark" style="border-radius: 15px 15px 0 0">
                         <h3 class="card-title mb-0">Edit team details</h3>
                     </div>
 
-                    <div class="card-body --card-body-bg --text-color-goldenrod">
+                    <div class="card-body --dark-lava-bg --text-color-goldenrod" style="border-radius: 0 0 15px 15px">
                         <form action="{{route('team.update', Auth::user()->team_id)}}" method="post">
                             @csrf
                             @method('patch')
@@ -78,29 +87,30 @@
                 </div>
             </div>
 
+            {{-- ASIDE SECTION --}}
             <div class="col-md-5">
                 <div class="accordion" id="team-accordion">
                     {{-- MEMBERS --}}
-                    <div class="card p-0" style="background-color: rgba(241, 241, 241, 0.578);">
-                        <div class="card-header p-0" id="members-header">
-                            <button class="btn --accordion-btn btn-block m-0" data-toggle="collapse" data-target="#member-collapse">Members</button>
+                    <div class="card p-0 --dark-lava-bg">
+                        <div class="card-header p-0 --goldenrod-bg --text-color-dark" id="members-header">
+                            <button class="btn btn-block m-0" data-toggle="collapse" data-target="#member-collapse">Members</button>
                         </div>
 
                         <div id="member-collapse" class="collapse show" data-parent="#team-accordion">
-                            <div class="card-body">
+                            <div class="card-body --dark-lava-bg --text-color-papaya-whip">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-borderless" id="members-tbl">
                                         <tbody>
                                             @forelse ($data['members'] as $member)
                                             <tr>
                                                 <td>{{$member->name}}</td>
                                                 <td>{{$member->email}}</td>
-                                                {{-- @if ()
-                                                    
-                                                @endif --}}
+                                                
                                                 @if (Auth::user()->position_id == 1 && $member->id !== Auth::user()->id)
                                                 <td>
-                                                    <span class="btn btn-sm btn-danger" data-toggle="modal" data-target="#remove-member-modal-{{$member->id}}">&times;</span>
+                                                    <span class="--tbl-danger-link" data-toggle="modal" data-target="#remove-member-modal-{{$member->id}}" style="cursor: pointer">
+                                                        <i class="fas fa-times"></i>
+                                                    </span>
 
                                                     <form action="{{route('team.removemember', $member->id)}}" method="post" id="remove-member-form-{{$member->id}}" class="d-none">
                                                         @csrf
@@ -125,22 +135,24 @@
                     </div>
 
                     {{-- SENT REQUESTS --}}
-                    <div class="card p-0" style="background-color: rgba(241, 241, 241, 0.578);">
-                        <div class="card-header p-0">
-                            <button class="btn --accordion-btn btn-block m-0" data-toggle="collapse" data-target="#sent-req-collapse">Sent Requests</button>
+                    <div class="card p-0 --dark-lava-bg">
+                        <div class="card-header p-0 --goldenrod-bg --text-color-dark">
+                            <button class="btn btn-block m-0" data-toggle="collapse" data-target="#sent-req-collapse">Sent Requests</button>
                         </div>
 
                         <div class="collapse" id="sent-req-collapse" data-parent="#team-accordion">
-                            <div class="card-body">
+                            <div class="card-body --dark-lava-bg --text-color-papaya-whip">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover" id="add-sent-tbl">
                                         <tbody>
                                             @forelse ($data['sent'] as $sent)
                                             <tr>
                                                 <td>{{$sent->name}}</td>
                                                 <td>{{$sent->email}}</td>
                                                 <td>
-                                                    <span class="btn btn-success btn-sm" onclick="event.preventDefault();document.getElementById('add-sent-form-{{$sent->receiver_id}}').submit()">&plus;</span>
+                                                    <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-sent-form-{{$sent->receiver_id}}').submit()">
+                                                        <i class="fas fa-plus"></i>
+                                                    </span>
 
                                                     <form action="{{route('team.addmembersent', $sent->receiver_id)}}" method="post" id="add-sent-form-{{$sent->receiver_id}}" class="d-none">
                                                         @csrf
@@ -150,7 +162,7 @@
                                             </tr>
                                             @empty 
                                             <tr>
-                                                No sent requests
+                                                You have not sent new requests
                                             </tr>
                                             @endforelse
                                         </tbody>
@@ -159,24 +171,26 @@
                             </div>
                         </div>
                     </div>
-                    {{-- RECEIVED REQUESTS --}}
 
-                    <div class="card p-0" style="background-color: rgba(241, 241, 241, 0.578);">
-                        <div class="card-header p-0">
-                            <button class="btn --accordion-btn btn-block m-0" data-toggle="collapse" data-target="#received-req-collapse">Received Requests</button>
+                    {{-- RECEIVED REQUESTS --}}
+                    <div class="card p-0 --dark-lava-bg">
+                        <div class="card-header p-0 --goldenrod-bg --text-color-dark">
+                            <button class="btn btn-block m-0" data-toggle="collapse" data-target="#received-req-collapse">Received Requests</button>
                         </div>
 
                         <div class="collapse" id="received-req-collapse" data-parent="#team-accordion">
-                            <div class="card-body">
+                            <div class="card-body --dark-lava-bg --text-color-papaya-whip">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-borderless" id="add-received-tbl">
                                         <tbody>
                                             @forelse ($data['received'] as $received)
                                             <tr>
                                                 <td>{{$received->name}}</td>
                                                 <td>{{$received->email}}</td>
                                                 <td>
-                                                    <span class="btn btn-success btn-sm" onclick="event.preventDefault();document.getElementById('add-received-form-{{$received->sender_id}}').submit()">&plus;</span>
+                                                    <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-received-form-{{$received->sender_id}}').submit()">
+                                                        <i class="fas fa-plus"></i>
+                                                    </span>
                                                     
                                                     <form action="{{route('team.addmemberreceived', $received->sender_id)}}" method="post" id="add-received-form-{{$received->sender_id}}" class="d-none">
                                                         @csrf

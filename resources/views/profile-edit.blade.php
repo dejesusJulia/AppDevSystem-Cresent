@@ -7,10 +7,10 @@
         <div class="col-md-8 order-md-2">
             <x-alert></x-alert>
             <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
-                <div class="card-header text-center --text-color-dark --card-header-bg" style="border-radius:15px 15px 0 0;">
+                <div class="card-header text-center --text-color-dark --goldenrod-bg" style="border-radius:15px 15px 0 0;">
                     <h4 class="card-title mb-0">Profile</h4>
                 </div>
-                <div class="card-body --card-body-bg --text-color-papaya-whip" style="border-radius: 0 0 15px 15px">
+                <div class="card-body --dark-lava-bg --text-color-papaya-whip" style="border-radius: 0 0 15px 15px">
                     <form action="{{route('profile.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('patch')
@@ -108,10 +108,10 @@
             </div>
 
             <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
-                <div class="card-header --card-header-bg" style="border-radius:15px 15px 0 0;">
+                <div class="card-header --goldenrod-bg" style="border-radius:15px 15px 0 0;">
                     <h4 class="mb-0 card-title">CV Preview</h4>
                 </div>
-                <div class="card-body --card-body-bg" style="border-radius: 0 0 15px 15px">
+                <div class="card-body --dark-lava-bg" style="border-radius: 0 0 15px 15px">
                     <div class="form-group row">
                         <div class="col-md-6">
                             <a href="{{route('profile.view', Auth::user()->portfolio)}}" target="blank" class="btn --a-btn-custom btn-block mb-1">View Resume</a>
@@ -128,11 +128,11 @@
         {{-- POSITIONS --}}
         <div class="col-md-4 order-md-1">
             <div class="card mb-3" style="background-color: transparent; border: 0px; border-radius:15px;">
-                <div class="card-header --card-header-bg" style="border-radius:15px 15px 0 0;">
+                <div class="card-header --goldenrod-bg" style="border-radius:15px 15px 0 0;">
                     <span class="card-title">Positions and their functions</span>
                 </div>
 
-                <div class="card-body --card-body-bg --text-color-papaya-whip" style="border-radius: 0 0 15px 15px">
+                <div class="card-body --dark-lava-bg --text-color-papaya-whip" style="border-radius: 0 0 15px 15px">
                     <dl>
                     @foreach ($data['positions'] as $post)
                         <dt>{{$post->position}}</dt>

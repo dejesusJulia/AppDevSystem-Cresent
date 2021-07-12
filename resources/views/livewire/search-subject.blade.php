@@ -1,8 +1,10 @@
 <div class="mb-3">
+    {{-- SEARCH BAR --}}
     <div class="form-group">
         <input type="search" name="nfs" id="nfs" class="form-control --search-bar" placeholder="Search" wire:model="nfs">
     </div>
 
+    {{-- SEARCH RESULTS --}}
     @forelse ($nfsResults->data as $result) 
     <a href="{{route('users.show', $result->user_id)}}" class="--search-card-links">
         <div class="card mb-3 --search-card" >

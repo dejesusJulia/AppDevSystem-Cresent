@@ -517,9 +517,11 @@
                         @foreach ($data['teams'] as $team)
                         <a href="{{route('team.show', $team->id)}}" class="list-group-item list-group-item-action --links-list">
                             {{$team->team_name}}
-                            <small>
-                                {{$team->created_at}}
-                            </small>
+                            <div>
+                                <small>
+                                    {{$team->created_at}}
+                                </small>
+                            </div>
                         </a>
                         @endforeach
 

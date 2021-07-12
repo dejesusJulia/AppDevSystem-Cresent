@@ -1,25 +1,30 @@
 <div class="mb-3">
+    {{-- SEARCH BAR --}}
     <div class="form-group">
         <input type="search" name="nfn" id="nfn" class="form-control --search-bar" placeholder="Search" wire:model="nfn">
     </div>
 
+    {{-- SEARCH RESULTS --}}
     @forelse ($nfnResults->data as $result) 
-    <a href="{{route('users.show', $result->user_id)}}" class="--search-card-links">
-        <div class="card mb-3 --search-card" >
-            <div class="card-body">
-                <div class="media">
-                    <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3 rounded-circle" width="50px" height="50px" style="object-fit: contain">
-                    <div class="media-body">
-                        <h5 class="mt-0">{{$result->name}}</h5>
-                        <ul class="list-unstyled">
-                            <li>{{$result->email}}</li>
-                            <li>{{$result->position}}</li>
-                        </ul>
+    @if ($result->user_id !== Auth::user()->id)
+        <a href="{{route('users.show', $result->user_id)}}" class="--search-card-links">
+            <div class="card mb-3 --search-card">
+                <div class="card-body">
+                    <div class="media">
+                        <img src="{{asset('/storage/avatars/'. $result->avatar)}}" alt="avatar" class="align-self-start mr-3 rounded-circle" width="50px" height="50px" style="object-fit: contain">
+                        <div class="media-body">
+                            <h5 class="mt-0">{{$result->name}}</h5>
+                            <ul class="list-unstyled">
+                                <li>{{$result->email}}</li>
+                                <li>{{$result->position}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
+    @endif
+
     @empty 
     <div class="card mb-3 --search-card">
         <div class="card-body">

@@ -14,8 +14,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,7 +25,8 @@
     @livewireStyles
 
 </head>
-<body >
+<body>
+    {{-- MAIN --}}
     <div id="app" class="bckgd-img">
         <nav class="navbar navbar-expand-md navbar-light --card-body-bg shadow-sm">
             <div class="container">
@@ -86,17 +85,18 @@
             </div>
         </nav>
 
-        <div >
-            {{-- <img src="{{asset('storage/img/Backdrops/Mesh.jpg')}}" alt="" class="--backdrop"> --}}
-            {{-- <div class="--overlay"></div> --}}
-            
-            <main class="py-4">
+        <div>            
+            <main class="py-4" style="min-height: 100vh">
                 @yield('content')
-            </main>
-            
-        </div>
-        
+            </main>    
+        </div>     
     </div>
+
+    {{-- FOOTER --}}
+    <footer class="--footer w-100 --dark-lava-bg --text-color-papaya-whip mt-auto p-3 text-center">
+        <p>Copyright &copy; {{now()->year}} Cresent. All Rights Reserved</p>
+    </footer>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @livewireScripts

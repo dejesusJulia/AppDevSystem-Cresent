@@ -5,10 +5,10 @@
     <x-alert></x-alert>
     <div class="col-10 offset-1">
         <div class="card">
-            <div class="card-header --card-header-bg --text-color-dark">
+            <div class="card-header --goldenrod-bg --text-color-dark">
                 <h3 class="mb-0" style="font-weight: 400">Create a new team</h3>
             </div>
-            <div class="card-body --card-body-bg --text-color-goldenrod">
+            <div class="card-body --dark-lava-bg --text-color-goldenrod">
                 <form action="{{route('team.store')}}" method="post">
                     @csrf
                     <div class="form-group">

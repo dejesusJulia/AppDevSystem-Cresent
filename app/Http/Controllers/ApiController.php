@@ -33,6 +33,8 @@ class ApiController extends Controller
     public function searchByPosition($positionId, $name){
         $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
         $userCollect = [];
+
+        // TO AVOID DUPLICATE NAME RESULTS
         foreach($users as $user){
             if(empty($userCollect)){
                 $userCollect[] = [
@@ -40,7 +42,8 @@ class ApiController extends Controller
                     'avatar' => $user->avatar,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'subject_name' => [$user->subject_name]
+                    'subject_name' => [$user->subject_name], 
+                    'others' => [$user->others ?? '']
                 ];
             }else if(in_array($user->user_id, array_column($userCollect, 'user_id'))){
                 $key = key($userCollect);
@@ -52,7 +55,8 @@ class ApiController extends Controller
                     'avatar' => $user->avatar,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'subject_name' => [$user->subject_name]
+                    'subject_name' => [$user->subject_name],
+                    'others' => [$user->others ?? '']
                 ]);
             }
         }

@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 order-md-2 mb-2">
-
+            <h3 class="--heading-size-16">Search By</h3>
             <div class="accordion" id="search-by-accordion">
                 {{-- POSITIONS --}}
                 <div class="card --card-body-bg">
@@ -84,9 +84,9 @@
 
         {{-- MAIN CONTENT --}}
         <div class="col-md-8 order-md-1">
-            <h4>
+            <h3 class="--heading-size-16">
                 <a href="{{route('search.searchresults')}}" class="--card-links-dark">Search all</a>
-            </h4>
+            </h3>
             @if (Route::currentRouteName() == 'subject.search')
                 @livewire('search-subject', ['subjectId' => $data['subjectID']])
             @elseif(Route::currentRouteName() == 'position.search')

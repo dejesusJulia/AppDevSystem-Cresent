@@ -3,13 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 order-md-2">
             <x-alert></x-alert>
-            <div class="card mb-3">
-                <div class="card-header --card-header-bg">
-                    <h3>Complete your profile</h3>
+            <div class="card mb-3" style="border-radius: 15px">
+                <div class="card-header --goldenrod-bg --text-color-dark" style="border-radius: 15px 15px 0 0">
+                    <h4 class="mb-0 text-center">Complete your profile</h4>
                 </div>
-                <div class="card-body --card-body-bg --text-color-goldenrod p-4">
+                <div class="card-body --dark-lava-bg --text-color-papaya-whip p-4" style="border-radius: 0 0 15px 15px">
                     <form action="{{route('complete.update')}}" method="post" enctype="multipart/form-data" class="form">
                         @csrf
                         <div class="form-group row">
@@ -19,7 +19,7 @@
                                 <label for="avatar" id="avatar-label" class="--file-label-btn-goldenrod btn btn-block">Upload your image</label>
 
                                 @error('avatar')
-                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                    <small class="--text-color-danger">{{$message}}</small>
                                 @enderror 
                             </div>
                             
@@ -30,7 +30,7 @@
                                 class="--file-label-btn-goldenrod btn btn-block">Upload resume</label>
                                 @error('portfolio')
                                     <div>
-                                        <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                        <small class="--text-color-danger">{{$message}}</small>
                                     </div>
                                 @enderror
                             </div>                      
@@ -41,7 +41,7 @@
                             <div class="col-sm-9">
                                 <input type="text" name="website" id="website" class="form-control --input-text-box" placeholder="Put your personal website or link to your social media">
                                 @error('website')
-                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                    <small class="--text-color-danger">{{$message}}</small>
                                 @enderror 
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="col-sm-9">
                                 <textarea name="about" id="about" class="form-control --input-text-box" cols="20" rows="5"></textarea>
                                 @error('about')
-                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                    <small class="--text-color-danger">{{$message}}</small>
                                 @enderror 
                             </div>  
                         </div>
@@ -66,7 +66,7 @@
                                     @endforeach
                                 </select>   
                                 @error('position_id')
-                                    <small style="color: rgb(255, 121, 121)">{{$message}}</small>
+                                    <small class="--text-color-danger">{{$message}}</small>
                                 @enderror 
                             </div>
                         </div>
@@ -80,7 +80,7 @@
         </div>
 
         {{-- POSITIONS DISPLAY --}}
-        <div class="col-md-4">
+        <div class="col-md-4 order-md-1">
             <div class="card mb-3 --bg-translucent --text-color-dark">
                 <div class="card-header">
                     Positions and their functions

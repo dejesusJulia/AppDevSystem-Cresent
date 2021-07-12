@@ -21,6 +21,9 @@ body{
     background-color: var(--eggshell) !important;
     font-weight: 500;
     font-family: var(--font-regular);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .bckgd-img{
@@ -29,7 +32,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    /* height: 100vh; */
+    height: 100%;
 }
 
 /* BUTTONS AND LINKS */
@@ -218,6 +221,10 @@ body{
 .--card-header-bg{ background-color: var(--goldenrod) !important;}
 .--card-body-bg{ background-color: var(--dark-lava) !important;}
 .--card-body-papaya{ background-color: var(--papaya-whip);}
+
+.--heading-size-16{
+    font-size: 16px;
+}
 
 .--text-color-light{
     color: var(--eggshell);
@@ -442,14 +449,14 @@ body{
     background: var(--papaya-whip);;
 }
 
-#sent-reqs-tbl th, #received-reqs-tbl th{
+#sent-reqs-tbl th, #received-reqs-tbl th, #members-tbl th, #add-sent-tbl th, #add-received-tbl th{
     border-top: 1px solid var(--goldenrod);
     border-bottom: 1px solid var(--goldenrod);
     color: var(--papaya-whip);
     font-size: var(--small);
 }
 
-#sent-reqs-tbl td, #received-reqs-tbl td{
+#sent-reqs-tbl td, #received-reqs-tbl td, #members-tbl td, #add-sent-tbl td, #add-received-tbl td{
     color: var(--papaya-whip);
     font-size: var(--small);
 }

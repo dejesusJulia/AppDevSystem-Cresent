@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 order-md-2 mb-2">
-                <h3>Search By</h3>
+                <h3 class="--heading-size-16">Search By</h3>
                 <div class="accordion" id="search-by-accordion">
                     {{-- POSITIONS --}}
                     <div class="card p-0 --card-body-bg">
