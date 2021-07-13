@@ -10,21 +10,27 @@ use App\Http\Requests\TeamRequest;
 class TeamController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * DISPLAY ALL 
      *
      * @return \Illuminate\Http\Response
     **/
+    // public function index()
+    // {
+    //     $teams = Team::join('users', 'teams.id', '=', 'users.team_id')->select('teams.*', 'users.id AS user_id', 'users.name', 'users.email')->get();
+        
+    //     return $teams;
+    // }
     public function index()
     {
-        $teams = Team::join('users', 'teams.id', '=', 'users.team_id')->select('teams.*', 'users.id AS user_id', 'users.name', 'users.email')->get();
-        
-        return $teams;
-    }
-
-    public function getTeamNames(){
         $teams = Team::select('id', 'team_name', 'created_at')->get();
         return $teams;
     }
+
+    // DISPLAY ALL TEAMS
+    // public function getTeamNames(){
+    //     $teams = Team::select('id', 'team_name', 'created_at')->get();
+    //     return $teams;
+    // }
 
     /**
      * Show the form for creating a new resource.

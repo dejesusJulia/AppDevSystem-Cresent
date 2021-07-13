@@ -26,7 +26,7 @@ class TeamRequest extends FormRequest
         return [
             'team_name' => 'required|max:50',
             'team_vision' => 'required|max:255', 
-            'team_objectives' => 'required|max:255',
+            'team_objectives' => 'required|max:500',
         ];
     }
 

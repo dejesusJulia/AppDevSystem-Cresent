@@ -16,7 +16,10 @@
                         @method('patch')
 
                         <div class="text-center mb-2">
-                            <img src="{{asset('storage/avatars/'.$data['authUser']->avatar)}}" class="rounded-circle border border-warning mb-2" alt="avatar" style="object-fit: contain; width:200px; height: 200px;">
+                            <div class="d-flex justify-content-center w-100 mb-3">
+                                <div id="profile-img" class="--img align-self-center" style="background-image: url('{{asset('storage/avatars/'.$data['authUser']->avatar)}}')"></div>
+                            </div>
+                            
 
                             <div id="avatar-update mb-1">
                                 <input type="file" name="avatar" id="avatar" hidden onchange="event.preventDefault(); document.getElementById('avatar-label').innerText = document.getElementById('avatar').files[0].name">

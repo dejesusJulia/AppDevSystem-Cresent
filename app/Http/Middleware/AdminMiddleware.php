@@ -21,7 +21,8 @@ class AdminMiddleware
         }
 
         // if USER
-        if(auth()->user()->user_role == 0){
+        if(auth()->user()->user_role == 0){     
+            
             return redirect()->route('home');
         }
     }

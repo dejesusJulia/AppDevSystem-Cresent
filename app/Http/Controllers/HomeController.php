@@ -1,5 +1,5 @@
 <?php
-
+### MAIN PAGES ###
 namespace App\Http\Controllers;
 
 use App\User;
@@ -30,24 +30,31 @@ class HomeController extends Controller
         $this->category = new CategoryController();
         $this->subject = new SubjectController();
         $this->position = new PositionController();
-
     }
 
     /**
-     * Show the application dashboard.
+     * SHOW THE USER HOME PAGE/DASHBOARD.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
+        // CHECK IF USER HAS COMPLETED FILLING UP PROFILE
         if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
+            // IF NOT COMPLETE
             $route = 'complete.edit';   
             return redirect()->route($route);
+
         }else{
+            // IF COMPLETE
             $userId = auth()->user()->id;
+
             $user = User::join('positions', 'users.position_id', '=', 'positions.id')->leftJoin('teams', 'users.team_id', '=', 'teams.id')->select('users.*', 'positions.position', 'teams.team_name')->where('users.id', $userId)->first();
+
+            // GET JSON DATA OF SENT AND RECEIVED CONNECTIONS
             $sent = $this->api->getSent($userId);
             $received = $this->api->getReceived($userId);
+
             $data = [
                 'user' => $user, 
                 'categories' =>$this->category->getUserCateg($userId), 
@@ -55,20 +62,22 @@ class HomeController extends Controller
                 'received' => json_decode($received->content()),
                 'subjects' => $this->subject->showAllSub(), 
                 'positions' => $this->position->getAllPosition(), 
-                'teams' => $this->team->getTeamNames()
+                'teams' => $this->team->index()
             ];
             return view('home', compact('data'));
         }
         
     }
 
-    // PROFILE COMPLETION GET REQUEST
+    // PROFILE COMPLETION GET
     public function edit(){
+        // IF USER PROFILE IS NOT COMPLETE YET
         if(auth()->user()->avatar == null || auth()->user()->portfolio == null){
             $positions = $this->position->getAllPosition();
             return view('complete-profile', compact('positions'));
 
         }else{
+            // IF PROFILE IS COMPLETED AFTER REGISTRATION
             return redirect()->route('home');
         }
         

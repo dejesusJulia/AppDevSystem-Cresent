@@ -49,7 +49,8 @@ Route::middleware('user')->group(function(){
     Route::delete('/connection/destroy/{connection}', 'ConnectionController@destroy')->name('connection.destroy');
 
     // TO VIEW TEAMS
-    
+    Route::put('/team/remove/member/{member}', 'TeamController@removeMember')->name('team.removemember');
+    Route::get('/team/{team}', 'TeamController@show')->name('team.show');
 
     // TO SEARCH/FILTER RESULTS
     Route::get('/search/users', 'HomeController@searchResults')->name('search.searchresults');
@@ -65,8 +66,6 @@ Route::middleware('user')->group(function(){
     Route::patch('/team/edit/{team}', 'TeamController@update')->name('team.update');
     Route::put('/team/add/sent/{member}', 'TeamController@addMemberSent')->name('team.addmembersent');
     Route::put('/team/add/received/{member}', 'TeamController@addMemberReceived')->name('team.addmemberreceived');
-    Route::put('/team/remove/member/{member}', 'TeamController@removeMember')->name('team.removemember');
-    Route::get('/team/{team}', 'TeamController@show')->name('team.show');
     Route::delete('/team/delete/{team}', 'TeamController@destroy')->name('team.destroy');
  
 

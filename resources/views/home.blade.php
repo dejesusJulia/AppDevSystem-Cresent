@@ -170,7 +170,8 @@
                 <div class="card-body --custom-card-body --dark-lava-bg --text-color-papaya-whip">
                     <div class="d-flex flex-column align-items-center text-center --users">
 
-                        <img src="{{asset('storage/avatars/'. Auth::user()->avatar)}}" alt="user" class="rounded-circle" style="width: 100px; height:100px; object-fit:contain;">
+                        <div id="aside-img" class="--img" style="background-image: url('{{asset('storage/avatars/'.Auth::user()->avatar)}}');"></div>
+
                         <div class="mt-3">
                             <h4>{{$data['user']->name}}</h4>
                             <p class="--positions">{{$data['user']->position}}</p>

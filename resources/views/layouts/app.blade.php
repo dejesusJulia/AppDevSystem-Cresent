@@ -24,6 +24,16 @@
     <link rel="stylesheet" href="{{ asset('css/other-pages-style.css') }}">
     @livewireStyles
 
+    <style>
+        #nav-img{
+            background-image: url('{{ asset('storage/avatars/'.Auth::user()->avatar) }}'); 
+            width: 30px;
+            height: 30px;
+            top: 10px;
+            display: inline-block;
+        }
+    </style>
+
 </head>
 <body>
     {{-- MAIN --}}
@@ -59,11 +69,20 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (Auth::user()->avatar)
-                                    <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="rounded-circle" width="30px" height ="30px"style="object-fit: contain">
-                                    
+                                    {{-- <span class="--cropper">
+                                        <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="--img-circle" > 
+                                    </span> --}}
+
+                                    {{-- <img src="{{asset('/storage/avatars/' . Auth::user()->avatar)}}" alt="avatar" class="--img-circle" width="30px" height="30px"> --}}
+
+                                    <div class="--img" id="nav-img" style=""></div>
+                                    {{-- {{asset('/storage/avatars/' . Auth::user()->avatar)}} --}}
+
                                     @endif
-                                    
+
                                     {{ Auth::user()->email }}
+                                    
+                                    
 
                                 </a>
 

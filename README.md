@@ -9,8 +9,8 @@ The database of this system six main tables:
 
 The other tables are provided by Laravel when the tables are migrated
 
-#### Table Relationships
-![CresentEntityDiagram](https://drive.google.com/uc?export=download&id=1x_RLr0ulXiwjbcRUBaC0eBYn4fbo2M_O)
+#### Table Relationships (ERD)
+![CresentEntityRelationshipDiagram](https://drive.google.com/uc?export=download&id=1x_RLr0ulXiwjbcRUBaC0eBYn4fbo2M_O)
 
 #### (Common) Users/Clients can perform the following function:
 - Register and Login

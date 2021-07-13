@@ -22,7 +22,7 @@ class UserController extends Controller
         $this->category = new CategoryController();
     }
     /**
-     * Display a listing of the resource.
+     * DISPLAY LIST OF ALL USERS
      *
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +34,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * VIEW A SPECIFIC USER'S PROFILE
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -56,7 +56,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * SHOW THE FORM FOR EDITING (COMMON) USER'S PROFILE
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -73,7 +73,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * SUBMIT THE FORM FOR EDITING (COMMON) USER'S PROFILE
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -108,7 +108,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE USER
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -135,28 +135,24 @@ class UserController extends Controller
         return redirect()->back()->with('message', 'User deleted successfully');
     }
 
-    /* 
-    * View PDF
-    */
+    // VIEW PDF OF USER RESUME/CV
     public function viewPdf($pdf){
         return view('pdf-viewer', compact('pdf'));
     }
 
-    /* 
-    * Download PDF
-    */
+    // DOWNLOAD PDF OF USER RESUME/CV
     public function downloadPdf($pdf){
         return response()->download(public_path('storage/resumes/' . $pdf));
     }
 
-    // ADMIN EDIT PROFILE GET 
+    // SHOW THE FORM FOR EDITING ADMIN'S PROFILE (GET REQUEST)
     public function adminEditProfile(){
         $admin = User::select('name', 'email', 'avatar', 'website')->where('id', auth()->user()->id)->first();
 
         return view('admin.edit-admin-profile', compact('admin'));
     }
 
-    // ADMIN UPDATE PROFILE POST
+    // SUBMIT THE FORM FOR EDITING ADMIN PROFILE (POST REQUEST)
     public function adminUpdateProfile(AdminInfoRequest $request){
         $userId = auth()->user()->id;
         $avatar = User::select('avatar')->where('id', $userId)->first();     

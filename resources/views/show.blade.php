@@ -23,7 +23,8 @@
                     <div class="card-body">
                         <div class="">
                             <div class="media p-2">
-                                <img src="{{asset('/storage/avatars/' . $data['user']->avatar)}}" alt="avatar" class="rounded-circle m-2" width="80px" height="80px" style="object-fit: contain">
+
+                                <div class="--img" id="show-img" style="background-image: url('{{asset('/storage/avatars/' . $data['user']->avatar)}}');"></div>
                 
                                 <div class="media-body pl-4 pr-3">
                                     <h3 class="mt-0 --text-color-light" style="font-weight: 800">{{$data['user']->name}}</h3>
