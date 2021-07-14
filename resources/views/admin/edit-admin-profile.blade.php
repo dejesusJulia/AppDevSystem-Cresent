@@ -6,11 +6,13 @@
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <x-alert></x-alert>
+          {{-- CARD CONTAINER --}}
           <div class="card">
             <div class="card-header card-header-primary">
               <div class="row">
                 <div class="col-md-3 order-md-2">
                   <div class="text-right">
+                    {{-- AVATAR --}}
                     <img src="{{asset('storage/avatars/'.$admin->avatar)}}" alt="avatar" class="img rounded-circle" style="width: 50px; height:50px;">
                     
                   </div>
@@ -19,9 +21,10 @@
                   <h4 class="card-title">Edit Profile</h4>
                   <p class="card-category">Complete your profile</p>
                 </div>
-              </div>
-              
+              </div>    
             </div>
+            
+            {{-- PROFILE FORM --}}
             <div class="card-body">
               <form method="post" action="{{route('admin.updateprofile')}}" enctype="multipart/form-data">
                 @csrf

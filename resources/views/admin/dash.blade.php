@@ -3,7 +3,9 @@
 @section('content')
 <div class="content">
     <div class="container-fluid">
+      {{-- ROW 1: COUNT CARDS --}}
       <div class="row">
+        {{-- USER COUNT CARD --}}
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-primary card-header-icon">
@@ -17,6 +19,8 @@
             <div class="card-footer"></div>
           </div>
         </div>
+
+        {{-- POSITION COUNT CARD --}}
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-success card-header-icon">
@@ -29,6 +33,8 @@
             <div class="card-footer"></div>
           </div>
         </div>
+
+        {{-- SUBJECT COUNT CARD --}}
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-danger card-header-icon">
@@ -41,6 +47,8 @@
             <div class="card-footer"></div>
           </div>
         </div>
+
+        {{-- TEAMS COUNT CARD --}}
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
@@ -54,7 +62,10 @@
           </div>
         </div>
       </div>
+
+      {{-- ROW 2: GRAPHS AND CHARTS --}}
       <div class="row">
+        {{-- LINE GRAPH OF USER COUNT PER POSITION --}}
         <div class="col-md-6">
           <div class="card card-chart">
             <div class="card-header card-header-success">
@@ -66,6 +77,8 @@
             <div class="card-footer"></div>
           </div>
         </div>
+
+        {{-- LINE GRAPH OF USER COUNT PER SUBJECT --}}
         <div class="col-md-6">
           <div class="card card-chart">
             <div class="card-header card-header-warning">
@@ -78,7 +91,10 @@
           </div>
         </div>
       </div>
+
+      {{-- ROW 3: GRAPH AND TABLE --}}
       <div class="row">
+        {{-- LINE GRAPH OF CONNECTION REQUEST PER WEEK IN CURRENT MONTH --}}
         <div class="col-lg-6 col-md-12">
             <div class="card card-chart">
                 <div class="card-header card-header-danger">
@@ -95,6 +111,8 @@
                 </div>
             </div>
         </div>
+
+        {{-- TABLE OF TEAMS AND MEMBER COUNT --}}
         <div class="col-lg-6 col-md-12">
           <div class="card">
             <div class="card-header card-header-info">

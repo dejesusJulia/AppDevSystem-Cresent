@@ -25,12 +25,33 @@
     @livewireStyles
 
     <style>
+        html{
+            scroll-behavior: smooth;
+        }
         #nav-img{
             background-image: url('{{ asset('storage/avatars/'.Auth::user()->avatar) }}'); 
             width: 30px;
             height: 30px;
             top: 10px;
             display: inline-block;
+        }
+
+        #back-to-top-btn{
+            position: fixed;
+            display: none;
+            bottom: 20px;
+            right: 20px;
+            border: 2px solid #d5a021;
+            border-radius: 50%;
+            background-color: #ffffff;
+            color: #d5a021;
+            transition: 0.4s ease-in-out;
+        }
+
+        #back-to-top-btn:hover, #back-to-top-btn:focus {
+            border: 2px solid #4b4237;
+            background-color: #4b4237;
+            color: #ffffff;
         }
     </style>
 
@@ -116,8 +137,14 @@
         <p>Copyright &copy; {{now()->year}} Cresent. All Rights Reserved</p>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button type="button" class="btn btn-light btn-floating btn-md" id="back-to-top-btn">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js" integrity="sha512-SG4yH2eYtAR5eK4/VL0bhqOsIb6AZSWAJjHOCmfhcaqTkDviJFoar/VYdG96iY7ouGhKQpAg3CMJ22BrZvhOUA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{asset('js/landing-main.js')}}"></script>
     @livewireScripts
 
     @if (Route::currentRouteName()== 'home')

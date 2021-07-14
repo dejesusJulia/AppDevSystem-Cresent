@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+    {{-- DELETE MODAL --}}
      @foreach ($users as $u)
       @if ($u->id !== Auth::user()->id)
       <div class="modal fade" id="user-destroy-{{$u->id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -25,6 +26,7 @@
       @endif 
       @endforeach 
 
+      {{-- MAIN CONTENT --}}
       <div class="content">
         <div class="container-fluid">
           <div class="row">

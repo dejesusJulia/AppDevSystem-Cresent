@@ -121,7 +121,9 @@
               </div>
             </div>
 
+            {{-- ASIDE SECTION --}}
             <div class="col-md-4">
+              {{-- ADD NEW SUBJECT --}}
               <div class="card">
                 <div class="card-header card-header-primary">
                   <div class="d-flex justify-content-between">

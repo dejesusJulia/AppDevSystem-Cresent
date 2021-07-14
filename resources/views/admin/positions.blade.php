@@ -20,11 +20,17 @@
                 <div class="form-group">
                   <label for="position">Position</label>
                   <input type="text" name="position" id="position" class="form-control" value="{{$position->position}}">
+                  @error('position')
+                    <small class="text-danger">{{$message}}</small>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="post-description">Description</label>
                   <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control">{{$position->post_description}}</textarea>
+                  @error('post-description')
+                    <small class="text-danger">{{$message}}</small>
+                  @enderror
                 </div>
 
                 <input type="submit" value="Update" class="btn btn-primary btn-block" >
@@ -120,6 +126,7 @@
 
             {{-- ASIDE SECTION --}}
             <div class="col-md-4">
+              {{-- ADD NEW SUBJECT --}}
               <div class="card">
                 <div class="card-header card-header-primary">
                   <div class="d-flex justify-content-between">
@@ -152,6 +159,7 @@
                 </div>
               </div>
 
+              {{-- TIPS --}}
               <div class="card">
                 <div class="card-header card-header-info">
                   <div class="d-flex justify-content-between">
