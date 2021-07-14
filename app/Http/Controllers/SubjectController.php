@@ -74,7 +74,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE SUBJECT
      *
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
@@ -82,9 +82,11 @@ class SubjectController extends Controller
     public function destroy(Subject $subject)
     {
         $categories = Category::where('subject_id', $subject->id)->get();
+        // CHECK IF SUBJECT IS USED BY USER
         if($categories !== null){
             Category::where('subject_id', $subject->id)->delete();
         }
+        
         Subject::where('id', $subject->id)->delete();
         return redirect()->back()->with('message', 'Subject deleted successfully');
     }

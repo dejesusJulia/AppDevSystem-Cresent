@@ -7,7 +7,7 @@ use App\Http\Controllers\ApiController;
 
 class SearchSubject extends Component
 {
-    public $nfs = '';
+    public $nfs = ''; // name for subject
     public $subjectId;
 
     public function render()

@@ -1,5 +1,5 @@
 <?php
-
+// ALL JSON DATA
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -15,6 +15,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiController extends Controller
 {
+    #### FOR (COMMON) USERS ####
+
     // SEARCH ALL USERS 
     public function searchByName($name){
         $users = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.id AS user_id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('users.name', 'LIKE', '%'. $name. '%')->paginate(10);
@@ -97,7 +99,7 @@ class ApiController extends Controller
         return response()->json($received);
     }
 
-    #### ADMIN ####
+    #### FOR ADMIN DASHBOARD ####
     // COUNT USERS PER POSITION
     public function positionUserCount(){
         $positionOfUser = [];
@@ -273,33 +275,45 @@ class ApiController extends Controller
 
     // GET WEEK DATES PER MONTH
     public function getWeeklyDatesPerMonth(){
-        $year = date('Y');
-        $month = date('F');
-        $firstDay = date('F d Y', strtotime('first day of ' . $month . ' ' . $year));
-        $lastDay = date('F d Y', strtotime('last day of ' . $month . ' ' . $year));
-        $week1 = Carbon::parse($firstDay)->format('W');
-        $weekL = Carbon::parse($lastDay)->format('W');
-        $weekDiff = intval($weekL) - intval($week1);
+        $year = date('Y');  // current year
+        $month = date('F'); // current month
 
-        $firstweekDay1 = date('F d Y', strtotime(Carbon::parse($firstDay)->startOfWeek()->toDateString()));
-        $lastweekDay1 = date('F d Y' ,strtotime(Carbon::parse($lastDay)->startOfWeek()->toDateString()));
-        $lwDay1 = Carbon::parse($lastDay)->startOfWeek()->toDateString();
+        $firstDay = date('F d Y', strtotime('first day of ' . $month . ' ' . $year));   // first day of the month
+        $lastDay = date('F d Y', strtotime('last day of ' . $month . ' ' . $year)); // last day of the month
 
+        $week1 = Carbon::parse($firstDay)->format('W'); // week number of first day of the month
+        $weekL = Carbon::parse($lastDay)->format('W'); // week number of last day of the month
+
+        $weekDiff = intval($weekL) - intval($week1);    // difference beetween week 1 and the last week
+
+        $firstweekDay1 = date('F d Y', strtotime(Carbon::parse($firstDay)->startOfWeek()->toDateString())); // first day of the first week of the month
+
+        $lastweekDay1 = date('F d Y' ,strtotime(Carbon::parse($lastDay)->startOfWeek()->toDateString())); // first day of the last week of the month
+
+        $lwDay1 = Carbon::parse($lastDay)->startOfWeek()->toDateString(); // convert last of the month to date string
+
+        // FIRST DATES OF EACH WEEK ARRAY
         $datesArr = [$firstweekDay1];
+
+        // LAST DATES OF EACH WEEK ARRAY
         $endDates = [date('F d Y', strtotime('+6 days ' . $firstweekDay1))];
-        $index = [];
+
+        $index = [];    // temp
         $j = 0;
 
+        // PUSH TO RESPECTIVE ARRAYS
         for($i = $weekDiff; $i > 0; $i--){
             $index[$j] = date('F d Y', strtotime('-'. strval($i) . ' weeks ' . strval($lwDay1)));
+            // IF DATE IS NOT EQUAL TO DAY 1 OF WEEK 1
             if($index[$j] !== $firstweekDay1){
                 array_push($datesArr, $index[$j]);
                 array_push($endDates, date('F d Y', strtotime('+6 days ' . $index[$j])));
             }
             $j++;
         }
-        array_push($datesArr, $lastweekDay1);
-        array_push($endDates, date('F d Y', strtotime('+6 days ' . $lastweekDay1)));
+
+        array_push($datesArr, $lastweekDay1); // push day 1 of last week 1 to array of Day Ones
+        array_push($endDates, date('F d Y', strtotime('+6 days ' . $lastweekDay1))); // push last day of last week (of the month) of End Dates
         
         return [
             'startDates' => $datesArr, 
@@ -325,7 +339,7 @@ class ApiController extends Controller
         $weekDates = $this->getWeeklyDatesPerMonth();
         $weekDateCount = count($weekDates['startDates']);
         $dateRangeCount = [];        
-        $rand = '';
+        $rand = ''; // temp
 
         for($i=0; $i < $weekDateCount; $i++){
             $rand = $this->betweenDates(date('Y-m-d', strtotime($weekDates['startDates'][$i])), date('Y-m-d', strtotime($weekDates['endDates'][$i])))->user_count;

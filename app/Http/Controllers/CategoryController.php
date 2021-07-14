@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * STORE NEW CATEGORY
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -29,7 +29,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE CATEGORY
      *
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response

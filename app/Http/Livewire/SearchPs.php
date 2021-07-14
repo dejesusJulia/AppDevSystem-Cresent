@@ -7,7 +7,7 @@ use App\Http\Controllers\ApiController;
 
 class SearchPs extends Component
 {
-    public $nfps = ''; 
+    public $nfps = ''; // name for position and id
     public $positionId;
     public $subjectId;
 

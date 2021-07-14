@@ -1,5 +1,5 @@
 <?php
-
+// FOR SEARCHING ALL USERS
 namespace App\Http\Livewire;
 
 use Livewire\Component;
@@ -7,11 +7,10 @@ use App\Http\Controllers\ApiController;
 
 class SearchDropdown extends Component
 {
-    public $search = '';
+    public $search = ''; // name for search input
 
     public function render()
     {
-        $searchResults = [];
 
         $api = new ApiController();
         $user = $api->searchByName($this->search);
