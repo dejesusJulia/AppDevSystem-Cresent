@@ -38,6 +38,8 @@ Route::get('/get-sent/{userId}', 'ApiController@getSent');
 
 Route::get('/get-received/{userId}', 'ApiController@getReceived');
 
+Route::get('/positions-sample', 'PositionController@index');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

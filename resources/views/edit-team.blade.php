@@ -143,28 +143,34 @@
                         <div class="collapse" id="sent-req-collapse" data-parent="#team-accordion">
                             <div class="card-body --dark-lava-bg --text-color-papaya-whip">
                                 <div class="table-responsive">
-                                    <table class="table table-hover" id="add-sent-tbl">
+                                    <table class="table table-borderless" id="add-sent-tbl">
                                         <tbody>
-                                            @forelse ($data['sent'] as $sent)
-                                            <tr>
-                                                <td>{{$sent->name}}</td>
-                                                <td>{{$sent->email}}</td>
-                                                <td>
-                                                    <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-sent-form-{{$sent->receiver_id}}').submit()">
-                                                        <i class="fas fa-plus"></i>
-                                                    </span>
+                                            @if (Auth::user()->position_id == 1)
+                                                @forelse ($data['sent'] as $sent)
+                                                <tr>
+                                                    <td>{{$sent->name}}</td>
+                                                    <td>{{$sent->email}}</td>
+                                                    <td>
+                                                        <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-sent-form-{{$sent->receiver_id}}').submit()">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
 
-                                                    <form action="{{route('team.addmembersent', $sent->receiver_id)}}" method="post" id="add-sent-form-{{$sent->receiver_id}}" class="d-none">
-                                                        @csrf
-                                                        @method('put')
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @empty 
-                                            <tr>
-                                                You have not sent new requests
-                                            </tr>
-                                            @endforelse
+                                                        <form action="{{route('team.addmember', $sent->receiver_id)}}" method="post" id="add-sent-form-{{$sent->receiver_id}}" class="d-none">
+                                                            @csrf
+                                                            @method('put')
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                @empty 
+                                                <tr>
+                                                    You have not sent new requests
+                                                </tr>
+                                                @endforelse
+                                            @else
+                                                <tr>
+                                                    You are not authorized to add new members
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -183,24 +189,28 @@
                                 <div class="table-responsive">
                                     <table class="table table-borderless" id="add-received-tbl">
                                         <tbody>
-                                            @forelse ($data['received'] as $received)
-                                            <tr>
-                                                <td>{{$received->name}}</td>
-                                                <td>{{$received->email}}</td>
-                                                <td>
-                                                    <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-received-form-{{$received->sender_id}}').submit()">
-                                                        <i class="fas fa-plus"></i>
-                                                    </span>
-                                                    
-                                                    <form action="{{route('team.addmemberreceived', $received->sender_id)}}" method="post" id="add-received-form-{{$received->sender_id}}" class="d-none">
-                                                        @csrf
-                                                        @method('put')
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @empty 
-                                            <tr>You have not received any connection requests</tr>
-                                            @endforelse
+                                            @if (Auth::user()->position_id == 1)
+                                                @forelse ($data['received'] as $received)
+                                                <tr>
+                                                    <td>{{$received->name}}</td>
+                                                    <td>{{$received->email}}</td>
+                                                    <td>
+                                                        <span class="--tbl-success-link" onclick="event.preventDefault();document.getElementById('add-received-form-{{$received->sender_id}}').submit()">
+                                                            <i class="fas fa-plus"></i>
+                                                        </span>
+                                                        
+                                                        <form action="{{route('team.addmember', $received->sender_id)}}" method="post" id="add-received-form-{{$received->sender_id}}" class="d-none">
+                                                            @csrf
+                                                            @method('put')
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                @empty 
+                                                <tr>You have not received any connection requests</tr>
+                                                @endforelse
+                                            @else
+                                                <tr>You are not authorized to add new members</tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

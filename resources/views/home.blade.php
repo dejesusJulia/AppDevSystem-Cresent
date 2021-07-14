@@ -29,14 +29,12 @@
                                 <option value="{{$subject->id}}">{{$subject->subject_name}}</option>
                                 @endforeach
                             </select>
-
-                            @foreach ($data['subjects'] as $subj)
+                        </div> 
+                        @foreach ($data['subjects'] as $subj)
                             <div class="text-muted mb-2 --subject-descriptions"  id="subject-desc-{{$subj->id}}" style="display: none" data-number="{{$subj->id}}">
                                 {{$subj->subject_description}}
                             </div>
-                            @endforeach
-
-                        </div> 
+                        @endforeach
                     </div>
 
                     <div class="form-group">

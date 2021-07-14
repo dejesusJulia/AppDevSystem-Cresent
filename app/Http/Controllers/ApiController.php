@@ -103,6 +103,7 @@ class ApiController extends Controller
         $positionOfUser = [];
         $ctr = 0;
         $upp = User::leftJoin('positions', 'users.position_id', '=', 'positions.id')->select(DB::raw('count(*) as user_count'), 'users.position_id')->groupBy('position_id')->get();
+
         $positionNames = Position::select('id', 'position')->get();
 
         foreach($upp as $count){
@@ -205,7 +206,7 @@ class ApiController extends Controller
 
     // GET NUMBER OF USERS REGISTERED PER DAY
     public function registeredUsersCount(){
-        $users = User::select(DB::raw('count(*) as user_count'), DB::raw('DATE(created_at) as date'))->groupBy('date')->get();
+        $users = User::select( DB::raw('count(*) as user_count'), DB::raw('DATE(created_at) as date'))->groupBy('date')->get();
 
         return response()->json($users);
     }

@@ -37,24 +37,18 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table" id="user-list">
+                    <table class="table text-center" id="user-list">
                       <thead class=" text-primary">
-                        <th>
-                          ID
-                        </th>
-                        <th>
-                          Name
-                        </th>
-                        <th>
-                          Email
-                        </th>
-                        <th></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
                       </thead>
                       <tbody>
                         @foreach ($users as $user)
                         @if ($user->id !== Auth::user()->id)
                         <tr>
-                          <td>
+                          <td scope="row">
                             {{$user->id}}
                           </td>
                           <td>

@@ -70,15 +70,13 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table" id="position-list">
+                    <table class="table text-center" id="position-list">
                       <thead class=" text-danger">
-                        <th>
-                          ID
-                        </th>
-                        <th>
-                          Position
-                        </th>
-                        <th></th>
+                        <th>ID</th>   
+                        <th>Position</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Action</th>
                       </thead>
                       <tbody>
                         @foreach ($positions as $position)
@@ -89,19 +87,27 @@
                           <td>
                             {{$position->position}}
                           </td>
+                          <td>
+                            {{$position->created_at ?? '-'}}
+                          </td>
+                          <td>
+                            {{$position->updated_at ?? '-'}}
+                          </td>
                           <td class="td-action">
                             <button type="button" rel="tooltip" title="Edit position" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$position->id}}">
                               <i class="material-icons">edit</i>
                             </button>
 
-                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#destroy-{{$position->id}}">
-                              <i class="material-icons">close</i>
-                            </button>
+                            @if ($position->id !== 1 && $position->id !== 9) 
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#destroy-{{$position->id}}">
+                                <i class="material-icons">close</i>
+                              </button>
 
-                            <form action="{{route('position.destroy', $position->id)}}" method="post" style="display: none;" id="position-destroy-{{$position->id}}">
-                              @csrf
-                              @method('delete')
-                            </form>
+                              <form action="{{route('position.destroy', $position->id)}}" method="post" style="display: none;" id="position-destroy-{{$position->id}}">
+                                @csrf
+                                @method('delete')
+                              </form>
+                            @endif
                           </td>
                         </tr>
                         @endforeach
@@ -112,10 +118,14 @@
               </div>
             </div>
 
+            {{-- ASIDE SECTION --}}
             <div class="col-md-4">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title ">Add New Position</h4>
+                  <div class="d-flex justify-content-between">
+                    <i class="material-icons">add_circle</i>
+                    <h4 class="card-title ">New Position</h4>
+                  </div>
                 </div>
 
                 <div class="card-body">
@@ -124,15 +134,37 @@
                     <div class="form-group">
                       <label for="position">Position</label>
                       <input type="text" name="position" id="position" class="form-control">
+                      @error('position')
+                        <small class="text-danger">{{$message}}</small>
+                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label for="post-description">Description</label>
                       <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control"></textarea>
+                      @error('post-description')
+                        <small class="text-danger">{{$message}}</small>
+                      @enderror
                     </div>
 
                     <input type="submit" value="Create position" class="btn btn-primary btn-block">
                   </form>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header card-header-info">
+                  <div class="d-flex justify-content-between">
+                    <i class="material-icons">info</i>
+                    <h4 class="card-title">Tips</h4>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <ul>
+                    <li>The first position should always be the head/leader of the team</li>
+                    <li>If a deleted position has users using the title, they will be transferred to the <em>others</em></li>
+                  </ul>
                 </div>
               </div>
             </div>

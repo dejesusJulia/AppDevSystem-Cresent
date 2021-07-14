@@ -27,7 +27,7 @@ class NewUserInfoRequest extends FormRequest
             'avatar' => 'required|mimes:jpg,png,jpeg',
             'portfolio' => 'required|mimes:pdf', 
             'website' => 'required', 
-            'about' => 'required|max:200', 
+            'about' => 'required|max:500', 
             'position_id' => 'required'
         ];
     }
@@ -38,7 +38,7 @@ class NewUserInfoRequest extends FormRequest
             'avatar.required' => 'Please upload an image of yourself',
             'portfolio.required' => 'Please upload a pdf copy of your resume', 
             'website.required' => 'Please put the link to your personal website or social media here', 
-            'about.max' => 'This must not exceed 200 characters',
+            'about.max' => 'This must not exceed 500 characters',
             'position_id.required' => 'Choose a role'
         ];
     }

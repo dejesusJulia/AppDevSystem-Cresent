@@ -120,7 +120,7 @@
                     <p>Help us create a healthier and user-friendly environment for everyone. Send us your feedbacks and recommendations through the following contact channels. This will be a great help for us to further improve our services for our users. Thank you for your support!</p>
                 </div>
                 <div class="col-md-6 reach">
-                    <div class="contact"><i class="fab fa-facebook-messenger"></i>Developer's Name</div>
+                    <div class="contact"><i class="fab fa-facebook-messenger"></i>Cresent Devs</div>
                     <div class="contact"><i class="fas fa-phone-alt"></i>8888-888-8888</div>
                     <div class="contact"><i class="fas fa-envelope"></i>crescent@gmail.com</div>
                 </div>

@@ -162,15 +162,19 @@ class UserController extends Controller
             'website' => $request->website,
         ];
 
+        // IF AN IMAGE IS UPLOADED
         if($request->hasFile('avatar')){
+            // CHECK FOR OLD IMAGE
             if($avatar !== null){
+                // DELETE OLD IMAGE
                 Storage::delete('/public/avatars/' . auth()->user()->avatar);
             }
-            
+            // REPLACE OLD IMAGE
             $request->avatar->store('avatars', 'public');
             $imgname = $request->avatar->hashName();
             $data['avatar'] = $imgname;
         } 
+
         auth()->user()->update($data);
         return redirect()->back()->with('message', 'Profile successfully updated');
     }

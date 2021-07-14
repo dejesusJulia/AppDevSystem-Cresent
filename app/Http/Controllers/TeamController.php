@@ -4,36 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Team;
 use App\User;
-use App\Connection;
 use App\Http\Requests\TeamRequest;
 
 class TeamController extends Controller
 {
+    protected $connection;
+
+    public function __construct()
+    {
+        $this->connection = new ConnectionController();
+    }
     /**
-     * DISPLAY ALL 
+     * DISPLAY ALL TEAMS 
      *
      * @return \Illuminate\Http\Response
     **/
-    // public function index()
-    // {
-    //     $teams = Team::join('users', 'teams.id', '=', 'users.team_id')->select('teams.*', 'users.id AS user_id', 'users.name', 'users.email')->get();
-        
-    //     return $teams;
-    // }
     public function index()
     {
         $teams = Team::select('id', 'team_name', 'created_at')->get();
         return $teams;
     }
 
-    // DISPLAY ALL TEAMS
-    // public function getTeamNames(){
-    //     $teams = Team::select('id', 'team_name', 'created_at')->get();
-    //     return $teams;
-    // }
-
     /**
-     * Show the form for creating a new resource.
+     * SHOW FORM FOR CREATING NEW TEAM
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,7 +36,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * STORE THE NEWLY CREATED TEAM 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -59,13 +52,14 @@ class TeamController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * DISPLAY ONE TEAM INFO AND MEMBERS
      *
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
      */
     public function show(Team $team)
     {
+        // GET MEMBERS
         $teammates = User::join('positions', 'users.position_id', '=', 'positions.id')->select('users.id', 'users.name', 'users.email', 'users.avatar', 'positions.position')->where('users.team_id', $team->id)->get();
 
         $group = [
@@ -77,7 +71,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * SHOW FORM FOR EDITING TEAM INFO
      *
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
@@ -87,10 +81,11 @@ class TeamController extends Controller
         $teamInfo = Team::where('id', auth()->user()->team_id)->first();
         $userId = auth()->user()->id;
         $teamId = auth()->user()->team_id;
-        $data = [
-            'sent' => Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', 1)->whereNull('users.team_id')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get(), 
 
-            'received' => Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->whereNull('users.team_id')->where('connections.accept', 1)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get(), 
+        $data = [
+            'sent' => $this->connection->acceptedSent($userId), 
+
+            'received' => $this->connection->acceptedReceived($userId), 
 
             'members' => User::select('users.id', 'users.name', 'users.email', 'users.position_id')->where('team_id', $teamId)->get(), 
 
@@ -100,7 +95,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * SUBMIT THE FORM FOR EDITING TEAM INFO
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Team  $team
@@ -114,34 +109,31 @@ class TeamController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE THE TEAM
      *
      * @param  \App\Team  $team
      * @return \Illuminate\Http\Response
      */
     public function destroy($team)
     {
+        // GET ALL MEMBERS
         $users = User::select('id')->where('team_id', $team)->get();
         $ids = [];
         foreach($users as $u){
             array_push($ids, $u->id);
         }
+
+        // REMOVE ALL MEMBERS
         User::whereIn('id', $ids)->update(['team_id' => null]);
+
+        // DELETE TEAM
         Team::where('id', $team)->delete();
+
         return redirect()->route('home')->with('message', 'Team deleted');
-
-        // dd($users);
     }
 
-    // ADD MEMBER FROM SENT REQUESTS
-    public function addMemberSent($member){
-        User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
-
-        return redirect()->back()->with('message', 'Member added!');
-    }
-
-    // ADD MEMBER FROM RECEIVED REQUESTS
-    public function addMemberReceived($member){
+    // ADD MEMBER
+    public function addMember($member){
         User::where('id', $member)->update(['team_id' => auth()->user()->team_id]);
 
         return redirect()->back()->with('message', 'Member added!');

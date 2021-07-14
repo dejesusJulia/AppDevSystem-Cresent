@@ -25,8 +25,8 @@ class TeamRequest extends FormRequest
     {
         return [
             'team_name' => 'required|max:50',
-            'team_vision' => 'required|max:255', 
-            'team_objectives' => 'required|max:500',
+            'team_vision' => 'required|max:500', 
+            'team_objectives' => 'required|max:600',
         ];
     }
 
@@ -38,11 +38,4 @@ class TeamRequest extends FormRequest
         ];
     }
 
-    // public function withValidator($validator){
-    //     $validator->after(function ($validator) {
-    //         if ($this->somethingElseIsInvalid()) {
-    //             $validator->errors()->add('field', 'Something is wrong with this field!');
-    //         }
-    //     });
-    // }
 }

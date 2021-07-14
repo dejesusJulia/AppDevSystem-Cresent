@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Subject;
+use App\Category;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * DISPLAY ALL SUBJECTS
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,6 +19,8 @@ class SubjectController extends Controller
         return view('admin.subjects', compact('subjects'));
     }
 
+
+    // DISPLAY ALL SUBJECTS (FOR ANOTHER PAGE)
     public function showAllSub(){
         return Subject::all();
     }
@@ -78,6 +81,10 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
+        $categories = Category::where('subject_id', $subject->id)->get();
+        if($categories !== null){
+            Category::where('subject_id', $subject->id)->delete();
+        }
         Subject::where('id', $subject->id)->delete();
         return redirect()->back()->with('message', 'Subject deleted successfully');
     }

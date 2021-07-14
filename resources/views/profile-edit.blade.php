@@ -76,10 +76,11 @@
                             <label for="about" class="col-sm-2 col-form-label">About</label>
                             <div class="col-sm-10">
                                 <textarea name="about" id="about" cols="30" rows="5" class="form-control --input-text-box">{{$data['authUser']->about}}</textarea>
-                            </div>
-                            @error('about')
-                                <small class="--text-color-danger">{{$message}}</small>
-                            @enderror
+                                
+                                @error('about')
+                                    <small class="--text-color-danger">{{$message}}</small>
+                                @enderror
+                            </div> 
                         </div>
 
                         <div class="form-group row">

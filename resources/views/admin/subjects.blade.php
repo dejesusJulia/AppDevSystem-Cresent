@@ -75,15 +75,13 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table" id="subject-list">
+                    <table class="table text-center" id="subject-list">
                       <thead class=" text-primary">
-                        <th>
-                          ID
-                        </th>
-                        <th>
-                          Name
-                        </th>
-                        <th></th>
+                        <th>ID</th> 
+                        <th>Name</th>  
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>Action</th>
                       </thead>
                       <tbody>
                         @foreach ($subjects as $subject)
@@ -93,6 +91,12 @@
                           </td>
                           <td>
                             {{$subject->subject_name}}
+                          </td>
+                          <td>
+                            {{$subject->created_at ?? '-'}}
+                          </td>
+                          <td>
+                            {{$subject->updated_at ?? '-'}}
                           </td>
                           <td class="td-action">
                             <button type="button" rel="tooltip" title="Edit subject" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$subject->id}}">
@@ -120,7 +124,10 @@
             <div class="col-md-4">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title ">Add New Subject</h4>
+                  <div class="d-flex justify-content-between">
+                    <i class="material-icons">add_circle</i>
+                    <h4 class="card-title ">New Subject</h4>
+                  </div>
                 </div>
 
                 <div class="card-body">
@@ -129,11 +136,17 @@
                     <div class="form-group">
                       <label for="subject-name">Subject</label>
                       <input type="text" name="subject_name" id="subject-name" class="form-control">
+                      @error('subject_name')
+                        <small class="text-danger">{{$message}}</small>
+                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label for="subject_description">Description</label>
                       <textarea name="subject_description" id="subject_description" cols="10" rows="5" class="form-control"></textarea>
+                      @error('subject_description')
+                        <small class="text-danger">{{$message}}</small>
+                      @enderror
                     </div>
 
                     <input type="submit" value="Create subject" class="btn btn-primary btn-block">

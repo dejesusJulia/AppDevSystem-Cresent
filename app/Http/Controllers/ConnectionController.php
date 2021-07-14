@@ -7,23 +7,23 @@ use Illuminate\Http\Request;
 
 class ConnectionController extends Controller
 {
+    protected $true = 1;
 
     /**
-     * Store a newly created resource in storage.
+     * STORE(SEND) NEW CONNECTION REQUEST
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        # SEND
         $data = $request->all();
         Connection::create($data);
         return redirect()->back()->with('message', 'Request sent!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE SENT CONNECTION REQUEST 
      *
      * @param  \App\Connection  $connection
      * @return \Illuminate\Http\Response
@@ -59,6 +59,20 @@ class ConnectionController extends Controller
 
     //     return $received;
     // }
+
+    // GET ACCEPTED SENT REQUESTS
+    public function acceptedSent($userId){
+        $sent = Connection::leftJoin('users', 'connections.receiver_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->where('connections.accept', $this->true)->whereNull('users.team_id')->where('connections.sender_id', $userId)->orderBy('accept', 'desc')->get();
+
+        return $sent;
+    }
+
+    // GET ACCEPTED RECEIVED REQUESTS
+    public function acceptedReceived($userId){
+        $received = Connection::leftJoin('users', 'connections.sender_id', '=', 'users.id')->select('connections.*', 'users.name', 'users.email')->whereNull('users.team_id')->where('connections.accept', $this->true)->where('connections.receiver_id', $userId)->orderBy('accept', 'asc')->get();
+
+        return $received;
+    }
 
     
 }

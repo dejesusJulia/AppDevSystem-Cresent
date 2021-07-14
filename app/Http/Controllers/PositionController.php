@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Position;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PositionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * DISPLAY ALL POSITIONS
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +25,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * STORE NEW POSITION
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -41,7 +43,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * SUBMIT FORM FOR EDITING POSITION INFO
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Position  $position
@@ -54,21 +56,31 @@ class PositionController extends Controller
             'post_description' => 'required|max:255'
         ]);
 
-        Position::where('id', $position)->update($data);
-
+        Position::where('id', $position->id)->update($data);
 
         return redirect()->back()->with('message', 'Position updated successfully');
 
     }
 
     /**
-     * Remove the specified resource from storage.
+     * DELETE POSITION
      *
      * @param  \App\Position  $position
      * @return \Illuminate\Http\Response
      */
     public function destroy(Position $position)
     {
+        $users = User::where('position_id', $position->id)->get();
+        $defaultPositionId = 9;
+        $userIds = [];
+        if($users !== null){
+            foreach($users as $user){
+                array_push($userIds, $user->id);
+            }
+
+            User::whereIn('id', $userIds)->update(['position_id' => $defaultPositionId]);
+        }
+
         Position::where('id', $position->id)->delete();
         return redirect()->back()->with('message', 'Post deleted successfully');
     }

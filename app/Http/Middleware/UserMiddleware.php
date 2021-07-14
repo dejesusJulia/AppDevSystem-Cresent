@@ -16,7 +16,7 @@ class UserMiddleware
     public function handle($request, Closure $next)
     {
         // if USER 
-        if(auth()->user()->user_role == 0 && auth()->user()->avatar !== null){
+        if(auth()->user()->user_role == 0){
 
             return $next($request);            
         }
