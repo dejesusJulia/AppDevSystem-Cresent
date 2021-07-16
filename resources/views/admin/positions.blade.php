@@ -94,10 +94,10 @@
                             {{$position->position}}
                           </td>
                           <td>
-                            {{$position->created_at ?? '-'}}
+                            {{$position->created_at ?? '---'}}
                           </td>
                           <td>
-                            {{$position->updated_at ?? '-'}}
+                            {{$position->updated_at ?? '---'}}
                           </td>
                           <td class="td-action">
                             <button type="button" rel="tooltip" title="Edit position" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$position->id}}">

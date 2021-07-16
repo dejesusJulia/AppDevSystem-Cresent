@@ -93,10 +93,10 @@
                             {{$subject->subject_name}}
                           </td>
                           <td>
-                            {{$subject->created_at ?? '-'}}
+                            {{$subject->created_at ?? '---'}}
                           </td>
                           <td>
-                            {{$subject->updated_at ?? '-'}}
+                            {{$subject->updated_at ?? '---'}}
                           </td>
                           <td class="td-action">
                             <button type="button" rel="tooltip" title="Edit subject" class="btn btn-primary btn-link btn-sm" data-toggle="modal" data-target="#edit-{{$subject->id}}">

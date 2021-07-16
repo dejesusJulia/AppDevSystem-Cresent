@@ -44,6 +44,8 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Role</th>
+                        <th>Created at</th>
                         <th>Action</th>
                       </thead>
                       <tbody>
@@ -60,14 +62,28 @@
                             {{$user->email}}
                           </td>
                           <td>
-                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#user-destroy-{{$user->id}}">
-                              <i class="material-icons">close</i>
-                            </button>
+                            @if ($user->user_role == 0)
+                              user
+                            @else
+                               admin 
+                            @endif
+                          </td>
+                          <td>
+                            {{$user->created_at ?? '---'}}
+                          </td>
+                          <td>
+                            @if ($user->user_role == 0)
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" data-toggle="modal" data-target="#user-destroy-{{$user->id}}">
+                                <i class="material-icons">close</i>
+                              </button>
 
-                            <form action="{{route('users.destroy', $user->id)}}" method="post" style="display: none;" id="destroy-user-{{$user->id}}">
-                              @csrf
-                              @method('delete')
-                            </form>
+                              <form action="{{route('users.destroy', $user->id)}}" method="post" style="display: none;" id="destroy-user-{{$user->id}}">
+                                @csrf
+                                @method('delete')
+                              </form>
+                            @elseif($user->user_role == 1)
+                              ---
+                            @endif
                           </td>
                         </tr>
                         @endif
