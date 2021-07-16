@@ -20,6 +20,8 @@ Route::get('/users/subjects/query/{subjectId}/{name}', 'ApiController@searchBySu
 
 Route::get('/users/positions/query/{positionId}/{name}', 'ApiController@searchByPosition');
 
+Route::get('/positions/query/{positionId}/{name}', 'ApiController@positions');
+
 Route::get('/users/subjects-and-positions/query/{subjectId}/{positionId}/{name}', 'ApiController@searchByPS');
 
 Route::get('/users/subjects/null/{name}', 'ApiController@searchByNullCateg');

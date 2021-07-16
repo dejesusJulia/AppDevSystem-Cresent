@@ -118,6 +118,7 @@ class UserController extends Controller
         $categories = $this->category->getUserCateg($user->id);
         $connections_sender = $this->connection->getSent($user->id);
         $connections_receiver = $this->connection->getReceived($user->id);
+        $userFiles = User::select('avatar', 'portfolio')->where('id', $user->id)->first();
 
         if(!is_array($categories) || !in_array(0, $categories) || is_a($categories, 'Illuminate\Database\Eloquent\Collection')){
             Category::where('user_id', $user->id)->delete();
@@ -129,6 +130,14 @@ class UserController extends Controller
 
         if($connections_receiver !==null){
             Connection::where('receiver_id', $user->id)->delete();
+        }
+
+        if($userFiles->avatar !=null){
+            Storage::delete('/public/avatars/' . $userFiles->avatar);
+        }
+
+        if($userFiles->portfolio !=null){
+            Storage::delete('/public/resumes/' . $userFiles->portfolio);
         }
 
         User::where('id', $user->id)->delete();

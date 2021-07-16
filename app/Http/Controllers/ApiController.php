@@ -31,9 +31,16 @@ class ApiController extends Controller
         return response()->json($users);
     }
 
+    public function positions($positionId, $name){
+        $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
+
+        return response()->json($users);
+    }
+
     // SEARCH BY POSITION
     public function searchByPosition($positionId, $name){
         $users = Category::leftJoin('users', 'categories.user_id', '=', 'users.id')->leftJoin('subjects', 'categories.subject_id', '=', 'subjects.id')->select('categories.*', 'users.name', 'users.email', 'users.avatar', 'subjects.subject_name')->where('users.position_id', $positionId)->where('users.name', 'LIKE', '%' . $name . '%')->get();
+        
         $userCollect = [];
 
         // TO AVOID DUPLICATE NAME RESULTS
@@ -47,20 +54,27 @@ class ApiController extends Controller
                     'subject_name' => [$user->subject_name], 
                     'others' => [$user->others ?? '']
                 ];
-            }else if(in_array($user->user_id, array_column($userCollect, 'user_id'))){
-                $key = key($userCollect);
-                array_push($userCollect[$key]['subject_name'], $user->subject_name); 
-          
-            }else if(!in_array($user->user_id, array_column($userCollect, 'user_id'))){
-                array_push($userCollect, [
-                    'user_id' => $user->user_id,
-                    'avatar' => $user->avatar,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'subject_name' => [$user->subject_name],
-                    'others' => [$user->others ?? '']
-                ]);
+
+            }else if(!empty($userCollect)){
+                if(in_array(intval($user->user_id), array_column($userCollect, 'user_id'))){
+                    for ($i=0; $i < count($userCollect); $i++) { 
+                        if($userCollect[$i]['user_id'] == $user->user_id){
+                            array_push($userCollect[$i]['subject_name'], $user->subject_name);
+                        }
+                    }
+                }else{
+                    array_push($userCollect, [
+                        'user_id' => $user->user_id,
+                        'avatar' => $user->avatar,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'subject_name' => [$user->subject_name],
+                        'others' => [$user->others ?? '']
+                    ]);
+                }
+                
             }
+            
         }
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
