@@ -145,8 +145,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-borderless" id="add-sent-tbl">
                                         <tbody>
-                                            @if (Auth::user()->position_id == 1)
-                                                @forelse ($data['sent'] as $sent)
+                                            @forelse ($data['sent'] as $sent)
                                                 <tr>
                                                     <td>{{$sent->name}}</td>
                                                     <td>{{$sent->email}}</td>
@@ -161,16 +160,11 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                @empty 
+                                            @empty 
                                                 <tr>
                                                     You have not sent new requests
                                                 </tr>
-                                                @endforelse
-                                            @else
-                                                <tr>
-                                                    You are not authorized to add new members
-                                                </tr>
-                                            @endif
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -189,8 +183,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-borderless" id="add-received-tbl">
                                         <tbody>
-                                            @if (Auth::user()->position_id == 1)
-                                                @forelse ($data['received'] as $received)
+                                            @forelse ($data['received'] as $received)
                                                 <tr>
                                                     <td>{{$received->name}}</td>
                                                     <td>{{$received->email}}</td>
@@ -205,12 +198,9 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                @empty 
+                                            @empty 
                                                 <tr>You have not received any connection requests</tr>
-                                                @endforelse
-                                            @else
-                                                <tr>You are not authorized to add new members</tr>
-                                            @endif
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
