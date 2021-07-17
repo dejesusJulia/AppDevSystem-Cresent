@@ -12,7 +12,7 @@
                 <form action="{{route('team.store')}}" method="post">
                     @csrf
                     <div class="form-group">
-                        <label for="team-name">Team Name</label>
+                        <label for="team-name">Team Name<span class="text-danger">*</span></label>
                         <input type="text" name="team_name" id="team-name" class="form-control --input-text-box">
                         @error('team_name')
                             <small class="--text-color-danger">{{$message}}</small>
@@ -20,7 +20,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="team-vision">Vision</label>
+                        <label for="team-vision">Vision<span class="text-danger">*</span></label>
                         <textarea name="team_vision" id="team-vision" cols="30" rows="5" class="form-control --input-text-box"></textarea>
                         @error('team_vision')
                             <small class="--text-color-danger">{{$message}}</small>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="team_objectives">Objectives</label>
+                        <label for="team_objectives">Objectives<span class="text-danger">*</span></label>
                         <textarea name="team_objectives" id="team-objectives" cols="30" rows="5" class="form-control --input-text-box"></textarea>
                         @error('team_objectives')
                             <small class="--text-color-danger">{{$message}}</small>

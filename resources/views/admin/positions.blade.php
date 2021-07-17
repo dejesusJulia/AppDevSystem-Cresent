@@ -18,7 +18,7 @@
                 @method('patch')
 
                 <div class="form-group">
-                  <label for="position">Position</label>
+                  <label for="position">Position <span class="text-danger">*</span></label>
                   <input type="text" name="position" id="position" class="form-control" value="{{$position->position}}">
                   @error('position')
                     <small class="text-danger">{{$message}}</small>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="post-description">Description</label>
+                  <label for="post-description">Description <span class="text-danger">*</span></label>
                   <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control">{{$position->post_description}}</textarea>
                   @error('post-description')
                     <small class="text-danger">{{$message}}</small>
@@ -131,7 +131,7 @@
                 <div class="card-header card-header-primary">
                   <div class="d-flex justify-content-between">
                     <i class="material-icons">add_circle</i>
-                    <h4 class="card-title ">New Position</h4>
+                    <h4 class="card-title ">New Position /h4>
                   </div>
                 </div>
 
@@ -139,7 +139,7 @@
                   <form action="{{route('position.store')}}" method="post" class="form">
                     @csrf
                     <div class="form-group">
-                      <label for="position">Position</label>
+                      <label for="position">Position <span class="text-danger">*</span></label>
                       <input type="text" name="position" id="position" class="form-control">
                       @error('position')
                         <small class="text-danger">{{$message}}</small>
@@ -147,7 +147,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="post-description">Description</label>
+                      <label for="post-description">Description <span class="text-danger">*</span></label>
                       <textarea name="post_description" id="post-description" cols="10" rows="5" class="form-control"></textarea>
                       @error('post-description')
                         <small class="text-danger">{{$message}}</small>

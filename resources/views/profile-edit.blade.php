@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-sm-2 col-form-label">Name</label>
+                            <label for="name" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" name="name" id="name" class="form-control --input-text-box" value="{{$data['authUser']->name}}">
                                 @error('name')
@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <label for="email" class="col-sm-2 col-form-label">Email<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" name="email" id="email" class="form-control --input-text-box" value="{{$data['authUser']->email}}">
                                 @error('email')
@@ -63,7 +63,7 @@
                         </div>
                         
                         <div class="form-group row">
-                            <label for="website" class="col-sm-2 col-form-label">Website / Socmed</label>
+                            <label for="website" class="col-sm-2 col-form-label">Website / Socmed<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <input type="text" name="website" id="website" class="form-control --input-text-box" value="{{$data['authUser']->website}}">
                                 @error('website')
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="about" class="col-sm-2 col-form-label">About</label>
+                            <label for="about" class="col-sm-2 col-form-label">About<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <textarea name="about" id="about" cols="30" rows="5" class="form-control --input-text-box">{{$data['authUser']->about}}</textarea>
                                 
@@ -84,7 +84,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="position-id" class="col-sm-2">Position</label>
+                            <label for="position-id" class="col-sm-2">Position<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
                                 <select name="position_id" id="position-id" class="custom-select --input-text-box">
                                     @foreach ($data['positions'] as $position)

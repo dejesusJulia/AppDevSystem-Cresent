@@ -30,7 +30,7 @@
                 @csrf
                 @method('patch')
                 <div class="form-group">
-                  <label class="bmd-label-floating">Username</label>
+                  <label class="bmd-label-floating">Username<span class="text-danger">*</span></label>
                   <input type="text" class="form-control" name="name" value="{{$admin->name}}">
                   @error('name')
                       <small class="text-danger">{{$message}}</small>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="bmd-label-floating">Email address</label>
+                  <label class="bmd-label-floating">Email address<span class="text-danger">*</span></label>
                   <input type="email" class="form-control" name="email" value="{{$admin->email}}">
                   @error('email')
                       <small class="text-danger">{{$message}}</small>
@@ -57,7 +57,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="bmd-label-floating">Website</label>
+                      <label class="bmd-label-floating">Website<span class="text-danger">*</span></label>
                       <input type="text" class="form-control" name="website" value="{{$admin->website ?? ''}}">
                       @error('website')
                         <small class="text-danger">{{$message}}</small>

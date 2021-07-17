@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="website" class="col-sm-3">Website/Social Media</label>
+                            <label for="website" class="col-sm-3">Website/Social Media<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input type="text" name="website" id="website" class="form-control --input-text-box" placeholder="Put your personal website or link to your social media">
                                 @error('website')
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="about" class="col-sm-3">About</label>
+                            <label for="about" class="col-sm-3">About<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <textarea name="about" id="about" class="form-control --input-text-box" cols="20" rows="5"></textarea>
                                 @error('about')
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="position" class="col-sm-3">Position/Role</label>
+                            <label for="position" class="col-sm-3">Position/Role<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select name="position_id" id="position" class="--input-text-box form-control">
                                     <option value="" selected disabled>Choose one</option>
