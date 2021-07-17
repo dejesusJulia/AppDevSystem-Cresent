@@ -25,7 +25,7 @@ class UserInfoRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255', 
-            'email' => 'required|email:rfc,dns', 
+            'email' => 'required|email:rfc', 
             'avatar' => 'nullable|mimes:jpg,png,jpeg',
             'portfolio' => 'mimes:pdf', 
             'website' => 'required', 

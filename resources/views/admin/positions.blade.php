@@ -131,7 +131,7 @@
                 <div class="card-header card-header-primary">
                   <div class="d-flex justify-content-between">
                     <i class="material-icons">add_circle</i>
-                    <h4 class="card-title ">New Position /h4>
+                    <h4 class="card-title ">New Position </h4>
                   </div>
                 </div>
 
