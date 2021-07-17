@@ -48,7 +48,7 @@
                                         <a href="{{route('profile.download', $data['user']->portfolio)}}" class="--a-btn-custom mr-1 mb-1">Download Resume</a>
                                         
                                         @if (Auth::user()->position_id == 1 || Auth::user()->team_id === null)
-                                            @if ($data['user']->team_id == null && (!($data['received']->contains('sender_id', $data['user']->id)) && !($data['sent']->contains('receiver_id', $data['user']->id))))
+                                            @if (($data['user']->team_id == null || ($data['user']->team_id !== null && $data['user']->position == 'CEO/COO')) && (!($data['received']->contains('sender_id', $data['user']->id)) && !($data['sent']->contains('receiver_id', $data['user']->id))))
                                                 <a href="#" onclick="event.preventDefault();document.getElementById('connect-form').submit();" class="--a-btn-custom mb-1 mr-1">Connect</a>
         
                                                 <form action="{{route('connection.store')}}" method="post" id="connect-form" class="d-none">
